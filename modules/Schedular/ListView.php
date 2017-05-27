@@ -8,5 +8,14 @@
  * All Rights Reserved.
  ************************************************************************************/
 // include_once('modules/Vtiger/ListView.php');
+global $adb;
+
+// Get the users
+$r = $adb->pquery("SELECT id, first_name, last_name FROM vtiger_users", array());
+$users = array();
+while ($user = $adb->fetch_array($r)) {
+	$users[] = $user;
+}
+$smarty->assign('resource_users', $users);
 $smarty->display('modules/Schedular/SchedularView.tpl');
 ?>

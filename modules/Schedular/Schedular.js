@@ -45,7 +45,7 @@ window.addEventListener("load", function(){
 			if (typeof jQuery == "function" && typeof jQuery().fullCalendar == "function" && typeof moment == "function") {
 				$('#schedular').fullCalendar({
 					defaultView: 'agendaDay',
-					defaultDate: '2017-05-07',
+					defaultDate: new Date(),
 					editable: true,
 					selectable: true,
 					eventLimit: true, // allow "more" link when too many events
@@ -61,25 +61,20 @@ window.addEventListener("load", function(){
 
 							// views that are more than a day will NOT do this behavior by default
 							// so, we need to explicitly enable it
-							groupByResource: true
+							groupByResource: true,
 
 							//// uncomment this line to group by day FIRST with resources underneath
-							//groupByDateAndResource: true
+							groupByDateAndResource: true
 						}
 					},
 
 					//// uncomment this line to hide the all-day slot
 					//allDaySlot: false,
 
-					resources: [
-						{ id: 'a', title: 'Room A' },
-						{ id: 'b', title: 'Room B', eventColor: 'green' },
-						{ id: 'c', title: 'Room C', eventColor: 'orange' },
-						{ id: 'd', title: 'Room D', eventColor: 'red' }
-					],
+					resources: getResources(),
 					events: [
-						{ id: '1', resourceId: 'a', start: '2017-05-06', end: '2017-05-08', title: 'event 1', backgroundColor : 'black'},
-						{ id: '2', resourceId: 'a', start: '2017-05-07T09:00:00', end: '2017-05-07T14:00:00', title: 'event 2' },
+						{ id: '1', resourceId: '1', start: '2017-05-27', end: '2017-05-08', title: 'event 1', backgroundColor : 'black'},
+						{ id: '2', resourceId: '1', start: '2017-05-27T09:00:00', end: '2017-05-07T14:00:00', title: 'event 2' },
 						{ id: '3', resourceId: 'b', start: '2017-05-07T12:00:00', end: '2017-05-08T06:00:00', title: 'event 3' },
 						{ id: '4', resourceId: 'c', start: '2017-05-07T07:30:00', end: '2017-05-07T09:30:00', title: 'event 4' },
 						{ id: '5', resourceId: 'd', start: '2017-05-07T10:00:00', end: '2017-05-07T15:00:00', title: 'event 5' }
@@ -104,6 +99,19 @@ window.addEventListener("load", function(){
 				clearInterval(int);
 			}
 		}, 400);
+	}
+
+	function getResources() {
+		var resources = document.getElementsByClassName("resource");
+		var ret = [];
+		for (var i = 0; i < resources.length; i++) {
+			var r = {};
+			r.id = resources[i].getElementsByClassName("resource__id")[0].innerText;
+			r.title = resources[i].getElementsByClassName("resource__name")[0].innerText;
+			ret.push(r);
+		}
+		console.log(ret);
+		return ret;
 	}
 
 });
