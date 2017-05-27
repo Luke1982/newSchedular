@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_schedular</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_schedular` (
+					`schedularid` int(11) NOT NULL,
+					`schedular_no` varchar(56) default NULL,
+					`schedular_starttime` DATETIME NOT NULL,
+					`schedular_endtime` DATETIME NOT NULL,
+					PRIMARY KEY (`schedularid`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_schedularidcf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_schedularcf` (
+						`schedularid` int(11) NOT NULL,
+						PRIMARY KEY (`schedularid`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

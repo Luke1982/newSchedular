@@ -38,7 +38,6 @@
 					`schedular_no` varchar(56) default NULL,
 					`schedular_starttime` DATETIME NOT NULL,
 					`schedular_endtime` DATETIME NOT NULL,
-					`schedular_eventtype` VARCHAR(255) NOT NULL,
 					PRIMARY KEY (`schedularid`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 				</table>
@@ -109,26 +108,6 @@
 								<presence>0</presence>
 								<selected>0</selected>
 								<sequence>3</sequence>
-								<maximumlength>100</maximumlength>
-								<typeofdata>V~M</typeofdata>
-								<quickcreate>0</quickcreate>
-								<quickcreatesequence>0</quickcreatesequence>
-								<displaytype>1</displaytype>
-								<info_type>BAS</info_type>
-								<helpinfo><![CDATA[]]></helpinfo>
-								<masseditable>1</masseditable>
-							</field>
-							<field>
-								<fieldname>schedular_eventtype</fieldname>
-								<uitype>16</uitype>
-								<columnname>schedular_eventtype</columnname>
-								<tablename>schedular_eventtype</tablename>
-								<generatedtype>1</generatedtype>
-								<fieldlabel>schedular_eventtype</fieldlabel>
-								<readonly>1</readonly>
-								<presence>0</presence>
-								<selected>0</selected>
-								<sequence>4</sequence>
 								<maximumlength>100</maximumlength>
 								<typeofdata>V~M</typeofdata>
 								<quickcreate>0</quickcreate>
