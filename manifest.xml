@@ -3,7 +3,7 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<short_description>A modules that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
 		<vtiger_version>5.8.0</vtiger_version>
@@ -231,7 +231,7 @@
 				<customviews>
 					<customview>
 						<viewname>All</viewname>
-						<setdefault>false</setdefault>
+						<setdefault>true</setdefault>
 						<setmetrics>false</setmetrics>
 						<fields>
 							<field>
