@@ -79,6 +79,13 @@ window.addEventListener("load", function(){
 						{ id: '4', resourceId: 'c', start: '2017-05-07T07:30:00', end: '2017-05-07T09:30:00', title: 'event 4' },
 						{ id: '5', resourceId: 'd', start: '2017-05-07T10:00:00', end: '2017-05-07T15:00:00', title: 'event 5' }
 					],
+					viewRender : function(view, element) {
+						// console.log(view);
+						getEvents({
+							start : view.activeRange.start._d,
+							end : view.activeRange.end._d
+						});
+					},
 
 					select: function(start, end, jsEvent, view, resource) {
 						console.log(
@@ -110,8 +117,22 @@ window.addEventListener("load", function(){
 			r.title = resources[i].getElementsByClassName("resource__name")[0].innerText;
 			ret.push(r);
 		}
-		console.log(ret);
+		// console.log(ret);
 		return ret;
+	}
+
+	function getEvents(dates) {
+		console.log(dates.start);
+		console.log(dates.end);
+
+		var r = new XMLHttpRequest();
+		r.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+		       console.log(r.response);
+		    }
+		};
+		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getevents&starttime="+dates.start+"&endtime="+dates.end, true);
+		r.send();
 	}
 
 });
