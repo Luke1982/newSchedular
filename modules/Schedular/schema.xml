@@ -8,6 +8,7 @@
 					`schedular_no` varchar(56) default NULL,
 					`schedular_starttime` DATETIME NOT NULL,
 					`schedular_endtime` DATETIME NOT NULL,
+					`schedular_eventtype` VARCHAR(255) NOT NULL,
 					PRIMARY KEY (`schedularid`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 		</table>
