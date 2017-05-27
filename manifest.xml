@@ -231,14 +231,12 @@
 				<customviews>
 					<customview>
 						<viewname>All</viewname>
-						<setdefault>true</setdefault>
+						<setdefault>false</setdefault>
 						<setmetrics>false</setmetrics>
 						<fields>
 							<field>
 								<fieldname>schedular_no</fieldname>
 								<columnindex>0</columnindex>
-							</field>
-							<field>
 							</field>
 						</fields>
 					</customview>
