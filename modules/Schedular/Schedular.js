@@ -79,14 +79,17 @@ window.addEventListener("load", function(){
 						{ id: '4', resourceId: 'c', start: '2017-05-07T07:30:00', end: '2017-05-07T09:30:00', title: 'event 4' },
 						{ id: '5', resourceId: 'd', start: '2017-05-07T10:00:00', end: '2017-05-07T15:00:00', title: 'event 5' }
 					],
+					// events: "/index.php?module=Schedular&action=SchedularAjax&file=ajax",
 					viewRender : function(view, element) {
-						// console.log(view);
+						// console.log(this);
 						getEvents({
 							start : view.activeRange.start._d,
 							end : view.activeRange.end._d
 						});
 					},
-
+					eventResize: function( event, delta, revertFunc, jsEvent, ui, view ) {
+						console.log(event.end._d.toISOString());
+					},
 					select: function(start, end, jsEvent, view, resource) {
 						console.log(
 							'select',
@@ -122,16 +125,19 @@ window.addEventListener("load", function(){
 	}
 
 	function getEvents(dates) {
-		console.log(dates.start);
-		console.log(dates.end);
+		// console.log(dates.start.toJSON());
+		// console.log(dates.end.toJSON());
 
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-		       console.log(r.response);
+		       // console.log(r.response);
+		       // console.log(JSON.parse(r.response));
+		       $("#schedular").fullCalendar("removeEvents");
+		       $("#schedular").fullCalendar("renderEvents", JSON.parse(r.response));
 		    }
 		};
-		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getevents&starttime="+dates.start+"&endtime="+dates.end, true);
+		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getevents&start="+dates.start.toJSON()+"&end="+dates.end.toJSON(), true);
 		r.send();
 	}
 
