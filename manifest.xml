@@ -104,7 +104,7 @@
 								<fieldname>schedular_endtime</fieldname>
 								<uitype>1</uitype>
 								<columnname>schedular_endtime</columnname>
-								<tablename>schedular_endtime</tablename>
+								<tablename>vtiger_schedular</tablename>
 								<generatedtype>1</generatedtype>
 								<fieldlabel>schedular_endtime</fieldlabel>
 								<readonly>1</readonly>
@@ -124,7 +124,7 @@
 								<fieldname>schedular_startdate</fieldname>
 								<uitype>5</uitype>
 								<columnname>schedular_startdate</columnname>
-								<tablename>schedular_startdate</tablename>
+								<tablename>vtiger_schedular</tablename>
 								<generatedtype>1</generatedtype>
 								<fieldlabel>schedular_startdate</fieldlabel>
 								<readonly>1</readonly>
@@ -144,7 +144,7 @@
 								<fieldname>schedular_enddate</fieldname>
 								<uitype>5</uitype>
 								<columnname>schedular_enddate</columnname>
-								<tablename>schedular_enddate</tablename>
+								<tablename>vtiger_schedular</tablename>
 								<generatedtype>1</generatedtype>
 								<fieldlabel>schedular_enddate</fieldlabel>
 								<readonly>1</readonly>
@@ -164,7 +164,7 @@
 								<fieldname>schedular_eventtype</fieldname>
 								<uitype>16</uitype>
 								<columnname>schedular_eventtype</columnname>
-								<tablename>schedular_eventtype</tablename>
+								<tablename>vtiger_schedular</tablename>
 								<generatedtype>1</generatedtype>
 								<fieldlabel>schedular_eventtype</fieldlabel>
 								<readonly>1</readonly>
