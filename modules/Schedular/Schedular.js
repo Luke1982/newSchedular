@@ -88,7 +88,9 @@ window.addEventListener("load", function(){
 						});
 					},
 					eventResize: function( event, delta, revertFunc, jsEvent, ui, view ) {
-						console.log(event.end._d.toISOString());
+						// console.log(event.end._d.toISOString());
+						var sEvent = new SchedularEvent(event);
+						sEvent.updateEvent();
 					},
 					select: function(start, end, jsEvent, view, resource) {
 						console.log(
@@ -125,14 +127,9 @@ window.addEventListener("load", function(){
 	}
 
 	function getEvents(dates) {
-		// console.log(dates.start.toJSON());
-		// console.log(dates.end.toJSON());
-
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-		       // console.log(r.response);
-		       // console.log(JSON.parse(r.response));
 		       $("#schedular").fullCalendar("removeEvents");
 		       $("#schedular").fullCalendar("renderEvents", JSON.parse(r.response));
 		    }
@@ -142,3 +139,28 @@ window.addEventListener("load", function(){
 	}
 
 });
+
+/* Factory for the Schedular Event object.
+ * Takes an event from fullcalendar as an argument
+ */
+function SchedularEvent(event) {
+	this._event 	= event,
+	this.startTime 	= event.start._d.toISOString(),
+	this.endTime 	= event.end._d.toISOString(),
+	this.id 		= event._id,
+	this.resource 	= event.resourceId,
+	this.title		= event.title;
+}
+
+SchedularEvent.prototype.updateEvent = function() {
+	// console.log(encodeURIComponent(JSON.stringify(this)));
+	var r = new XMLHttpRequest();
+	r.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    		console.log(r.response);
+	    }
+	};
+	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=updateevent&event="+encodeURIComponent(JSON.stringify(this)), true);
+	r.send();
+
+}

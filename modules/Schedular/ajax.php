@@ -28,6 +28,34 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$events[] = $prepared_event;
 	}
 	echo json_encode($events);
-	// $d = new DateTime($_REQUEST['starttime']);
-	// echo $d->format("Y-m-d H:m:s");
+}
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateevent') {
+	global $current_user;
+	require_once('modules/Schedular/Schedular.php');
+
+	$event = json_decode($_REQUEST['event'], true);
+
+	$new_start_time = new DateTime($event['startTime']);
+	$new_end_time = new DateTime($event['endTime']);
+	$new_start_time = $new_start_time->format("Y-m-d H:m:s");
+	$new_end_time = $new_end_time->format("Y-m-d H:m:s");
+
+	$rec = new Schedular();
+	$rec->retrieve_entity_info($event['id'], 'Schedular');
+	$rec->id = $event['id'];
+	$rec->mode = 'edit';
+
+	$rec->column_fields['schedular_starttime'] = $new_start_time;
+	$rec->column_fields['schedular_endtime'] = $new_end_time;
+
+	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);
+	$meta = $handler->getMeta();
+	$rec->column_fields = DataTransform::sanitizeRetrieveEntityInfo($rec->column_fields, $meta);
+
+	echo "<pre>";
+	var_dump($rec->column_fields);
+	echo "</pre>";
+
+	$rec->save('Schedular');
 }
