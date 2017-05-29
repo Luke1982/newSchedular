@@ -9,6 +9,7 @@
 window.addEventListener("load", function(){
 	insertStylesheet("modules/Schedular/lib/css/fullcalendar.min.css");
 	insertStylesheet("modules/Schedular/lib/css/scheduler.min.css");
+	insertStylesheet("modules/Schedular/lib/css/Schedular.css");
 
 	var scripts = [
 		"modules/Schedular/lib/js/jquery.min.js",

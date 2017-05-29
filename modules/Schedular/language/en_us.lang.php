@@ -18,6 +18,14 @@ $mod_strings = Array(
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 
 	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+
+	// General strings
+	'resources' => 'Resources',
+	'resource'	=> 'Resource',
+
+	// Setings
+	'av_users' => 'Available users',
+	
 );
 
 ?>

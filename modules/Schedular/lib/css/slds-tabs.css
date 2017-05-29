@@ -1,0 +1,258 @@
+/**
+ * A scoped tabset style has a closed container with a defined border. Initialize
+ * a scoped tab set by applying the `.slds-tab--scoped` class to the containing
+ * `<div>` around the tab list and tab panels. The `<ul>` element also requires
+ * the class `.slds-tab--scoped__nav` to prevent styles from bleeding into nested tabs.
+ *
+ * @summary Initializes scoped tabs
+ *
+ * @name base
+ * @selector .slds-tabs_scoped
+ * @restrict div
+ * @required
+ * @variant
+ */
+.slds-tabs_scoped,
+.slds-tabs--scoped {
+  display: block;
+  width: 100%;
+  /**
+   * Creates the container for the default tabs
+   *
+   * @selector .slds-tabs_scoped__nav
+   * @restrict .slds-tabs_scoped ul
+   * @required
+   */ }
+
+.slds-tabs_scoped__nav,
+.slds-tabs--scoped__nav {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+      align-items: flex-start;
+  background-color: #f4f6f9;
+  border: 1px solid #d8dde6;
+  border-radius: 0.25rem 0.25rem 0 0; }
+
+.slds-tabs_scoped .slds-tabs__item,
+.slds-tabs--scoped .slds-tabs__item {
+  position: relative;
+  margin-bottom: -1px; }
+
+.slds-tabs_scoped .slds-tabs__item + .slds-tabs__item,
+.slds-tabs--scoped .slds-tabs__item + .slds-tabs__item {
+  margin-left: -1px; }
+
+.slds-tabs_scoped .slds-tabs__item:first-child > a,
+.slds-tabs--scoped .slds-tabs__item:first-child > a {
+  border-left: 0;
+  border-radius: 0.25rem 0 0 0; }
+
+.slds-tabs_scoped .slds-tabs__item > a,
+.slds-tabs--scoped .slds-tabs__item > a {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  padding: 0 1.5rem;
+  color: #54698d;
+  background-clip: padding-box;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent; }
+
+.slds-tabs_scoped .slds-tabs__item > a:focus,
+.slds-tabs--scoped .slds-tabs__item > a:focus {
+  outline: 0; }
+
+.slds-tabs_scoped .slds-tabs__item > a:hover, .slds-tabs_scoped .slds-tabs__item > a:focus,
+.slds-tabs--scoped .slds-tabs__item > a:hover,
+.slds-tabs--scoped .slds-tabs__item > a:focus {
+  text-decoration: none;
+  color: #005fb2;
+  border-color: #d8dde6; }
+
+.slds-tabs_scoped .slds-tabs__item .slds-active > a,
+.slds-tabs--scoped .slds-tabs__item .slds-active > a {
+  background-color: #fdfdfd;
+  color: #0070d2;
+  border-color: #d8dde6; }
+
+.slds-tabs_scoped .slds-tabs__item .slds-active > a:focus,
+.slds-tabs--scoped .slds-tabs__item .slds-active > a:focus {
+  text-decoration: underline; }
+
+.slds-tabs_scoped > .slds-tabs__content,
+.slds-tabs--scoped > .slds-tabs__content {
+  background-color: #fdfdfd;
+  border: 1px solid #d8dde6;
+  border-top: 0;
+  border-radius: 0 0 0.25rem 0.25rem;
+  padding: 1rem; }
+
+/**
+ * Styles each list item as a single tab
+ *
+ * @selector .slds-tabs_scoped__item
+ * @restrict .slds-tabs_scoped ul li
+ * @required
+ */
+.slds-tabs_scoped__item,
+.slds-tabs--scoped__item {
+  position: relative;
+  margin-bottom: -1px; }
+
+.slds-tabs_scoped__item + .slds-tabs_scoped__item,
+.slds-tabs_scoped__item + .slds-tabs--scoped__item,
+.slds-tabs--scoped__item + .slds-tabs_scoped__item,
+.slds-tabs--scoped__item + .slds-tabs--scoped__item {
+  margin-left: -1px; }
+
+.slds-tabs_scoped__item:first-child .slds-tabs_scoped__link,
+.slds-tabs_scoped__item:first-child .slds-tabs--scoped__link,
+.slds-tabs--scoped__item:first-child .slds-tabs_scoped__link,
+.slds-tabs--scoped__item:first-child .slds-tabs--scoped__link {
+  border-left: 0;
+  border-radius: 0.25rem 0 0 0; }
+
+/**
+ * Styles each tab content wrapper
+ *
+ * @selector .slds-tabs_scoped__content
+ * @restrict .slds-tabs_scoped div
+ * @required
+ */
+.slds-tabs_scoped__content,
+.slds-tabs--scoped__content {
+  background-color: #fdfdfd;
+  border: 1px solid #d8dde6;
+  border-top: 0;
+  border-radius: 0 0 0.25rem 0.25rem;
+  padding: 1rem; }
+
+/**
+ * Styles each actionable element inside each tab item
+ *
+ * @selector .slds-tabs_scoped__link
+ * @restrict .slds-tabs_scoped__item a
+ * @required
+ */
+.slds-tabs_scoped__link,
+.slds-tabs--scoped__link {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  padding: 0 1rem;
+  color: #54698d;
+  background-clip: padding-box;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent; }
+
+.slds-tabs_scoped__link:focus,
+.slds-tabs--scoped__link:focus {
+  outline: 0; }
+
+.slds-tabs_scoped__link:hover, .slds-tabs_scoped__link:focus,
+.slds-tabs--scoped__link:hover,
+.slds-tabs--scoped__link:focus {
+  text-decoration: none;
+  color: #005fb2;
+  border-color: #d8dde6; }
+
+/**
+ * Active state for a tab item
+ *
+ * @selector .slds-is-active
+ * @restrict .slds-tabs_scoped__item
+ * @notes Required on the `<li>` element that is associated with the active tab panel
+ * @modifier
+ */
+.slds-active .slds-tabs_scoped__link,
+.slds-active .slds-tabs--scoped__link,
+.slds-is-active .slds-tabs_scoped__link,
+.slds-is-active .slds-tabs--scoped__link {
+  background-color: #fdfdfd;
+  color: #0070d2;
+  border-color: #d8dde6; }
+
+.slds-active .slds-tabs_scoped__link:focus,
+.slds-active .slds-tabs--scoped__link:focus,
+.slds-is-active .slds-tabs_scoped__link:focus,
+.slds-is-active .slds-tabs--scoped__link:focus {
+  text-decoration: underline; }
+
+.slds-tabs__nav-scroller.slds-has-overflow {
+  position: relative;
+  padding-right: 4.7rem; }
+
+.slds-tab__scroll-controls {
+  display: none; }
+
+.slds-has-overflow .slds-tabs__nav-scroller_inner,
+.slds-has-overflow .slds-tabs__nav-scroller--inner {
+  overflow: hidden; }
+
+.slds-has-overflow .slds-tabs_scoped__nav,
+.slds-has-overflow .slds-tabs--scoped__nav,
+.slds-has-overflow .slds-tabs_default__nav,
+.slds-has-overflow .slds-tabs--default__nav {
+  border: 0; }
+
+.slds-has-overflow .slds-tab__scroll-controls {
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #fdfdfd; }
+
+.slds-tabs_default .slds-has-overflow .slds-tabs__nav-scroller_inner,
+.slds-tabs_default .slds-has-overflow .slds-tabs__nav-scroller--inner,
+.slds-tabs--default .slds-has-overflow .slds-tabs__nav-scroller_inner,
+.slds-tabs--default .slds-has-overflow .slds-tabs__nav-scroller--inner {
+  border-bottom: 1px solid #d8dde6; }
+
+.slds-tabs_default .slds-tab__scroll-controls,
+.slds-tabs--default .slds-tab__scroll-controls {
+  padding: calc(0.25rem - 1px) 1px calc(0.25rem - 1px) 0.5rem;
+  border-bottom: 1px solid #d8dde6; }
+
+.slds-tabs_scoped .slds-has-overflow .slds-tabs__nav-scroller_inner,
+.slds-tabs_scoped .slds-has-overflow .slds-tabs__nav-scroller--inner,
+.slds-tabs--scoped .slds-has-overflow .slds-tabs__nav-scroller_inner,
+.slds-tabs--scoped .slds-has-overflow .slds-tabs__nav-scroller--inner {
+  border: 1px solid #d8dde6;
+  border-bottom: 0;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background-color: #f4f6f9; }
+
+.slds-tabs_scoped .slds-has-overflow .slds-tabs_scoped__item,
+.slds-tabs_scoped .slds-has-overflow .slds-tabs--scoped__item,
+.slds-tabs--scoped .slds-has-overflow .slds-tabs_scoped__item,
+.slds-tabs--scoped .slds-has-overflow .slds-tabs--scoped__item {
+  margin-bottom: 0;
+  border-bottom: 1px solid #d8dde6; }
+
+.slds-tabs_scoped .slds-has-overflow .slds-tabs_scoped__item.slds-active,
+.slds-tabs_scoped .slds-has-overflow .slds-tabs--scoped__item.slds-active,
+.slds-tabs--scoped .slds-has-overflow .slds-tabs_scoped__item.slds-active,
+.slds-tabs--scoped .slds-has-overflow .slds-tabs--scoped__item.slds-active {
+  border-bottom-color: white; }
+
+.slds-tabs_scoped .slds-tab__scroll-controls,
+.slds-tabs--scoped .slds-tab__scroll-controls {
+  padding: calc(0.25rem - 1px) 0.25rem;
+  border: 1px solid #d8dde6;
+  border-radius: 0 0.25rem 0 0; }
+w
