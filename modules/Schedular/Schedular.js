@@ -79,16 +79,17 @@ window.addEventListener("load", function(){
 						{ id: '4', resourceId: 'c', start: '2017-05-07T07:30:00', end: '2017-05-07T09:30:00', title: 'event 4' },
 						{ id: '5', resourceId: 'd', start: '2017-05-07T10:00:00', end: '2017-05-07T15:00:00', title: 'event 5' }
 					],
-					// events: "/index.php?module=Schedular&action=SchedularAjax&file=ajax",
 					viewRender : function(view, element) {
-						// console.log(this);
 						getEvents({
 							start : view.activeRange.start._d,
 							end : view.activeRange.end._d
 						});
 					},
 					eventResize: function( event, delta, revertFunc, jsEvent, ui, view ) {
-						// console.log(event.end._d.toISOString());
+						var sEvent = new SchedularEvent(event);
+						sEvent.updateEvent();
+					},
+					eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
 						var sEvent = new SchedularEvent(event);
 						sEvent.updateEvent();
 					},
@@ -153,7 +154,6 @@ function SchedularEvent(event) {
 }
 
 SchedularEvent.prototype.updateEvent = function() {
-	// console.log(encodeURIComponent(JSON.stringify(this)));
 	var r = new XMLHttpRequest();
 	r.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {

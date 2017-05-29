@@ -1,0 +1,337 @@
+<?xml version='1.0'?>
+<module>
+	<name>Schedular</name>
+	<label>Schedular</label>
+	<parent>Tools</parent>
+	<version>0.1.1</version>
+	<short_description>A modules that creates entries based on resources and has a calendar GUI.</short_description>
+	<dependencies>
+		<vtiger_version>5.8.0</vtiger_version>
+		<vtiger_max_version>5.*</vtiger_max_version>
+	</dependencies>
+	<license>
+		<inline><![CDATA[
+			/*************************************************************************************************
+			* Copyright 2017 MajorLabel -- This file is a part of MajorLabel coreBOS Customizations.
+			* Licensed under the vtiger CRM Public License Version 1.1 (the "License"); you may not use this
+			* file except in compliance with the License. You can redistribute it and/or modify it
+			* under the terms of the License. MajorLabel reserves all rights not expressly
+			* granted by the License. coreBOS distributed by MajorLabel is distributed in
+			* the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+			* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Unless required by
+			* applicable law or agreed to in writing, software distributed under the License is
+			* distributed on an "AS IS" BASIS, WITHOUT ANY WARRANTIES OR CONDITIONS OF ANY KIND,
+			* either express or implied. See the License for the specific language governing
+			* permissions and limitations under the License. You may obtain a copy of the License
+			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
+			*************************************************************************************************
+			*  Module       : Schedular
+			*  Version      : 0.1.0
+			*************************************************************************************************/
+			]]></inline>
+		</license>
+		<tables>
+			<table>
+				<name>vtiger_schedular</name>
+				<sql><![CDATA[CREATE TABLE `vtiger_schedular` (
+					`schedularid` int(11) NOT NULL,
+					`schedular_no` varchar(56) default NULL,
+					`schedular_startdate` DATE NOT NULL,
+					`schedular_enddate` DATE NOT NULL,
+					`schedular_starttime` VARCHAR(8) NOT NULL,
+					`schedular_endtime` VARCHAR(8) NOT NULL,
+					`schedular_eventtype` VARCHAR(255) NOT NULL,
+					PRIMARY KEY (`schedularid`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+				</table>
+				<table>
+					<name>vtiger_schedularidcf</name>
+					<sql><![CDATA[CREATE TABLE `vtiger_schedularcf` (
+						`schedularid` int(11) NOT NULL,
+						PRIMARY KEY (`schedularid`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+					</table>
+				</tables>
+				<blocks>
+					<block>
+						<label>LBL_SCHEDULAR_INFORMATION</label>
+						<fields>
+							<field>
+								<fieldname>schedular_no</fieldname>
+								<uitype>4</uitype>
+								<columnname>schedular_no</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_no</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>1</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+								<entityidentifier>
+									<entityidfield>schedularid</entityidfield>
+									<entityidcolumn>schedularid</entityidcolumn>
+								</entityidentifier>
+							</field>
+							<field>
+								<fieldname>schedular_starttime</fieldname>
+								<uitype>1</uitype>
+								<columnname>schedular_starttime</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_starttime</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>2</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
+								<fieldname>schedular_endtime</fieldname>
+								<uitype>1</uitype>
+								<columnname>schedular_endtime</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_endtime</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>3</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
+								<fieldname>schedular_startdate</fieldname>
+								<uitype>5</uitype>
+								<columnname>schedular_startdate</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_startdate</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>4</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
+								<fieldname>schedular_enddate</fieldname>
+								<uitype>5</uitype>
+								<columnname>schedular_enddate</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_enddate</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>5</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
+								<fieldname>schedular_eventtype</fieldname>
+								<uitype>16</uitype>
+								<columnname>schedular_eventtype</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_eventtype</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>6</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+								<picklistvalues>
+									<picklistvalue>Visit</picklistvalue>
+									<picklistvalue>Service</picklistvalue>
+									<picklistvalue>Checkup</picklistvalue>
+								</picklistvalues>
+							</field>
+							<field>
+								<fieldname>assigned_user_id</fieldname>
+								<uitype>53</uitype>
+								<columnname>smownerid</columnname>
+								<tablename>vtiger_crmentity</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>Assigned To</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>10</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>1</quickcreate>
+								<quickcreatesequence>1</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
+								<fieldname>created_user_id</fieldname>
+								<uitype>52</uitype>
+								<columnname>smcreatorid</columnname>
+								<tablename>vtiger_crmentity</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>Created By</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>11</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~O</typeofdata>
+								<quickcreate>3</quickcreate>
+								<quickcreatesequence>1</quickcreatesequence>
+								<displaytype>2</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>0</masseditable>
+							</field>
+							<field>
+								<fieldname>createdtime</fieldname>
+								<uitype>70</uitype>
+								<columnname>createdtime</columnname>
+								<tablename>vtiger_crmentity</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>Created Time</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>12</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>DT~O</typeofdata>
+								<quickcreate>3</quickcreate>
+								<quickcreatesequence>8</quickcreatesequence>
+								<displaytype>2</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
+								<fieldname>modifiedtime</fieldname>
+								<uitype>70</uitype>
+								<columnname>modifiedtime</columnname>
+								<tablename>vtiger_crmentity</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>Modified Time</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>13</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>DT~O</typeofdata>
+								<quickcreate>3</quickcreate>
+								<quickcreatesequence>9</quickcreatesequence>
+								<displaytype>2</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+						</fields>
+					</block>
+					<block>
+						<label>LBL_CUSTOM_INFORMATION</label>
+					</block>
+					<block>
+						<label>LBL_DESCRIPTION_INFORMATION</label>
+						<fields>
+							<field>
+								<fieldname>description</fieldname>
+								<uitype>19</uitype>
+								<columnname>description</columnname>
+								<tablename>vtiger_crmentity</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>Description</fieldlabel>
+								<readonly>1</readonly>
+								<presence>2</presence>
+								<selected>0</selected>
+								<sequence>1</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~O</typeofdata>
+								<quickcreate>1</quickcreate>
+								<quickcreatesequence>10</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+						</fields>
+					</block>
+				</blocks>
+				<customviews>
+					<customview>
+						<viewname>All</viewname>
+						<setdefault>false</setdefault>
+						<setmetrics>false</setmetrics>
+						<fields>
+							<field>
+								<fieldname>schedular_no</fieldname>
+								<columnindex>0</columnindex>
+							</field>
+						</fields>
+					</customview>
+				</customviews>
+				<sharingaccess>
+					<default>private</default>
+				</sharingaccess>
+				<actions>
+					<action>
+						<name><![CDATA[Merge]]></name>
+						<status>enabled</status>
+					</action>
+					<action>
+						<name><![CDATA[Import]]></name>
+						<status>enabled</status>
+					</action>
+					<action>
+						<name><![CDATA[Export]]></name>
+						<status>enabled</status>
+					</action>
+				</actions>
+				<relatedlists>
+				</relatedlists>
+				<events>
+				</events>
+				<customlinks>
+				</customlinks>
+				<crons>
+				</crons>
+			</module>
