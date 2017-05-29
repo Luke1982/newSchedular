@@ -25,7 +25,7 @@ $mod_strings = Array(
 
 	// Setings
 	'av_users' => 'Available users',
-	
+	'save_users' => 'Save users'
 );
 
 ?>
