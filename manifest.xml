@@ -36,8 +36,10 @@
 				<sql><![CDATA[CREATE TABLE `vtiger_schedular` (
 					`schedularid` int(11) NOT NULL,
 					`schedular_no` varchar(56) default NULL,
-					`schedular_starttime` DATETIME NOT NULL,
-					`schedular_endtime` DATETIME NOT NULL,
+					`schedular_startdate` DATE NOT NULL,
+					`schedular_enddate` DATE NOT NULL,
+					`schedular_starttime` VARCHAR(8) NOT NULL,
+					`schedular_endtime` VARCHAR(8) NOT NULL,
 					`schedular_eventtype` VARCHAR(255) NOT NULL,
 					PRIMARY KEY (`schedularid`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
@@ -80,7 +82,7 @@
 							</field>
 							<field>
 								<fieldname>schedular_starttime</fieldname>
-								<uitype>50</uitype>
+								<uitype>1</uitype>
 								<columnname>schedular_starttime</columnname>
 								<tablename>vtiger_schedular</tablename>
 								<generatedtype>1</generatedtype>
@@ -100,7 +102,7 @@
 							</field>
 							<field>
 								<fieldname>schedular_endtime</fieldname>
-								<uitype>50</uitype>
+								<uitype>1</uitype>
 								<columnname>schedular_endtime</columnname>
 								<tablename>schedular_endtime</tablename>
 								<generatedtype>1</generatedtype>
@@ -109,6 +111,46 @@
 								<presence>0</presence>
 								<selected>0</selected>
 								<sequence>3</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
+								<fieldname>schedular_startdate</fieldname>
+								<uitype>5</uitype>
+								<columnname>schedular_startdate</columnname>
+								<tablename>schedular_startdate</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_startdate</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>4</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
+								<fieldname>schedular_enddate</fieldname>
+								<uitype>5</uitype>
+								<columnname>schedular_enddate</columnname>
+								<tablename>schedular_enddate</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_enddate</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>5</sequence>
 								<maximumlength>100</maximumlength>
 								<typeofdata>V~M</typeofdata>
 								<quickcreate>0</quickcreate>
@@ -128,7 +170,7 @@
 								<readonly>1</readonly>
 								<presence>0</presence>
 								<selected>0</selected>
-								<sequence>4</sequence>
+								<sequence>6</sequence>
 								<maximumlength>100</maximumlength>
 								<typeofdata>V~M</typeofdata>
 								<quickcreate>0</quickcreate>
