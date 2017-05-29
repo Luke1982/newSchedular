@@ -45,6 +45,13 @@
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 				</table>
 				<table>
+					<name>vtiger_schedularcf</name>
+					<sql><![CDATA[CREATE TABLE `vtiger_schedularcf` (
+						`schedularid` int(11) NOT NULL,
+						PRIMARY KEY (`schedularid`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+					</table>
+				<table>
 					<name>vtiger_schedularidcf</name>
 					<sql><![CDATA[CREATE TABLE `vtiger_schedularcf` (
 						`schedularid` int(11) NOT NULL,
