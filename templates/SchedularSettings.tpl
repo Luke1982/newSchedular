@@ -2,7 +2,8 @@
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-tabs.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-checkbox.css">
-{* <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-icon.css"> *}
+<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-notify.css">
+<script type="text/javascript" src="modules/Schedular/lib/js/SchedularSettings.js"></script>
 <div style="padding: 2%;">
 	<div class="slds-tabs_scoped">
 		<ul class="slds-tabs_scoped__nav" role="tablist">
@@ -24,7 +25,7 @@
 						<div class="slds-checkbox_button-group">
 							{foreach from=$av_users item='av_user'}
 							<span class="slds-button slds-checkbox_button">
-								<input id="user-{$av_user.id}" name="checkbox" type="checkbox" checked="checked">
+								<input id="user-{$av_user.id}" name="checkbox" type="checkbox" class="available-users__checkbox"{if $av_user.selected == true}checked="checked"{/if}>
 								<label class="slds-checkbox_button__label" for="user-{$av_user.id}">
 									<span class="slds-checkbox_faux">{$av_user.first_name}&nbsp;{$av_user.last_name}</span>
 								</label>
@@ -34,7 +35,7 @@
 					</div>
 				</fieldset>
 				<fieldset class="slds-form-element">
-					<button class="slds-button slds-button_brand">
+					<button class="slds-button slds-button_brand" id="save-available-users">
 						<svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
 							<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#database"></use>
 						</svg>{$MOD.save_users}</button>					
@@ -44,6 +45,34 @@
 		<div id="tab-scoped-2" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">Item Two Content</div>
 		<div id="tab-scoped-3" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-3__item">Item Three Content</div>
 	</div>
+	<!-- Toast -->
+	<div id="toast" style="display: none;">
+		<div class="slds-notify_container slds-is-relative">
+			<div class="slds-notify slds-notify_toast slds-theme_success" role="alert">
+				<span class="slds-assistive-text">success</span>
+				<span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+					<svg class="slds-icon slds-icon_small" aria-hidden="true">
+						<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+					</svg>
+				</span>
+				<div class="slds-notify__content">
+					<h2 class="slds-text-heading_small" id="toasttext"></h2>
+				</div>
+				<button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close" id="close-toast">
+					<svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+						<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+					</svg>
+					<span class="slds-assistive-text">Close</span>
+				</button>
+			</div>
+		</div>
+	</div>
+	<!-- // Toast -->
+	<!-- Hidden lang DIV -->
+	<div style="display: none;">
+		<div id="toast-message__users-saved">{$MOD.toast_users_saved}</div>
+	</div>
+	<!-- // Hidden lang DIV -->
 </div>
 <script type="text/javascript">
 	window.addEventListener("load", function(){

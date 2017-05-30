@@ -10,11 +10,17 @@
 // include_once('modules/Vtiger/ListView.php');
 global $adb;
 
+// Get the selected users
+$r = $adb->pquery("SELECT schedular_available_users FROM vtiger_schedularsettings WHERE schedular_settingsid = ?", array(1));
+$sel_users = explode(',', $adb->query_result($r, 0, 'schedular_available_users'));
+
 // Get the users
 $r = $adb->pquery("SELECT id, first_name, last_name FROM vtiger_users", array());
 $users = array();
 while ($user = $adb->fetch_array($r)) {
-	$users[] = $user;
+	if (in_array($user['id'], $sel_users)) {
+		$users[] = $user;
+	}
 }
 $smarty->assign('resource_users', $users);
 $smarty->display('modules/Schedular/SchedularView.tpl');

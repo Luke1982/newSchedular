@@ -45,10 +45,18 @@
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 				</table>
 				<table>
-					<name>vtiger_schedularidcf</name>
+					<name>vtiger_schedularcf</name>
 					<sql><![CDATA[CREATE TABLE `vtiger_schedularcf` (
 						`schedularid` int(11) NOT NULL,
 						PRIMARY KEY (`schedularid`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+					</table>
+				<table>
+					<name>vtiger_schedularsettings</name>
+					<sql><![CDATA[CREATE TABLE `vtiger_schedularsettings` (
+						`schedular_settingsid` int(11) NOT NULL,
+						`schedular_available_users` VARCHAR(255) NOT NULL,
+						PRIMARY KEY (`schedular_settingsid`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 					</table>
 				</tables>

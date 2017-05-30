@@ -1,0 +1,89 @@
+/**
+ * @name base
+ * @selector .slds-notify_container
+ * @restrict div
+ * @variant
+ */
+.slds-notify-container,
+.slds-notify_container {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  text-align: center; }
+
+/**
+ * Initializes toast notification
+ *
+ * @selector .slds-notify_toast
+ * @restrict .slds-notify_container div
+ * @required
+ */
+.slds-notify_toast,
+.slds-notify--toast {
+  color: white;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-align: center;
+      align-items: center;
+  position: relative;
+  background: rgba(84, 105, 141, 0.95);
+  font-weight: 300;
+  border-radius: 0.25rem;
+  margin: 0.5rem;
+  padding: 0.75rem 3rem 0.75rem 1.5rem;
+  min-width: 30rem;
+  text-align: left;
+  -ms-flex-pack: start;
+      justify-content: flex-start;
+  /**
+   * Alert close button
+   *
+   * @selector .slds-notify__close
+   * @restrict .slds-notify_toast button
+   * @required
+   */ }
+
+.slds-notify_toast a,
+.slds-notify--toast a {
+  color: currentColor; }
+
+.slds-notify_toast a:hover, .slds-notify_toast a:focus,
+.slds-notify--toast a:hover,
+.slds-notify--toast a:focus {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  outline: 0; }
+
+.slds-notify_toast a:active,
+.slds-notify--toast a:active {
+  color: rgba(255, 255, 255, 0.5); }
+
+.slds-notify_toast a[disabled],
+.slds-notify--toast a[disabled] {
+  color: rgba(255, 255, 255, 0.15); }
+
+.slds-notify_toast .slds-notify__close,
+.slds-notify--toast .slds-notify__close {
+  float: right;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  margin-left: 0.25rem;
+  transform: translateY(-0.125rem); }
+
+.slds-region_narrow .slds-notify_toast,
+.slds-region_narrow .slds-notify--toast {
+  min-width: auto;
+  width: 100%;
+  margin-left: 0; }
+
+.slds-modal__header .slds-notify-container,
+.slds-modal__header .slds-notify_container {
+  position: absolute; }
+
+.slds-modal__header .slds-notify_toast,
+.slds-modal__header .slds-notify--toast {
+  display: block; }
+

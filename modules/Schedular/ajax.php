@@ -61,3 +61,14 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateevent') {
 	$rec->save('Schedular');
 	echo "true";
 }
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveAvailableUsers') {
+	global $adb;
+	$data = json_decode($_REQUEST['data'], true);
+	$r = $adb->pquery("REPLACE INTO vtiger_schedularsettings SET schedular_settingsid = ?, schedular_available_users = ?", array(1, $data));
+	if ($adb->getAffectedRowCount($r) >= 1) {
+		echo "true";
+	} else {
+		echo "false";
+	} 
+}

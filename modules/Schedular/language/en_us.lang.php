@@ -23,9 +23,12 @@ $mod_strings = Array(
 	'resources' => 'Resources',
 	'resource'	=> 'Resource',
 
-	// Setings
+	// Settings
 	'av_users' => 'Available users',
-	'save_users' => 'Save users'
+	'save_users' => 'Save users',
+
+	// Settings toasts
+	'toast_users_saved' => 'Available users saved to database'
 );
 
 ?>
