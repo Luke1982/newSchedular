@@ -15,8 +15,8 @@
 			<li class="slds-tabs_scoped__item" title="{$MOD.schedular_eventtype}" role="presentation">
 				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-2" id="tab-scoped-2__item">{$MOD.schedular_eventtype}</a>
 			</li>
-			<li class="slds-tabs_scoped__item" title="Item Three" role="presentation">
-				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-3" id="tab-scoped-3__item">Item Three</a>
+			<li class="slds-tabs_scoped__item" title="{$MOD.relations}" role="presentation">
+				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-3" id="tab-scoped-3__item">{$MOD.relations}</a>
 			</li>
 		</ul>
 		<div id="tab-scoped-1" class="slds-tabs_scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
@@ -54,7 +54,7 @@
 					<div class="slds-form-element">
 						<label class="slds-form-element__label" for="event-bgcolor-{$event_type.schedular_eventtypeid}">{$MOD.background_color}</label>
 						<div class="slds-form-element__control">
-						      <input style="background-color: {$event_type.eventtype_bgcolor};" value="{$event_type.eventtype_bgcolor}" id="event-bgcolor-{$event_type.schedular_eventtypeid}" class="slds-input event-type__background-color" placeholder="Kleur" type="text">
+						      <input style="background-color: {$event_type.eventtype_bgcolor};" readonly value="{$event_type.eventtype_bgcolor}" id="event-bgcolor-{$event_type.schedular_eventtypeid}" class="slds-input event-type__background-color" placeholder="Kleur" type="text">
 						      <div class="event-type__colorpicker">
 							      <div class="event-type__colorpicker-picker"></div>
 							      <div class="event-type__colorpicker-slider"></div>
@@ -70,7 +70,47 @@
 				</svg>{$MOD.save_eventsettings}
 			</button>					
 		</div>
-		<div id="tab-scoped-3" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-3__item">Item Three Content</div>
+		<div id="tab-scoped-3" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-3__item">
+			<div class="slds-form slds-form_stacked" style="margin: 10px 0;">
+				<div class="slds-form-element">
+				<label class="slds-form-element__label" for="select-01">{$MOD.select_module}</label>
+					<div class="slds-form-element__control">
+						<div class="slds-select_container">
+							<select class="slds-select" id="select-01">
+								{foreach from=$ent_modules item=module key=key}
+								<option value={$module.name}>{$module.name|@getTranslatedString}</option>
+								{/foreach}
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<article class="slds-card">
+				<div class="slds-card__header slds-grid">
+					<header class="slds-media slds-media_center slds-has-flexi-truncate">
+						<div class="slds-media__figure">
+							<span class="slds-icon_container slds-icon-standard-contact" title="description of icon when needed">
+								<svg class="slds-icon slds-icon_small" aria-hidden="true">
+								<use xlink:href="include/LD/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+								</svg>
+							</span>
+						</div>
+						<div class="slds-media__body">
+							<h2>
+								<a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="[object Object]">
+									<span class="slds-text-heading_small">Card Header</span>
+								</a>
+							</h2>
+						</div>
+					</header>
+					<div class="slds-no-flex">
+						<button class="slds-button slds-button_neutral">New</button>
+					</div>
+				</div>
+				<div class="slds-card__body slds-card__body_inner">Card Body (custom goes in here)</div>
+				<footer class="slds-card__footer">Card Footer</footer>
+			</article>
+		</div>
 	</div>
 	<!-- Toast -->
 	<div id="toast" style="display: none;">

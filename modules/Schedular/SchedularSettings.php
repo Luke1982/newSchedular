@@ -23,7 +23,15 @@ while ($event_type = $adb->fetch_array($r)) {
 	$event_types[] = $event_type;
 }
 
+// Get the entity modules
+$r = $adb->pquery("SELECT tabid, name FROM vtiger_tab WHERE isentitytype = ? AND presence = ?", array(1, 0));
+$ent_modules = array();
+while ($module = $adb->fetch_array($r)) {
+	$end_modules[] = $module;
+}
+
 $smarty->assign('av_users', $users);
 $smarty->assign('event_types', $event_types);
+$smarty->assign('ent_modules', $end_modules);
 $smarty->assign('MOD',$mod_strings);
 $smarty->display(vtlib_getModuleTemplate('Schedular','SchedularSettings.tpl'));

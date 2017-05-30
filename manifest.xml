@@ -179,7 +179,7 @@
 							</field>
 							<field>
 								<fieldname>schedular_eventtype</fieldname>
-								<uitype>16</uitype>
+								<uitype>15</uitype>
 								<columnname>schedular_eventtype</columnname>
 								<tablename>vtiger_schedular</tablename>
 								<generatedtype>1</generatedtype>

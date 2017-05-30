@@ -32,6 +32,7 @@ $mod_strings = Array(
 	'save_users' => 'Save users',
 	'background_color' => 'Background color',
 	'save_eventsettings' => 'Save event settings',
+	'select_module' => 'Select module',
 
 	// Settings toasts
 	'toast_users_saved' => 'Available users saved to database',
