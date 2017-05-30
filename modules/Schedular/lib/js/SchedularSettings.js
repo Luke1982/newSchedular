@@ -1,9 +1,13 @@
 
 function SchedularSettings() {
 	this.saveAvUsersButton = document.getElementById("save-available-users");
+	this.saveEvTypeSettingsButton = document.getElementById("save-event-settings");
 
 	this.saveAvUsersButton.addEventListener("click", function(){
 		settings.saveAvUsers();
+	});
+	this.saveEvTypeSettingsButton.addEventListener("click", function(){
+		settings.saveEventTypeSettings();
 	});
 }
 
@@ -45,6 +49,31 @@ SchedularSettings.prototype.saveAvUsers = function() {
 		"callback"	: function(response) {
 			if (response == "true") {
 				window.settings.toast("toast-message__users-saved");
+			}
+		}
+	});
+}
+
+SchedularSettings.prototype.saveEventTypeSettings = function() {
+	var eventBgColorInputs = document.getElementsByClassName("event-type__background-color");
+	var eventTypes = {};
+	for (var i = 0; i < eventBgColorInputs.length; i++) {
+		var eventId = eventBgColorInputs[i].id.slice(-1);
+		// console.log(eventId);
+		eventTypes[eventId] = {
+			"colors" : {
+				"bg" : eventBgColorInputs[i].value
+			}
+		}
+	}
+	this.save({
+		"action" 	: "saveEventTypeSettings",
+		"toSave"	: {
+			"eventTypes"	: eventTypes
+		},
+		"callback"	: function(response) {
+			if (response == "true") {
+				window.settings.toast("toast-message__event-types-saved");
 			}
 		}
 	});

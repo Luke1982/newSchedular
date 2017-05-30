@@ -3,15 +3,17 @@
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-checkbox.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-notify.css">
+<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/Schedular.css">
 <script type="text/javascript" src="modules/Schedular/lib/js/SchedularSettings.js"></script>
+<script type="text/javascript" src="modules/Schedular/lib/js/colorpicker.min.js"></script>
 <div style="padding: 2%;">
 	<div class="slds-tabs_scoped">
 		<ul class="slds-tabs_scoped__nav" role="tablist">
 			<li class="slds-tabs_scoped__item slds-is-active" title="{$MOD.resources}" role="presentation">
 				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item">{$MOD.resources}</a>
 			</li>
-			<li class="slds-tabs_scoped__item" title="Item Two" role="presentation">
-				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-2" id="tab-scoped-2__item">Item Two</a>
+			<li class="slds-tabs_scoped__item" title="{$MOD.schedular_eventtype}" role="presentation">
+				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-2" id="tab-scoped-2__item">{$MOD.schedular_eventtype}</a>
 			</li>
 			<li class="slds-tabs_scoped__item" title="Item Three" role="presentation">
 				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-3" id="tab-scoped-3__item">Item Three</a>
@@ -42,7 +44,32 @@
 				</fieldset>
 			</div>
 		</div>
-		<div id="tab-scoped-2" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">Item Two Content</div>
+		<div id="tab-scoped-2" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">
+			{foreach from=$event_types item=event_type key=key name=name}
+			<div class="event-type__content">
+				<div class="slds-form slds-form_stacked">
+					<div class="slds-form-element">
+						<h2>{$event_type.schedular_eventtype|@getTranslatedString:'Schedular'}</h2>
+					</div>
+					<div class="slds-form-element">
+						<label class="slds-form-element__label" for="event-bgcolor-{$event_type.schedular_eventtypeid}">{$MOD.background_color}</label>
+						<div class="slds-form-element__control">
+						      <input style="background-color: {$event_type.eventtype_bgcolor};" value="{$event_type.eventtype_bgcolor}" id="event-bgcolor-{$event_type.schedular_eventtypeid}" class="slds-input event-type__background-color" placeholder="Kleur" type="text">
+						      <div class="event-type__colorpicker">
+							      <div class="event-type__colorpicker-picker"></div>
+							      <div class="event-type__colorpicker-slider"></div>
+						      </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{/foreach}
+			<button class="slds-button slds-button_brand" id="save-event-settings">
+				<svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+					<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#database"></use>
+				</svg>{$MOD.save_eventsettings}
+			</button>					
+		</div>
 		<div id="tab-scoped-3" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-3__item">Item Three Content</div>
 	</div>
 	<!-- Toast -->
@@ -71,6 +98,7 @@
 	<!-- Hidden lang DIV -->
 	<div style="display: none;">
 		<div id="toast-message__users-saved">{$MOD.toast_users_saved}</div>
+		<div id="toast-message__event-types-saved">{$MOD.toast_eventtypes_saved}</div>
 	</div>
 	<!-- // Hidden lang DIV -->
 </div>
@@ -94,6 +122,18 @@
 			tabHeads[t].classList.add("slds-is-active");
 			tabs[t].classList.remove("slds-hide");
 			tabs[t].classList.add("slds-show");
+		}
+
+		var colorPickers = document.getElementsByClassName("event-type__colorpicker-picker");
+		var colorSliders = document.getElementsByClassName("event-type__colorpicker-slider");
+		var bgColorInputs = document.getElementsByClassName("event-type__background-color");
+		for (var i = 0; i < colorPickers.length; i++) {
+			(function(_i){
+		        ColorPicker(colorSliders[_i], colorPickers[_i], function(hex, hsv, rgb) {
+	        		bgColorInputs[_i].value = hex;
+	        		bgColorInputs[_i].style.backgroundColor = hex;
+	        	});
+        	})(i);
 		}
 	});
 </script>

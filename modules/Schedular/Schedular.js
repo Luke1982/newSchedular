@@ -131,9 +131,10 @@ window.addEventListener("load", function(){
 	function getEvents(dates) {
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
-	    if (this.readyState == 4 && this.status == 200) {
-		       $("#schedular").fullCalendar("removeEvents");
-		       $("#schedular").fullCalendar("renderEvents", JSON.parse(r.response));
+	    	if (this.readyState == 4 && this.status == 200) {
+    			console.log(JSON.parse(r.response));
+				$("#schedular").fullCalendar("removeEvents");
+				$("#schedular").fullCalendar("renderEvents", JSON.parse(r.response));
 		    }
 		};
 		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getevents&start="+dates.start.toJSON()+"&end="+dates.end.toJSON(), true);

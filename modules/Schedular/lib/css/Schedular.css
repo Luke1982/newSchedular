@@ -12,3 +12,18 @@
 	-moz-box-shadow: 0px 0px 93px -28px rgba(136,136,136,0.57);
 	box-shadow: 0px 0px 93px -28px rgba(136,136,136,0.57);
 }
+.event-type__colorpicker {
+	margin: 10px 0;
+}
+.event-type__colorpicker-picker {
+	width: 180px;
+	height: 180px;
+	display: inline-block;
+	margin-right: -4px;
+}
+.event-type__colorpicker-slider {
+	width: 30px;
+	height: 180px;
+	display: inline-block;
+	margin-right: -4px;
+}

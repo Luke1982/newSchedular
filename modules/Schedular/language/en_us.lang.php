@@ -22,13 +22,20 @@ $mod_strings = Array(
 	// General strings
 	'resources' => 'Resources',
 	'resource'	=> 'Resource',
+	'relations' => 'Relations',
+
+	// Field labels
+	'schedular_eventtype' => 'Event Type',
 
 	// Settings
 	'av_users' => 'Available users',
 	'save_users' => 'Save users',
+	'background_color' => 'Background color',
+	'save_eventsettings' => 'Save event settings',
 
 	// Settings toasts
-	'toast_users_saved' => 'Available users saved to database'
+	'toast_users_saved' => 'Available users saved to database',
+	'toast_eventtypes_saved' => 'Event type preferences saved'
 );
 
 ?>

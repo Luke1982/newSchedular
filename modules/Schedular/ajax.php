@@ -14,7 +14,12 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 	$end_date = $end_date->format("Y-m-d");
 
 	// $r = $adb->pquery("SELECT * FROM vtiger_schedular", array());
-	$r = $adb->pquery("SELECT * FROM vtiger_schedular INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_schedular.schedularid WHERE vtiger_schedular.schedular_startdate >= ? AND vtiger_schedular.schedular_enddate <= ?", array($start_date, $end_date));
+	$r = $adb->pquery("SELECT * FROM vtiger_schedular INNER JOIN vtiger_crmentity 
+						ON vtiger_crmentity.crmid=vtiger_schedular.schedularid INNER JOIN vtiger_schedular_eventtype 
+						ON vtiger_schedular.schedular_eventtype=vtiger_schedular_eventtype.schedular_eventtype INNER JOIN vtiger_schedular_eventcolors 
+						ON vtiger_schedular_eventtype.schedular_eventtypeid=vtiger_schedular_eventcolors.eventtype_id 
+						WHERE vtiger_schedular.schedular_startdate >= ? 
+						AND vtiger_schedular.schedular_enddate <= ?", array($start_date, $end_date));
 	$events = array();
 	while ($event = $adb->fetch_array($r)) {
 		$prepared_event = array();
@@ -25,6 +30,9 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$end = new DateTime($event['schedular_enddate'] . ' ' . $event['schedular_endtime']);
 		$prepared_event['end'] = $end->format("Y-m-d\TH:m:s");
 		$prepared_event['title'] = $event['description'];
+		$prepared_event['backgroundColor'] = $event['eventtype_bgcolor'];
+		$prepared_event['borderColor'] = '#ffffff';
+		$prepared_event['textColor'] = '#000000';
 		$events[] = $prepared_event;
 	}
 	echo json_encode($events);
@@ -71,4 +79,13 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveAvailableUsers
 	} else {
 		echo "false";
 	} 
+}
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveEventTypeSettings') {
+	global $adb;
+	$data = json_decode($_REQUEST['data'], true);
+	foreach ($data['eventTypes'] as $eventtype_id => $eventtype) {
+		$r = $adb->pquery("INSERT INTO vtiger_schedular_eventcolors (eventtype_id, eventtype_bgcolor) VALUES (?,?) ON DUPLICATE KEY UPDATE eventtype_bgcolor = ?", array($eventtype_id, $eventtype['colors']['bg'], $eventtype['colors']['bg']));
+	}
+	echo 'true';
 }
