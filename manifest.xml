@@ -71,7 +71,7 @@
 				<table>
 					<name>vtiger_schedular_relations</name>
 					<sql><![CDATA[CREATE TABLE `vtiger_schedular_relations` (
-						`schedular_relid` int(11) AUTO INCREMENT,
+						`schedular_relid` int(11) NOT NULL AUTO_INCREMENT,
 						`schedular_relmodule_name` VARCHAR(255) NOT NULL,
 						`schedular_relmodule_retfields` VARCHAR(255) NOT NULL,
 						`schedular_filterrel_id` VARCHAR(255) NOT NULL,
