@@ -33,6 +33,11 @@ $mod_strings = Array(
 	'background_color' => 'Background color',
 	'save_eventsettings' => 'Save event settings',
 	'select_module' => 'Select module',
+	'add_relation' =>  'Add Relation',
+	'filter_fields' => 'Search in fields',
+	'return_fields' => 'Return fields',
+	'include_relation_id' => 'Include relation ID',
+	'relation_filterfield' => 'Filter on field from included relation',
 
 	// Settings toasts
 	'toast_users_saved' => 'Available users saved to database',

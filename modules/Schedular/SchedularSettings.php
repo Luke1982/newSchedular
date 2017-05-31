@@ -30,8 +30,16 @@ while ($module = $adb->fetch_array($r)) {
 	$end_modules[] = $module;
 }
 
+// Get the relations
+$r = $adb->pquery("SELECT * FROM vtiger_schedular_relations", array());
+$schedular_relations = array();
+while ($relation = $adb->fetch_array($r)) {
+	$schedular_relations[] = $relation;
+}
+
 $smarty->assign('av_users', $users);
 $smarty->assign('event_types', $event_types);
 $smarty->assign('ent_modules', $end_modules);
+$smarty->assign('schedular_relations', $schedular_relations);
 $smarty->assign('MOD',$mod_strings);
 $smarty->display(vtlib_getModuleTemplate('Schedular','SchedularSettings.tpl'));

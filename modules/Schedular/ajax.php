@@ -89,3 +89,35 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveEventTypeSetti
 	}
 	echo 'true';
 }
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createRelation') {
+	global $adb;
+	include_once('vtlib/Vtiger/Module.php');
+	$data = json_decode($_REQUEST['data'], true);
+
+	$moduleInstance = Vtiger_Module::getInstance('Schedular');
+	$relatedModule = Vtiger_Module::getInstance($data['moduleName']);
+	$relationLabel = $data['moduleName'];
+	$moduleInstance->setRelatedList($relatedModule, $relationLabel, Array('ADD','SELECT'));
+
+	$r = $adb->pquery("INSERT INTO vtiger_schedular_relations (schedular_relmodule_name) VALUES (?)", array($data['moduleName']));
+	if ($adb->getAffectedRowCount($r) == 1) {
+		$r = $adb->query("SELECT * FROM vtiger_schedular_relations ORDER BY schedular_relid DESC LIMIT 1");
+		$new_row = $adb->fetch_array($r);
+		$new_row['result'] = 'success';
+		echo json_encode($new_row);
+	} else {
+		echo json_encode(array('result' => 'fail'));
+	}
+}
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'deleteRelation') {
+	global $adb;
+	$data = json_decode($_REQUEST['data'], true);
+	$r = $adb->pquery("DELETE FROM vtiger_schedular_relations WHERE schedular_relid = ?", array($data['relationId']));
+	if ($adb->getAffectedRowCount($r) == 1) {
+		echo 'true';
+	} else {
+		echo 'false';
+	}
+}

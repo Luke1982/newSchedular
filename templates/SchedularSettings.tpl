@@ -1,3 +1,4 @@
+{include file="modules/Schedular/SchedularComponents.tpl"}
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-radio.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-tabs.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
@@ -73,10 +74,10 @@
 		<div id="tab-scoped-3" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-3__item">
 			<div class="slds-form slds-form_stacked" style="margin: 10px 0;">
 				<div class="slds-form-element">
-				<label class="slds-form-element__label" for="select-01">{$MOD.select_module}</label>
+				<label class="slds-form-element__label" for="select-module-to-relate">{$MOD.select_module}</label>
 					<div class="slds-form-element__control">
 						<div class="slds-select_container">
-							<select class="slds-select" id="select-01">
+							<select class="slds-select" id="select-module-to-relate">
 								{foreach from=$ent_modules item=module key=key}
 								<option value={$module.name}>{$module.name|@getTranslatedString}</option>
 								{/foreach}
@@ -84,34 +85,23 @@
 						</div>
 					</div>
 				</div>
+				<button class="slds-button slds-button_brand" id="create-relation">
+					<svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+						<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#database"></use>
+					</svg>{$MOD.add_relation}
+				</button>
 			</div>
-			<article class="slds-card">
-				<div class="slds-card__header slds-grid">
-					<header class="slds-media slds-media_center slds-has-flexi-truncate">
-						<div class="slds-media__figure">
-							<span class="slds-icon_container slds-icon-standard-contact" title="description of icon when needed">
-								<svg class="slds-icon slds-icon_small" aria-hidden="true">
-								<use xlink:href="include/LD/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
-								</svg>
-							</span>
-						</div>
-						<div class="slds-media__body">
-							<h2>
-								<a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="[object Object]">
-									<span class="slds-text-heading_small">Card Header</span>
-								</a>
-							</h2>
-						</div>
-					</header>
-					<div class="slds-no-flex">
-						<button class="slds-button slds-button_neutral">New</button>
-					</div>
-				</div>
-				<div class="slds-card__body slds-card__body_inner">Card Body (custom goes in here)</div>
-				<footer class="slds-card__footer">Card Footer</footer>
-			</article>
+			<div id="schedular-relations">
+			{* <pre>{$schedular_relations|print_r}</pre> *}
+			{foreach from=$schedular_relations item=relation key=key}
+				{call relationcard template='false' relation=$relation}
+			{/foreach}
+			</div>
 		</div>
 	</div>
+	<!-- Relation card template -->
+	{call relationcard template='true'}
+	<!-- // Relation card template -->
 	<!-- Toast -->
 	<div id="toast" style="display: none;">
 		<div class="slds-notify_container slds-is-relative">
