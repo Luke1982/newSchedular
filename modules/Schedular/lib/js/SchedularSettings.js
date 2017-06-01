@@ -114,6 +114,8 @@ SchedularSettings.prototype.createRelationUI = function(newRelation) {
 	newNode.getElementsByClassName("schedular-relation__id")[0].innerText = newRelation.schedular_relid;
 	newNode.getElementsByClassName("schedular-relation__module-name")[0].innerText = newRelation.schedular_relmodule_name;
 	newNode.getElementsByClassName("schedular-relation__remove")[0].addEventListener("click", window.settings.removeRelation);
+	newNode.getElementsByClassName("schedular-relation__update")[0].addEventListener("click", window.settings.updateRelation);
+	newNode.setAttribute("data-modulename", newRelation.schedular_relmodule_name);
 
 	container.appendChild(newNode);
 }
@@ -125,12 +127,36 @@ SchedularSettings.prototype.removeRelation = function() {
 			window.settings.save({
 				"action" 	: "deleteRelation",
 				"toSave"	: {
-					"relationId"	: el.id.split("-")[1]
+					"relationId"	: el.id.split("-")[1],
+					"moduleName"	: el.getAttribute("data-modulename")
 				},
 				"callback"	: function(response) {
 					if (response == 'true') {
 						document.getElementById("schedular-relations").removeChild(el);
 					}
+				}
+			});
+			break;
+		}
+	}
+}
+
+SchedularSettings.prototype.updateRelation = function() {
+	var el = this;
+	while (el = el.parentElement) {
+		if (el.classList.contains("schedular-relation")) {
+			window.settings.save({
+				"action" 	: "updateRelation",
+				"toSave"	: {
+					"relationId"		: el.id.split("-")[1],
+					"moduleName"		: el.getAttribute("data-modulename"),
+					"filterFields"		: el.getElementsByClassName("relation__filterfields")[0].value,
+					"returnFields"		: el.getElementsByClassName("relation__retfields")[0].value,
+					"inclRelId"			: el.getElementsByClassName("relation__include-id")[0].value,
+					"incRelFiltField"	: el.getElementsByClassName("relation__included-rel-filterfield")[0].value,
+				},
+				"callback"	: function(response) {
+					console.log(response)
 				}
 			});
 			break;
@@ -156,5 +182,10 @@ window.addEventListener("load", function(){
 	var removeRelationButtons = document.getElementsByClassName("schedular-relation__remove");
 	for (var i = 0; i < removeRelationButtons.length; i++) {
 		removeRelationButtons[i].addEventListener("click", window.settings.removeRelation);
+	}
+
+	var updateRelationButtons = document.getElementsByClassName("schedular-relation__update");
+	for (var i = 0; i < updateRelationButtons.length; i++) {
+		updateRelationButtons[i].addEventListener("click", window.settings.updateRelation);
 	}
 });

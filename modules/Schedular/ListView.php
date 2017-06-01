@@ -22,6 +22,14 @@ while ($user = $adb->fetch_array($r)) {
 		$users[] = $user;
 	}
 }
+
+// Get the event types
+$r = $adb->pquery("SELECT * FROM vtiger_schedular_eventtype", array());
+$event_types = array();
+while ($eventtype = $adb->fetch_array($r)) {
+	$event_types[] = $eventtype;
+}
 $smarty->assign('resource_users', $users);
+$smarty->assign('event_types', $event_types);
 $smarty->display('modules/Schedular/SchedularView.tpl');
 ?>

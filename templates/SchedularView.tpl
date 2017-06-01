@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
 <div id="schedular" style="min-height: 500px;"></div>
 <!-- Data DIV's -->
 <div style="display: none;">
@@ -12,6 +13,36 @@
 <!-- Add / Edit Event UI -->
 <div id="schedular-event-ui">
 	<div class="slds-form slds-form_horizontal">
+		<fieldset class="slds-form-element">
+			<table width="100%" style="color: #54698d;">
+				<tbody>
+					<tr style="font-weight: bold;">
+						<td width="25%">Start date</td>
+						<td width="25%">Start time</td>
+						<td width="25%">End date</td>
+						<td width="25%">End time</td>
+					</tr>
+					<tr>
+						<td width="25%" id="schedular-event-ui__startdate"></td>
+						<td width="25%" id="schedular-event-ui__starttime"></td>
+						<td width="25%" id="schedular-event-ui__enddate"></td>
+						<td width="25%" id="schedular-event-ui__endtime"></td>
+					</tr>
+					<tr style="font-weight: bold;">
+						<td width="25%">Resource</td>
+						<td width="25%"></td>
+						<td width="25%"></td>
+						<td width="25%"></td>
+					</tr>
+					<tr>
+						<td width="25%" id="schedular-event-ui__resourcename"></td>
+						<td width="25%"></td>
+						<td width="25%"></td>
+						<td width="25%"></td>
+					</tr>										
+				</tbody>
+			</table>
+		</fieldset>
 		<div class="slds-form-element">
 			<label class="slds-form-element__label" for="input-id-01">Title</label>
 			<div class="slds-form-element__control">
@@ -19,62 +50,41 @@
 			</div>
 		</div>
 		<div class="slds-form-element">
-			<label class="slds-form-element__label" for="input-id-02">Textarea Label</label>
+			<label class="slds-form-element__label" for="schedular_description">Description</label>
 			<div class="slds-form-element__control">
-				<textarea id="input-id-02" class="slds-textarea" placeholder="Placeholder Text"></textarea>
+				<textarea id="schedular_description" class="slds-textarea" placeholder="Description"></textarea>
 			</div>
-		</div>
+		</div>		
 		<fieldset class="slds-form-element">
-			<legend class="slds-form-element__legend slds-form-element__label">Checkbox Group label</legend>
-			<div class="slds-form-element__control">
-				<span class="slds-checkbox">
-					<input name="default" id="checkbox-285" type="checkbox">
-					<label class="slds-checkbox__label" for="checkbox-285">
-						<span class="slds-checkbox_faux"></span>
-						<span class="slds-form-element__label">All opportunities owned by you</span>
-					</label>
-				</span>
-				<span class="slds-checkbox">
-					<input name="default" id="checkbox-286" type="checkbox">
-					<label class="slds-checkbox__label" for="checkbox-286">
-						<span class="slds-checkbox_faux"></span>
-						<span class="slds-form-element__label">All contacts in the account owned by you</span>
-					</label>
-				</span>
-			</div>
-		</fieldset>
-		<fieldset class="slds-form-element">
-			<legend class="slds-form-element__legend slds-form-element__label">Checkbox Group label</legend>
-			<div class="slds-form-element__control">
-				<span class="slds-radio">
-					<input id="radio-287" name="options" type="radio">
-					<label class="slds-radio__label" for="radio-287">
-						<span class="slds-radio_faux"></span>
-						<span class="slds-form-element__label">Lead Generation</span>
-					</label>
-				</span>
-				<span class="slds-radio">
-					<input id="radio-288" name="options" type="radio">
-					<label class="slds-radio__label" for="radio-288">
-						<span class="slds-radio_faux"></span>
-						<span class="slds-form-element__label">Education Leads</span>
-					</label>
-				</span>
-			</div>
-		</fieldset>
-		<fieldset class="slds-form-element">
-			<label class="slds-form-element__label" for="select-01">Select Label</label>
+			<label class="slds-form-element__label" for="select-01">Event types</label>
 			<div class="slds-form-element__control">
 				<div class="slds-select_container">
-					<select class="slds-select" id="select-01">
-						<option>Option One</option>
-						<option>Option Two</option>
-						<option>Option Three</option>
+					<select class="slds-select" id="event-types">
+						{foreach from=$event_types item=event_type key=key}
+						<option value="{$event_type.schedular_eventtype}">{$event_type.schedular_eventtype|@getTranslatedString:'Schedular'}</option>
+						{/foreach}
 					</select>
 				</div>
 			</div>
 		</fieldset>
+		<fieldset class="slds-form-element">
+			<div class="slds-button-group" role="group">
+				<button class="slds-button slds-button_neutral" id="sch-save-event-ui">Save</button>
+				<button class="slds-button slds-button_neutral" id="sch-cancel-event-ui">Cancel</button>
+			</div>
+		</fieldset>
 	</div>
+	<!-- Hidden div that holds all the data to save -->
+	<div id="schedular-savedata">
+		<input type="hidden" id="sch-startdate" data-columnfield="schedular_startdate" value="" />
+		<input type="hidden" id="sch-starttime" data-columnfield="schedular_starttime" value="" />
+		<input type="hidden" id="sch-enddate" data-columnfield="schedular_enddate" value="" />
+		<input type="hidden" id="sch-endtime" data-columnfield="schedular_endtime" value="" />
+		<input type="hidden" id="sch-assignedto" data-columnfield="assigned_user_id" value="" />
+		<input type="hidden" id="sch-description" data-columnfield="description" value="" />
+		<input type="hidden" id="sch-eventtype" data-columnfield="schedular_eventtype" value="" />
+	</div>
+	<!-- // Hidden div that holds all the data to save -->
 </div>
 <!-- // Add / Edit Event UI -->
 <script type="text/javascript" src="modules/Schedular/Schedular.js"></script>

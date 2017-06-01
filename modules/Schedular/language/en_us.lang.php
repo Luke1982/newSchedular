@@ -41,7 +41,12 @@ $mod_strings = Array(
 
 	// Settings toasts
 	'toast_users_saved' => 'Available users saved to database',
-	'toast_eventtypes_saved' => 'Event type preferences saved'
+	'toast_eventtypes_saved' => 'Event type preferences saved',
+
+	// Event types
+	'Checkup' => 'a Checkup',
+	'Visit' => 'a Visit',
+	'Service'=> 'perform Service'
 );
 
 ?>

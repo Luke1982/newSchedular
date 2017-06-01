@@ -19,7 +19,8 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 						ON vtiger_schedular.schedular_eventtype=vtiger_schedular_eventtype.schedular_eventtype INNER JOIN vtiger_schedular_eventcolors 
 						ON vtiger_schedular_eventtype.schedular_eventtypeid=vtiger_schedular_eventcolors.eventtype_id 
 						WHERE vtiger_schedular.schedular_startdate >= ? 
-						AND vtiger_schedular.schedular_enddate <= ?", array($start_date, $end_date));
+						AND vtiger_schedular.schedular_enddate <= ? 
+						AND vtiger_crmentity.deleted = ?", array($start_date, $end_date, 0));
 	$events = array();
 	while ($event = $adb->fetch_array($r)) {
 		$prepared_event = array();
@@ -95,17 +96,19 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createRelation') {
 	include_once('vtlib/Vtiger/Module.php');
 	$data = json_decode($_REQUEST['data'], true);
 
-	$moduleInstance = Vtiger_Module::getInstance('Schedular');
-	$relatedModule = Vtiger_Module::getInstance($data['moduleName']);
-	$relationLabel = $data['moduleName'];
-	$moduleInstance->setRelatedList($relatedModule, $relationLabel, Array('ADD','SELECT'));
-
 	$r = $adb->pquery("INSERT INTO vtiger_schedular_relations (schedular_relmodule_name) VALUES (?)", array($data['moduleName']));
 	if ($adb->getAffectedRowCount($r) == 1) {
+
+		$moduleInstance = Vtiger_Module::getInstance('Schedular');
+		$relatedModule = Vtiger_Module::getInstance($data['moduleName']);
+		$relationLabel = $data['moduleName'];
+		$moduleInstance->setRelatedList($relatedModule, $relationLabel, Array('ADD','SELECT'));
+
 		$r = $adb->query("SELECT * FROM vtiger_schedular_relations ORDER BY schedular_relid DESC LIMIT 1");
 		$new_row = $adb->fetch_array($r);
 		$new_row['result'] = 'success';
 		echo json_encode($new_row);
+
 	} else {
 		echo json_encode(array('result' => 'fail'));
 	}
@@ -113,11 +116,82 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createRelation') {
 
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'deleteRelation') {
 	global $adb;
+	include_once('vtlib/Vtiger/Module.php');
+
 	$data = json_decode($_REQUEST['data'], true);
 	$r = $adb->pquery("DELETE FROM vtiger_schedular_relations WHERE schedular_relid = ?", array($data['relationId']));
 	if ($adb->getAffectedRowCount($r) == 1) {
+
+		$moduleInstance = Vtiger_Module::getInstance('Schedular');
+		$relatedModule = Vtiger_Module::getInstance($data['moduleName']);
+		$relationLabel = $data['moduleName'];
+		$moduleInstance->unsetRelatedList($relatedModule, $relationLabel);
+
 		echo 'true';
+
 	} else {
 		echo 'false';
 	}
+}
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
+	global $adb;
+	$data = json_decode($_REQUEST['data'], true);
+
+	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET 
+		schedular_relmodule_filterfields = ?, 
+		schedular_relmodule_retfields = ?, 
+		schedular_filterrel_id = ?, 
+		schedular_filterrel_field = ? WHERE schedular_relid = ?", 
+			array(
+				$data['filterFields'], 
+				$data['returnFields'], 
+				$data['inclRelId'], 
+				$data['inclRelFiltField'], 
+				$data['relationId']
+				)
+		);
+
+	if ($adb->getAffectedRowCount($r) == 1) {
+		echo 'true';
+	}  else {
+		echo 'false';
+	}
+}
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
+	global $current_user, $adb;
+	require_once('modules/Schedular/Schedular.php');
+	$data = json_decode($_REQUEST['data'], true);
+
+	$s = new Schedular();
+	$s->mode = 'create';
+	$s->column_fields['created_user_id'] = $current_user->id;
+	$s->column_fields['createdtime'] = date('Y-m-d H:i:s');
+	$s->column_fields['modifiedtime'] = date('Y-m-d H:i:s');
+
+	foreach ($data as $cf => $value) {
+		$s->column_fields[$cf] = $value;
+	}
+
+	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);
+	$meta = $handler->getMeta();
+	$s->column_fields = DataTransform::sanitizeRetrieveEntityInfo($s->column_fields, $meta);	
+
+	$s->save('Schedular');
+
+	$r = $adb->pquery("SELECT vtiger_schedular_eventcolors.eventtype_bgcolor 
+		FROM vtiger_schedular_eventcolors INNER JOIN vtiger_schedular_eventtype 
+		ON vtiger_schedular_eventcolors.eventtype_id=vtiger_schedular_eventtype.schedular_eventtypeid 
+		WHERE vtiger_schedular_eventtype.schedular_eventtype = ?", array($s->column_fields['schedular_eventtype']));
+	$bgColor = $adb->query_result($r, 0, 'eventtype_bgcolor');
+
+	$s->column_fields['id'] = $s->id;
+	$s->column_fields['bgcolor'] = $bgColor;
+
+	$new_event = array(
+			'creation' => 'success',
+			'event' => $s->column_fields
+		);
+	echo json_encode($new_event);
 }
