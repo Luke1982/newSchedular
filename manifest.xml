@@ -36,6 +36,7 @@
 				<sql><![CDATA[CREATE TABLE `vtiger_schedular` (
 					`schedularid` int(11) NOT NULL,
 					`schedular_no` varchar(56) default NULL,
+					`schedular_name` varchar(255) default NULL,
 					`schedular_startdate` DATE NOT NULL,
 					`schedular_enddate` DATE NOT NULL,
 					`schedular_starttime` VARCHAR(8) NOT NULL,
@@ -110,6 +111,26 @@
 								</entityidentifier>
 							</field>
 							<field>
+								<fieldname>schedular_name</fieldname>
+								<uitype>1</uitype>
+								<columnname>schedular_name</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_name</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>2</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+							</field>
+							<field>
 								<fieldname>schedular_starttime</fieldname>
 								<uitype>1</uitype>
 								<columnname>schedular_starttime</columnname>
@@ -119,7 +140,7 @@
 								<readonly>1</readonly>
 								<presence>0</presence>
 								<selected>0</selected>
-								<sequence>2</sequence>
+								<sequence>3</sequence>
 								<maximumlength>100</maximumlength>
 								<typeofdata>V~M</typeofdata>
 								<quickcreate>0</quickcreate>
@@ -139,7 +160,7 @@
 								<readonly>1</readonly>
 								<presence>0</presence>
 								<selected>0</selected>
-								<sequence>3</sequence>
+								<sequence>4</sequence>
 								<maximumlength>100</maximumlength>
 								<typeofdata>V~M</typeofdata>
 								<quickcreate>0</quickcreate>
@@ -159,7 +180,7 @@
 								<readonly>1</readonly>
 								<presence>0</presence>
 								<selected>0</selected>
-								<sequence>4</sequence>
+								<sequence>5</sequence>
 								<maximumlength>100</maximumlength>
 								<typeofdata>V~M</typeofdata>
 								<quickcreate>0</quickcreate>
@@ -179,7 +200,7 @@
 								<readonly>1</readonly>
 								<presence>0</presence>
 								<selected>0</selected>
-								<sequence>5</sequence>
+								<sequence>6</sequence>
 								<maximumlength>100</maximumlength>
 								<typeofdata>V~M</typeofdata>
 								<quickcreate>0</quickcreate>
@@ -199,7 +220,7 @@
 								<readonly>1</readonly>
 								<presence>0</presence>
 								<selected>0</selected>
-								<sequence>6</sequence>
+								<sequence>7</sequence>
 								<maximumlength>100</maximumlength>
 								<typeofdata>V~M</typeofdata>
 								<quickcreate>0</quickcreate>
