@@ -184,9 +184,10 @@ window.addEventListener("load", function(){
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
 	    	if (this.readyState == 4 && this.status == 200) {
-    			console.log(JSON.parse(r.response));
+    			var events = JSON.parse(r.response);
 				$("#schedular").fullCalendar("removeEvents");
-				$("#schedular").fullCalendar("renderEvents", JSON.parse(r.response));
+				$("#schedular").fullCalendar("renderEvents", events);
+				renderTitles();
 		    }
 		};
 		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getevents&start="+dates.start.toJSON()+"&end="+dates.end.toJSON(), true);
@@ -199,7 +200,7 @@ window.addEventListener("load", function(){
  * Takes an event from fullcalendar as an argument
  */
 function SchedularEvent(event) {
-	console.log(event);
+	// console.log(event);
 	if (typeof event == "object") {
 		this._event 	= event,
 		this.startTime 	= event.start._d.toISOString(),
@@ -252,12 +253,15 @@ SchedularEvent.prototype.updateEventDragDrop = function() {
 	data.assigned_user_id = this.resource.id == undefined ? this.resource : this.resource.id;
 	data.schedularid = this.id;
 
+	
+
 	// console.log(data);
 
 	var r = new XMLHttpRequest();
 	r.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
     		// console.log(r.response);
+    		renderTitles();
 	    }
 	};
 	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=updateevent&data="+encodeURIComponent(JSON.stringify(data)), true);
@@ -270,6 +274,7 @@ SchedularEvent.prototype.updateEventDragDrop = function() {
  */
 SchedularEvent.prototype.addNewEvent = function() {
 
+	this.clearEventUI();
 	this.startEventUI();
 	newEventListeners(this); // Defined at the to of file. Not in the instance, listeners would stack
 
@@ -404,6 +409,7 @@ SchedularEvent.prototype.actualizeSaveData = function() {
 	document.getElementById("sch-assignedto").value = this.resource.id == undefined ? this.resource : this.resource.id; 
 	document.getElementById("sch-eventtype").value = this.getSelectedEventType();
 	document.getElementById("sch-id").value = this.id;
+	document.getElementById("sch-name").value = document.getElementById("schedular_name").value;
 
 }
 
@@ -444,6 +450,7 @@ SchedularEvent.prototype.setSelectedEventType = function() {
 SchedularEvent.prototype.clearEventUI = function() {
 	var inputs = this.ui.getElementsByTagName("input");
 	var textareas = this.ui.getElementsByTagName("textarea");
+	var eventTypes = document.getElementById("event-types").getElementsByTagName("option");
 
 	for (var i = 0; i < inputs.length; i++) {
 		if (inputs[i].type == "text" || inputs[i].type == "number" || inputs[i].type == "hidden") {
@@ -458,6 +465,8 @@ SchedularEvent.prototype.clearEventUI = function() {
 		textareas[i].innerText = "";
 		textareas[i].innerHTML = "";
 	}
+
+	eventTypes[0].selected = true;
 }
 
 function newEventListeners(instance) {
@@ -494,4 +503,15 @@ function createEvent(e) {
 
 function updateEvent(e) {
 	window.currentSchInstance.updateEvent();
+}
+
+function renderTitles() {
+	var titles = document.getElementsByClassName("fc-title");
+	for (var i = 0; i < titles.length; i++) {
+		var div = document.createElement("div");
+		div.className = "fc-title__content";
+		div.innerHTML = titles[i].innerText;
+		titles[i].innerHTML = "";
+		titles[i].appendChild(div);
+	}
 }
