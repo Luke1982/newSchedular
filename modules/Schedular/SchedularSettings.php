@@ -13,6 +13,8 @@ $sel_users = explode(',', $adb->query_result($r, 0, 'schedular_available_users')
 foreach ($users as $key => $user) {
 	if (in_array($user['id'], $sel_users)) {
 		$users[$key]['selected'] = true;
+	} else {
+		$users[$key]['selected'] = false;
 	}
 }
 

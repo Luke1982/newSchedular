@@ -41,7 +41,7 @@
 					<button class="slds-button slds-button_brand" id="save-available-users">
 						<svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
 							<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#database"></use>
-						</svg>{$MOD.save_users}</button>					
+						</svg>{$MOD.save_users}</button>
 				</fieldset>
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 					<div class="slds-form-element">
 						<label class="slds-form-element__label" for="event-bgcolor-{$event_type.schedular_eventtypeid}">{$MOD.background_color}</label>
 						<div class="slds-form-element__control">
-						      <input style="background-color: {$event_type.eventtype_bgcolor};" readonly value="{$event_type.eventtype_bgcolor}" id="event-bgcolor-{$event_type.schedular_eventtypeid}" class="slds-input event-type__background-color" placeholder="Kleur" type="text">
+						      <input style="background-color: {if isset($event_type.eventtype_bgcolor)}{$event_type.eventtype_bgcolor}{/if};" readonly value="{if isset($event_type.eventtype_bgcolor)}{$event_type.eventtype_bgcolor}{/if}" id="event-bgcolor-{$event_type.schedular_eventtypeid}" class="slds-input event-type__background-color" placeholder="Kleur" type="text">
 						      <div class="event-type__colorpicker">
 							      <div class="event-type__colorpicker-picker"></div>
 							      <div class="event-type__colorpicker-slider"></div>
