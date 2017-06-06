@@ -64,8 +64,8 @@
 					<name>vtiger_schedular_eventcolors</name>
 					<sql><![CDATA[CREATE TABLE `vtiger_schedular_eventcolors` (
 						`eventtype_id` int(11) NOT NULL,
-						`eventtype_bgcolor` VARCHAR(255) NOT NULL,
-						`eventtype_textcolor` VARCHAR(255) NOT NULL,
+						`eventtype_bgcolor` VARCHAR(255) DEFAULT '#000000',
+						`eventtype_textcolor` VARCHAR(255) DEFAULT '#ffffff',
 						PRIMARY KEY (`eventtype_id`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 					</table>
