@@ -8,10 +8,10 @@
 	top: 5%;
 	z-index: -1;
 
-	-webkit-transform: scale3d(0.9, 0.9, 0.9);
-	-moz-transform: scale3d(0.9, 0.9, 0.9);
-	-o-transform: scale3d(0.9, 0.9, 0.9);
-	transform: scale3d(0.9, 0.9, 0.9);
+	-webkit-transform: scale3d(0.9, 0.9, 0.9) translate(0px, 0px);
+	-moz-transform: scale3d(0.9, 0.9, 0.9) translate(0px, 0px);
+	-o-transform: scale3d(0.9, 0.9, 0.9) translate(0px, 0px);
+	transform: scale3d(0.9, 0.9, 0.9) translate(0px, 0px);
 
 	opacity: 0;
 
@@ -33,6 +33,20 @@
 	opacity: 1;
 
 	transition: z-index 0ms linear 0ms, opacity 200ms ease-out 0ms, transform 200ms ease-out 0ms;
+}
+#schedular-event-ui.no-transition {
+	transition: none !important;
+}
+#schedular-event-ui__draghandle {
+	position: absolute;
+	left: 0;
+	top: 0;
+	text-align: center;
+	width: 100%;
+	padding: 10px 0;
+	/*height: 30px;*/
+	background-color: #54698d;
+	color: #ffffff;
 }
 .event-type__colorpicker {
 	margin: 10px 0;

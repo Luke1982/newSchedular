@@ -26,10 +26,8 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event = array();
 		$prepared_event['id'] = $event['crmid'];
 		$prepared_event['resourceId'] = $event['smownerid'];
-		$start = new DateTime($event['schedular_startdate'] . ' ' . $event['schedular_starttime']);
-		$prepared_event['start'] = $start->format("Y-m-d\TH:m:s");
-		$end = new DateTime($event['schedular_enddate'] . ' ' . $event['schedular_endtime']);
-		$prepared_event['end'] = $end->format("Y-m-d\TH:m:s");
+		$prepared_event['start'] = $event['schedular_startdate'] . 'T' . $event['schedular_starttime'];
+		$prepared_event['end'] = $event['schedular_enddate'] . 'T' . $event['schedular_endtime'];
 		$prepared_event['title'] = $event['description'];
 		$prepared_event['backgroundColor'] = $event['eventtype_bgcolor'];
 		$prepared_event['borderColor'] = '#ffffff';
@@ -43,32 +41,23 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateevent') {
 	global $current_user;
 	require_once('modules/Schedular/Schedular.php');
 
-	$event = json_decode($_REQUEST['event'], true);
-
-	$new_start = new DateTime($event['startTime']);
-	$new_end = new DateTime($event['endTime']);
-	$new_start_time = $new_start->format("H:m:s");
-	$new_end_time = $new_end->format("H:m:s");
-	$new_start_date = $new_start->format("Y-m-d");
-	$new_end_date = $new_end->format("Y-m-d");
+	$data = json_decode($_REQUEST['data'], true);
 
 	$rec = new Schedular();
-	$rec->retrieve_entity_info($event['id'], 'Schedular');
-	$rec->id = $event['id'];
+	$rec->retrieve_entity_info($data['schedularid'], 'Schedular');
+	$rec->id = $data['schedularid'];
 	$rec->mode = 'edit';
 
-	$rec->column_fields['schedular_starttime'] = $new_start_time;
-	$rec->column_fields['schedular_endtime'] = $new_end_time;
-	$rec->column_fields['schedular_startdate'] = $new_start_date;
-	$rec->column_fields['schedular_enddate'] = $new_end_date;
-	$rec->column_fields['assigned_user_id'] = $event['resource'];
+	foreach ($data as $cf => $value) {
+		$rec->column_fields[$cf] = $value;
+	}
 
 	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);
 	$meta = $handler->getMeta();
 	$rec->column_fields = DataTransform::sanitizeRetrieveEntityInfo($rec->column_fields, $meta);
 	
 	$rec->save('Schedular');
-	echo "true";
+	echo json_encode($rec->column_fields);
 }
 
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveAvailableUsers') {
@@ -194,4 +183,13 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 			'event' => $s->column_fields
 		);
 	echo json_encode($new_event);
+}
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getEventDBInfo') {
+	global $adb;
+	$data = json_decode($_REQUEST['data'], true);
+
+	$r = $adb->pquery("SELECT * FROM vtiger_schedular WHERE schedularid = ?", array($data['id']));
+	echo json_encode($adb->fetch_array($r));
+	// var_dump($data);
 }

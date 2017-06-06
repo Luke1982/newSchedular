@@ -12,6 +12,7 @@
 <!-- // Data DIV's -->
 <!-- Add / Edit Event UI -->
 <div id="schedular-event-ui">
+	<div id="schedular-event-ui__draghandle">Drag me</div>
 	<div class="slds-form slds-form_horizontal">
 		<fieldset class="slds-form-element">
 			<table width="100%" style="color: #54698d;">
@@ -83,6 +84,7 @@
 		<input type="hidden" id="sch-assignedto" data-columnfield="assigned_user_id" value="" />
 		<input type="hidden" id="sch-description" data-columnfield="description" value="" />
 		<input type="hidden" id="sch-eventtype" data-columnfield="schedular_eventtype" value="" />
+		<input type="hidden" id="sch-id" data-columnfield="schedularid" value="" />
 	</div>
 	<!-- // Hidden div that holds all the data to save -->
 </div>
