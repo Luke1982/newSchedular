@@ -495,3 +495,195 @@ function shadeColor(color, percent) {
 
     return "#"+RR+GG+BB;
 }
+
+function getTranslatedAjax(label, module) {
+	if (module == undefined) module = "Schedular";
+	var data = {
+		module : module,
+		label : label
+	};
+	var r = new XMLHttpRequest();
+	r.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    		return r.response;
+	    }
+	};
+	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=translate&data="+encodeURIComponent(JSON.stringify(data)), true);
+	r.send();	
+}
+
+/* ======= Auto complete part relations ====== */
+var acInputs = document.getElementsByClassName("relation-autocomplete-input");
+for (var i = 0; i < acInputs.length; i++) {
+	var ac = new AutocompleteRelation(acInputs[i], i);
+	acInputs[i].addEventListener("input", function(e){
+		throttle(ac.get(e), 500);
+	});
+}
+
+function AutocompleteRelation(target, i) {
+	this.inputField 	= target;
+	this.data 			= JSON.parse(target.getAttribute("data-ac"));
+	this.targetUL 		= document.getElementsByClassName("relation-autocomplete__target")[i];
+	this.hiddenInput	= document.getElementsByClassName("relation-autocomplete__hidden")[i];
+	this.displayFields 	= this.data.schedular_relmodule_retfields.split(",");
+	this.moduleName 	= this.data.schedular_relmodule_name;
+	this.maxResults 	= 5;
+
+	this.targetUL.show 	= function() {
+		if (this.style.opacity != 1) this.style.opacity = 1;
+	}
+	this.targetUL.hide 	= function() {
+		if (this.style.opacity != 0) this.style.opacity = 0;
+	}
+	this.targetUL.style.transition = "opacity 100ms ease";
+}
+
+AutocompleteRelation.prototype.get = function(e) {
+	var term = e.target.value;
+	if (term.length > 3) {
+		this.data.term = term;
+		var acInstance = this;
+
+		var r = new XMLHttpRequest();
+		r.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    		acInstance.targetUL.show();
+	    		acInstance.set(JSON.parse(r.response));
+		    }
+		};
+		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=acRelation&data="+encodeURIComponent(JSON.stringify(this.data)), true);
+		r.send();
+	} else {
+		this.clearTargetUL();
+	}
+}
+
+AutocompleteRelation.prototype.set = function(items) {
+	this.clearTargetUL();
+	var acInstance = this;
+	var limit = acInstance.maxResults < items.length ? acInstance.maxResults : items.length;
+
+	for (var i = 0; i < limit; i++) {
+
+		var li = this.buildListItem(items[i]);
+		this.targetUL.appendChild(li);
+
+		li.addEventListener("click", function(e){
+			acInstance.select({
+				label 		: this.getAttribute("data-label"),
+				value 		: this.getAttribute("data-crmid")
+			});
+		});
+
+	}
+}
+
+AutocompleteRelation.prototype.select = function(params) {
+	var label = params.label;
+	var value = params.value;
+
+	this.inputField.value 	= label;
+	this.hiddenInput.value 	= value;
+
+	this.clearTargetUL();
+	this.targetUL.hide();
+}
+
+AutocompleteRelation.prototype.buildListItem = function(item) {
+
+	var li = document.createElement("li");
+	li.className = "slds-listbox__item";
+	li.setAttribute("role", "presentation");
+	li.setAttribute("data-crmid", item.crmid);
+	li.setAttribute("data-label", item[this.displayFields[0]]);
+
+	var span = document.createElement("span");
+	span.setAttribute("class", "slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta");
+	span.setAttribute("role", "option");
+
+	li.appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-media__figure");
+
+	li.children[0].appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-icon_container slds-icon-standard-account");
+	span.setAttribute("title", "TO FILL!");
+
+	li.children[0].children[0].appendChild(span);
+
+	var svg = document.createElement("svg");
+	svg.setAttribute("class", "slds-icon slds-icon_small");
+	svg.setAttribute("aria-hidden", "true");
+
+	li.children[0].children[0].children[0].appendChild(svg);
+
+	var use = document.createElement("use");
+	use.setAttribute("xlink:href", "include/LD/assets/icons/standard-sprite/svg/symbols.svg#account");
+
+	li.children[0].children[0].children[0].children[0].appendChild(use);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-assistive-text");
+	span.innerText = "Description of icon";
+
+	li.children[0].children[0].children[0].appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-media__body");
+
+	li.children[0].appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-listbox__option-text slds-listbox__option-text_entity");
+	span.innerHTML = item[this.displayFields[0]];
+
+	li.children[0].children[1].appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-listbox__option-meta slds-listbox__option-meta_entity");
+	span.innerText = this.buildSecondayReturnFields(item);
+
+	li.children[0].children[1].appendChild(span);
+
+	return li;
+}
+
+AutocompleteRelation.prototype.buildSecondayReturnFields = function(item) {
+	var returnString = "";
+	for (var i = 0; i < this.displayFields.length; i++) {
+		if (i != 0) {
+			returnString = returnString + item[this.displayFields[i]];
+			if (i < this.displayFields.length - 1) {
+				returnString += "\n";
+			}
+		}
+	}
+	return returnString;
+}
+
+AutocompleteRelation.prototype.clearTargetUL = function () {
+	while (this.targetUL.firstChild) {
+	    this.targetUL.removeChild(this.targetUL.firstChild);
+	}
+}
+
+/* https://medium.com/@_jh3y/throttling-and-debouncing-in-javascript-b01cad5c8edf */
+
+var throttle = function(func, limit) {
+  var inThrottle = undefined;
+  return function() {
+    var args = arguments,
+      context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      return setTimeout(function() {
+        return inThrottle = false;
+      }, limit);
+    }
+  };
+};

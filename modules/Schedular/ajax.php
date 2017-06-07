@@ -18,6 +18,11 @@ function shadeColor($color, $percent) {
 	return '#'.substr(base_convert(0x1000000 + ($r<255?$r<1?0:$r:255)*0x10000 + ($b<255?$b<1?0:$b:255)*0x100 + ($g<255?$g<1?0:$g:255), 10, 16), 1);
 }
 
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'translate') {
+	$data = json_decode($_REQUEST['data'], true);
+	echo getTranslatedString($data['label'], $data['module']);
+}
+
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 	global $adb;
 	$start_date = new DateTime($_REQUEST['start']);
@@ -51,28 +56,51 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 	echo json_encode($events);
 }
 
-// if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateevent') {
-// 	global $current_user;
-// 	require_once('modules/Schedular/Schedular.php');
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
+	global $adb;
+	$data = json_decode($_REQUEST['data'], true);
 
-// 	$data = json_decode($_REQUEST['data'], true);
+	$addressModules = array(
+			'Accounts',
+			'Contacts',
+			'Invoice',
+			'SalesOrder',
+			'Quotes'
+		);
 
-// 	$rec = new Schedular();
-// 	$rec->retrieve_entity_info($data['schedularid'], 'Schedular');
-// 	$rec->id = $data['schedularid'];
-// 	$rec->mode = 'edit';
+	$searchMod = $data['schedular_relmodule_name'];
+	require_once('modules/' . $searchMod . '/' . $searchMod . '.php');
 
-// 	foreach ($data as $cf => $value) {
-// 		$rec->column_fields[$cf] = $value;
-// 	}
+	$inst = new $searchMod();
+	$table_name = $inst->table_name;
+	$table_index = $inst->table_index;
+	$single_module_name = str_replace('vtiger_', '', $table_name);
+	$term = $data['term'];
 
-// 	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);
-// 	$meta = $handler->getMeta();
-// 	$rec->column_fields = DataTransform::sanitizeRetrieveEntityInfo($rec->column_fields, $meta);
+	$selectfields = '';
+	foreach ($data['returnfields'] as $returnfield) {
+		$selectfields .= $returnfield . ' AS ' . $returnfield . ', ';
+	}
+	$selectfields .= $table_index . ' AS crmid';
+	$searchfield = $data['filterfields'][0];
+
+	$q = "SELECT " . $selectfields . " FROM " . $table_name;
+
+	if (in_array($searchMod, $addressModules)) {
+		$q .= " INNER JOIN " . $table_name . "shipads ON " . $table_name . "." . $table_index . "=" .  $table_name . "shipads." . $single_module_name . "addressid";
+		$q .= " INNER JOIN " . $table_name . "billads ON " . $table_name . "." . $table_index . "=" .  $table_name . "billads." . $single_module_name . "addressid";
+	}
+
+	$q .= " WHERE " . $table_name . "." . $searchfield . " LIKE '%" . $term . "%'";
+
+	$r = $adb->query($q);
 	
-// 	$rec->save('Schedular');
-// 	echo json_encode($rec->column_fields);
-// }
+	$results = [];
+	while ($res = $adb->fetch_array($r)) {
+		$results[] = $res;
+	}
+	echo json_encode($results);
+}
 
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 	global $current_user, $adb;

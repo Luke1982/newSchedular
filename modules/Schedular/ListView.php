@@ -29,6 +29,18 @@ $event_types = array();
 while ($eventtype = $adb->fetch_array($r)) {
 	$event_types[] = $eventtype;
 }
+
+// Get the relations
+$r = $adb->pquery("SELECT * FROM vtiger_schedular_relations", array());
+$relations = array();
+while ($relation = $adb->fetch_array($r)) {
+	$relation['filterfields'] = explode(',', $relation['schedular_relmodule_filterfields']);
+	$relation['returnfields'] = explode(',', $relation['schedular_relmodule_retfields']);
+	$relation['json'] = json_encode($relation);
+	$relations[] = $relation;
+}
+
+$smarty->assign('relations', $relations);
 $smarty->assign('resource_users', $users);
 $smarty->assign('event_types', $event_types);
 $smarty->display('modules/Schedular/SchedularView.tpl');

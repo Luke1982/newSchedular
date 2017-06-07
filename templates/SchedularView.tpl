@@ -1,4 +1,8 @@
-<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
+{include file="modules/Schedular/SchedularComponents.tpl"}
+{* <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
+<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-icon.css">
+<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-combobox.css"> *}
+<link rel="stylesheet" type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.min.css">
 <div id="schedular" style="min-height: 500px;"></div>
 <!-- Data DIV's -->
 <div style="display: none;">
@@ -68,6 +72,15 @@
 				</div>
 			</div>
 		</fieldset>
+		{foreach from=$relations item=relation key=key name=name}
+			{call name=relationautocomplete relation=$relation}
+		{/foreach}
+		<fieldset class="slds-form-element">
+			<label class="slds-form-element__label" for="schedular_description">Description</label>
+			<div class="slds-form-element__control">
+				<textarea id="schedular_description" class="slds-textarea" placeholder="Description"><pre>{$relations|print_r}</pre></textarea>
+			</div>
+		</fieldset>			
 		<fieldset class="slds-form-element">
 			<div class="slds-button-group" role="group">
 				<button class="slds-button slds-button_neutral" id="sch-save-event-ui">Save</button>

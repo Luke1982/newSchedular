@@ -51,3 +51,45 @@
 	<footer class="slds-card__footer">Card Footer</footer>
 </article>
 {/function}
+
+{function name='relationautocomplete' relation=[]}
+<fieldset class="slds-form-element">
+	<label class="slds-form-element__label" for="combobox-unique-id">Search {$relation.schedular_relmodule_name|@getTranslatedString:$relation.schedular_relmodule_name}</label>
+	<div class="slds-form-element__control">
+		<div class="slds-combobox_container">
+			<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+				<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+					<input type="hidden" class="relation-autocomplete__hidden" name="" value="">
+					<input class="slds-input slds-combobox__input relation-autocomplete-input" id="search-{$relation.schedular_relmodule_name|strtolower}" aria-activedescendant="schedular-relation-{$relation.schedular_relid}" aria-autocomplete="list" aria-controls="schedular-relation-{$relation.schedular_relid}" autocomplete="off" role="textbox" placeholder="Search {$relation.schedular_relmodule_name|@getTranslatedString:$relation.schedular_relmodule_name}" type="text" data-ac='{$relation.json}' data-relid="{$relation.schedular_relid}">
+					<span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" title="Description of icon when needed">
+						<svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+							<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+						</svg>
+						<span class="slds-assistive-text">Description of icon</span>
+					</span>
+				</div>
+				<div id="listbox-unique-id" role="listbox" class="">
+					<ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid relation-autocomplete__target" style="opacity : 0;" role="presentation">
+{* 						<li role="presentation" class="slds-listbox__item">
+							<span id="listbox-option-unique-id-01" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-has-focus" role="option">
+								<span class="slds-media__figure">
+									<span class="slds-icon_container slds-icon-standard-account" title="Description of icon when needed">
+										<svg class="slds-icon slds-icon_small" aria-hidden="true">
+											<use xlink:href="include/LD/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+										</svg>
+										<span class="slds-assistive-text">Description of icon</span>
+									</span>
+								</span>
+								<span class="slds-media__body">
+									<span class="slds-listbox__option-text slds-listbox__option-text_entity">Acme</span>
+									<span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Account • San Francisco</span>
+								</span>
+							</span>
+						</li> *}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</fieldset>
+{/function}
