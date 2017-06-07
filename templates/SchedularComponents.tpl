@@ -25,25 +25,25 @@
 			<div class="slds-form-element">
 			<label class="slds-form-element__label" for="text-input-id-1">{$MOD.filter_fields}</label>
 				<div class="slds-form-element__control">
-					<input id="" class="slds-input relation__filterfields" placeholder="Enter comma separated search fields" type="text">
+					<input id="" class="slds-input relation__filterfields" placeholder="Enter comma separated search fields" type="text" value="{$relation.schedular_relmodule_filterfields}">
 				</div>
 			</div>
 			<div class="slds-form-element">
 			<label class="slds-form-element__label" for="text-input-id-1">{$MOD.return_fields}</label>
 				<div class="slds-form-element__control">
-					<input id="" class="slds-input relation__retfields" placeholder="Enter comma separated return fields" type="text">
+					<input id="" class="slds-input relation__retfields" placeholder="Enter comma separated return fields" type="text" value="{$relation.schedular_relmodule_retfields}">
 				</div>
 			</div>
 			<div class="slds-form-element">
 			<label class="slds-form-element__label" for="text-input-id-1">{$MOD.include_relation_id}</label>
 				<div class="slds-form-element__control">
-					<input id="" class="slds-input relation__include-id" placeholder="Enter relation ID you want to include in the search" type="text">
+					<input id="" class="slds-input relation__include-id" placeholder="Enter relation ID you want to include in the search" type="text" value="{$relation.schedular_filterrel_id}">
 				</div>
 			</div>
 			<div class="slds-form-element">
 			<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_filterfield}</label>
 				<div class="slds-form-element__control">
-					<input id="" class="slds-input relation__included-rel-filterfield" placeholder="Filter field for the included relation's CRM ID" type="text">
+					<input id="" class="slds-input relation__included-rel-filterfield" placeholder="Filter field for the included relation's CRM ID" type="text" value="{$relation.schedular_filterrel_field}">
 				</div>
 			</div>
 		</div>
