@@ -45,9 +45,9 @@
 			</table>
 		</fieldset>
 		<div class="slds-form-element">
-			<label class="slds-form-element__label" for="input-id-01">Title</label>
+			<label class="slds-form-element__label" for="schedular_name">Title</label>
 			<div class="slds-form-element__control">
-				<input id="input-id-01" class="slds-input" placeholder="Placeholder Text" type="text">
+				<input id="schedular_name" name="schedular_name" class="slds-input" placeholder="Placeholder Text" type="text">
 			</div>
 		</div>
 		<div class="slds-form-element">
@@ -85,6 +85,7 @@
 		<input type="hidden" id="sch-description" data-columnfield="description" value="" />
 		<input type="hidden" id="sch-eventtype" data-columnfield="schedular_eventtype" value="" />
 		<input type="hidden" id="sch-id" data-columnfield="schedularid" value="" />
+		<input type="hidden" id="sch-name" data-columnfield="schedular_name" value="" />
 	</div>
 	<!-- // Hidden div that holds all the data to save -->
 </div>

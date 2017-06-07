@@ -56,10 +56,20 @@ window.addEventListener("load", function(){
 						center: 'title',
 						right: 'agendaDay,agendaTwoDay,agendaWeek,month'
 					},
+					minTime : "08:00:00",
+					maxTime : "19:00:00",
+					slotDuration : "00:15:00",
+					businessHours: {
+					    // days of week. an array of zero-based day of week integers (0=Sunday)
+					    dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
+
+					    start: '08:00', // a start time (10am in this example)
+					    end: '18:00', // an end time (6pm in this example)
+					},
 					views: {
 						agendaTwoDay: {
 							type: 'agenda',
-							duration: { days: 2 },
+							duration: { days: 3 },
 
 							// views that are more than a day will NOT do this behavior by default
 							// so, we need to explicitly enable it
@@ -81,6 +91,14 @@ window.addEventListener("load", function(){
 						{ id: '4', resourceId: 'c', start: '2017-05-07T07:30:00', end: '2017-05-07T09:30:00', title: 'event 4' },
 						{ id: '5', resourceId: 'd', start: '2017-05-07T10:00:00', end: '2017-05-07T15:00:00', title: 'event 5' }
 					],
+					eventAfterRender : function(event, element, view) {
+						// console.log(event);
+						var contentDiv = element[0].firstChild;
+						var div = document.createElement("div");
+						div.className = "fc-content__custom";
+						div.innerText = event.description;
+						contentDiv.appendChild(div);
+					},
 					viewRender : function(view, element) {
 						getEvents({
 							start : view.activeRange.start._d,
@@ -88,36 +106,60 @@ window.addEventListener("load", function(){
 						});
 					},
 					eventResize: function( event, delta, revertFunc, jsEvent, ui, view ) {
-						var sEvent = new SchedularEvent(event);
-						sEvent.updateEventDragDrop();
+						Schedular.CurrentEvent.setCurrent(event);
+						Schedular.CurrentEvent.update();
+						Schedular.UI.hide();
+						// var sEvent = new SchedularEvent(event);
+						// sEvent.updateEventDragDrop();
 					},
 					eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
-						var sEvent = new SchedularEvent(event);
-						sEvent.updateEventDragDrop();
+						Schedular.CurrentEvent.setCurrent(event);
+						Schedular.CurrentEvent.update();
+						Schedular.UI.hide();
+						// var sEvent = new SchedularEvent(event);
+						// sEvent.updateEventDragDrop();
 					},
 					select: function(start, end, jsEvent, view, resource) {
-						var sEvent = new SchedularEvent({
-								"start" 	: start,
-								"end" 		: end,
-								"_id"		: null,
-								"resourceId": resource,
-								"title"		: null
-							});
-						sEvent.addNewEvent();
+						Schedular.CurrentEvent.setCurrent({
+							id 			: undefined,
+							start 		: start,
+							end 		: end,
+							resourceId 	: resource.id, // Force resource to be obtained from global object
+							title		: "",
+							description : "",
+							eventType 	: "",
+							newEvent 	: true
+						});
+						Schedular.UI.show();
+						Schedular.UI.fill();
+						// Schedular.CurrentEvent.current(event);
+						// var sEvent = new SchedularEvent({
+						// 		"start" 	: start,
+						// 		"end" 		: end,
+						// 		"_id"		: null,
+						// 		"resourceId": resource,
+						// 		"title"		: null,
+						// 		"eventType"	: null
+						// 	});
+						// sEvent.addNewEvent();
 					},
 					eventClick: function(calEvent, jsEvent, view) {
-						// console.log(calEvent);
-						var sEvent = new SchedularEvent({
-								"start" 	: calEvent.start,
-								"end" 		: calEvent.end,
-								"_id"		: calEvent.id,
-								"resourceId": {
-									"id" 		: calEvent.resourceId,
-									"title" 	: window.schedularResources[calEvent.resourceId]
-								},
-								"title"		: calEvent.title
-							});
-						sEvent.updateEventUI();					
+						Schedular.CurrentEvent.setCurrent(calEvent);
+						Schedular.UI.show();
+						Schedular.UI.fill();
+						// var sEvent = new SchedularEvent({
+						// 		"start" 	: calEvent.start,
+						// 		"end" 		: calEvent.end,
+						// 		"_id"		: calEvent.id,
+						// 		"resourceId": {
+						// 			"id" 		: calEvent.resourceId,
+						// 			"title" 	: window.schedularResources[calEvent.resourceId]
+						// 		},
+						// 		"title"		: calEvent.title,
+						// 		"eventType"	: calEvent.eventType,
+						// 		"description": calEvent.description
+						// 	});
+						// sEvent.updateEventUI();					
 					}
 				});
 
@@ -169,12 +211,15 @@ window.addEventListener("load", function(){
 	function getResources() {
 		var resources = document.getElementsByClassName("resource");
 		var ret = [];
-		window.schedularResources = {};
+		window.Schedular.resources = {};
 		for (var i = 0; i < resources.length; i++) {
 			var r = {};
 			r.id = resources[i].getElementsByClassName("resource__id")[0].innerText;
 			r.title = resources[i].getElementsByClassName("resource__name")[0].innerText;
-			window.schedularResources[r.id] = r.title;
+			window.Schedular.resources[r.id] = {
+				id 		: r.id,
+				title 	: r.title
+			};
 			ret.push(r);
 		}
 		return ret;
@@ -187,7 +232,6 @@ window.addEventListener("load", function(){
     			var events = JSON.parse(r.response);
 				$("#schedular").fullCalendar("removeEvents");
 				$("#schedular").fullCalendar("renderEvents", events);
-				renderTitles();
 		    }
 		};
 		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getevents&start="+dates.start.toJSON()+"&end="+dates.end.toJSON(), true);
@@ -196,260 +240,61 @@ window.addEventListener("load", function(){
 
 });
 
-/* Factory for the Schedular Event object.
- * Takes an event from fullcalendar as an argument
- */
-function SchedularEvent(event) {
-	// console.log(event);
-	if (typeof event == "object") {
-		this._event 	= event,
-		this.startTime 	= event.start._d.toISOString(),
-		this.endTime 	= event.end._d.toISOString(),
-		this.id 		= event._id,
-		this.resource 	= event.resourceId,
-		this.title		= event.title;
-		this.startObj	= event.start;
-		this.endObj		= event.end;
-	}
-	this.ui = document.getElementById("schedular-event-ui");
+
+
+var Schedular = {};
+Schedular.UI = {
+	el 			  : (function(){
+						return document.getElementById("schedular-event-ui");
+					})(),
+	closeListener : (function(){
+						document.getElementById("sch-cancel-event-ui").addEventListener("click", function(){
+							Schedular.UI.clear();
+							Schedular.UI.hide();
+						});
+					})(),
+	saveListener : (function(){
+						document.getElementById("sch-save-event-ui").addEventListener("click", function(){
+							if (Schedular.CurrentEvent.newEvent == false) {
+								Schedular.CurrentEvent.update();
+							} else if (Schedular.CurrentEvent.newEvent == true) {
+								Schedular.CurrentEvent.create();
+							}
+						});
+					})(),
+	state 		   : false
+};
+Schedular.CurrentEvent = {
+	id 			: undefined,
+	start 		: undefined, // Moment JS obj
+	end			: undefined, // Moment JS obj
+	startDate	: "1970-01-01",
+	startTime	: "00:00:00",
+	endDate		: "1970-01-01",
+	endTime		: "00:00:00",
+	resource 	: {
+		id 	: "",
+		name: ""
+	},
+	title 		: "",
+	description : "",
+	eventType 	: "",
+	columnFields: {},
+	event 		: {},
+	newEvent 	: false
+};
+
+Schedular.UI.show = function(){
+	this.el.classList.add("active");
+	this.state = true;
 }
-
-/*
- * Instance method that updates an existing event
- */
-SchedularEvent.prototype.updateEvent = function() {
-	this.actualizeSaveData();
-
-	var data = {};
-	var inputs = document.getElementById("schedular-savedata").getElementsByTagName("input");
-	for (var i = 0; i < inputs.length; i++) {
-		data[inputs[i].getAttribute("data-columnfield")] = inputs[i].value;
-	}
-
-	// console.log(data);
-
-	var r = new XMLHttpRequest();
-	r.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    		// console.log(r.response);
-	    }
-	};
-	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=updateevent&data="+encodeURIComponent(JSON.stringify(data)), true);
-	r.send();
+Schedular.UI.hide = function(){
+	this.el.classList.remove("active");
+	this.state = false;
 }
-
-/*
- * Instance method that updates an existing event
- * when it's been dragged or resized
- */
-SchedularEvent.prototype.updateEventDragDrop = function() {
-	this.actualizeSaveData();
-
-	var data = {};
-	data.schedular_startdate = this.startObj.format("YYYY-MM-DD");
-	data.schedular_starttime = this.startObj.format("HH:mm:ss");
-	data.schedular_enddate = this.endObj.format("YYYY-MM-DD");
-	data.schedular_endtime = this.endObj.format("HH:mm:ss");
-	data.assigned_user_id = this.resource.id == undefined ? this.resource : this.resource.id;
-	data.schedularid = this.id;
-
-	
-
-	// console.log(data);
-
-	var r = new XMLHttpRequest();
-	r.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    		// console.log(r.response);
-    		renderTitles();
-	    }
-	};
-	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=updateevent&data="+encodeURIComponent(JSON.stringify(data)), true);
-	r.send();
-}
-
-/*
- * Used on the select event handler of the fullcalendar function
- * handles the graphical frontend part of the creation of a new event
- */
-SchedularEvent.prototype.addNewEvent = function() {
-
-	this.clearEventUI();
-	this.startEventUI();
-	newEventListeners(this); // Defined at the to of file. Not in the instance, listeners would stack
-
-	document.getElementById("schedular-event-ui__startdate").innerText = this.startObj.format("DD-MM-YYYY");
-	document.getElementById("schedular-event-ui__starttime").innerText = this.startObj.format("HH:mm:ss");
-	document.getElementById("schedular-event-ui__enddate").innerText = this.endObj.format("DD-MM-YYYY");
-	document.getElementById("schedular-event-ui__endtime").innerText = this.endObj.format("HH:mm:ss");
-	document.getElementById("schedular-event-ui__resourcename").innerText = this.resource.title;
-
-}
-
-SchedularEvent.prototype.updateEventUI = function() {
-
-	var instance = this;
-
-	this.startEventUI();
-	existingEventListeners(this); // Defined at the end of file. Not in the instance, listeners would stack
-
-	document.getElementById("schedular-event-ui__startdate").innerText = this.startObj.format("DD-MM-YYYY");
-	document.getElementById("schedular-event-ui__starttime").innerText = this.startObj.format("HH:mm:ss");
-	document.getElementById("schedular-event-ui__enddate").innerText = this.endObj.format("DD-MM-YYYY");
-	document.getElementById("schedular-event-ui__endtime").innerText = this.endObj.format("HH:mm:ss");
-	document.getElementById("schedular-event-ui__resourcename").innerText = this.resource.title;
-	document.getElementById("schedular_description").value = this.title;
-
-	this.getEventDBInfo(handleCollectedDBInfo);
-
-	function handleCollectedDBInfo() {
-		instance.setSelectedEventType();
-	}
-
-}
-
-/*
- * Get additional info about an event from the DB to fill the UI
- * when updating an event.
- */
-SchedularEvent.prototype.getEventDBInfo = function(callback) {
-	var data = {
-		"id"	: this.id
-	};
-	var instance = this;
-	var r = new XMLHttpRequest();
-	r.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    		var eventDBInfo = JSON.parse(r.response);
-			instance.eventType = eventDBInfo.schedular_eventtype;
-
-			callback();
-	    }
-	};
-	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getEventDBInfo&data="+encodeURIComponent(JSON.stringify(data)), true);
-	r.send();	
-}
-
-/*
- * Starts the event UI and sets event handlers
- */
-SchedularEvent.prototype.startEventUI = function() {
-	var eventTypes = document.getElementById("event-types").getElementsByTagName("option");
-
-	document.getElementById("event-types").addEventListener("change", function(){
-		for (var i = 0; i < eventTypes.length; i++) {
-			if (eventTypes[i].selected) {
-				document.getElementById("sch-eventtype").value = eventTypes[i].value;
-				break;
-			}
-		}
-	});
-
-	this.ui.classList.add("active");
-	this.ui.getElementsByClassName("slds-input")[0].focus();
-}
-
-/*
- * Cancells the event creation or update and clears the UI
- */
-SchedularEvent.prototype.cancelEventUI = function() {
-	this.clearEventUI();
-	this.ui.classList.remove("active");
-}
-
-/*
- * Creates a new event (Schedular record) in coreBOS
- */
-SchedularEvent.prototype.createEvent = function() {
-	this.actualizeSaveData();
-	var data = {};
-	var inputs = document.getElementById("schedular-savedata").getElementsByTagName("input");
-	for (var i = 0; i < inputs.length; i++) {
-		data[inputs[i].getAttribute("data-columnfield")] = inputs[i].value;
-	}
-
-	var r = new XMLHttpRequest();
-	r.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    		var result = (JSON.parse(r.response));
-    		// console.log(result);
-			$("#schedular").fullCalendar("renderEvent", {
-				"id"				: result.event.id,
-				"resourceId"		: result.event.assigned_user_id,
-				"start"				: result.event.schedular_startdate + "T" + result.event.schedular_starttime,
-				"end"				: result.event.schedular_enddate + "T" + result.event.schedular_endtime,
-				"title"				: result.event.description,
-				"backgroundColor"	: result.event.bgcolor,
-				"borderColor"		: "#ffffff",
-				"textColor"			: "#000000"
-			});
-    		// if (r.response == "true") {
-    		// 	$("#schedular").fullCalendar("renderEvent");
-    		// }
-	    }
-	};
-	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=createEvent&data="+encodeURIComponent(JSON.stringify(data)), true);
-	r.send();
-	// this.clearEventUI();
-	// this.ui.classList.remove("active");
-}
-
-/*
- * Gets all the data from the UI and bring it into the hidden DIV
- * that holds all the values to save into coreBOS
- * Also performs some formatting to prepare for inserting in coreBOS
- */
-SchedularEvent.prototype.actualizeSaveData = function() {
-
-	document.getElementById("sch-description").value = document.getElementById("schedular_description").value;
-	document.getElementById("sch-startdate").value = this.startObj.format("YYYY-MM-DD");
-	document.getElementById("sch-starttime").value = this.startObj.format("HH:mm:ss");
-	document.getElementById("sch-enddate").value = this.endObj.format("YYYY-MM-DD");
-	document.getElementById("sch-endtime").value = this.endObj.format("HH:mm:ss");
-	document.getElementById("sch-assignedto").value = this.resource.id == undefined ? this.resource : this.resource.id; 
-	document.getElementById("sch-eventtype").value = this.getSelectedEventType();
-	document.getElementById("sch-id").value = this.id;
-	document.getElementById("sch-name").value = document.getElementById("schedular_name").value;
-
-}
-
-/*
- * Returns the currently selected event type
- */
-SchedularEvent.prototype.getSelectedEventType = function() {
-
-	var eventTypes = document.getElementById("event-types").getElementsByTagName("option");
-	for (var i = 0; i < eventTypes.length; i++) {
-		if (eventTypes[i].selected) {
-			return eventTypes[i].value;
-			break;
-		}
-	}
-
-}
-
-/*
- * Set the currently selected event type based on param
- */
-SchedularEvent.prototype.setSelectedEventType = function() {
-
-	var eventTypes = document.getElementById("event-types").getElementsByTagName("option");
-	console.log(this.eventType);
-	for (var i = 0; i < eventTypes.length; i++) {
-		eventTypes[i].selected = false;
-		if (eventTypes[i].value == this.eventType) {
-			toSelect = eventTypes[i];
-		}
-	}
-	toSelect.selected = true;
-}
-
-/*
- * Clears all the inputs and textarea's in the UI
- */
-SchedularEvent.prototype.clearEventUI = function() {
-	var inputs = this.ui.getElementsByTagName("input");
-	var textareas = this.ui.getElementsByTagName("textarea");
+Schedular.UI.clear = function(){
+	var inputs = this.el.getElementsByTagName("input");
+	var textareas = this.el.getElementsByTagName("textarea");
 	var eventTypes = document.getElementById("event-types").getElementsByTagName("option");
 
 	for (var i = 0; i < inputs.length; i++) {
@@ -468,50 +313,185 @@ SchedularEvent.prototype.clearEventUI = function() {
 
 	eventTypes[0].selected = true;
 }
-
-function newEventListeners(instance) {
-	window.currentSchInstance = instance;
-	var cancelUI = document.getElementById("sch-cancel-event-ui");
-	var saveUI = document.getElementById("sch-save-event-ui");
-
-	cancelUI.removeEventListener("click", cancelEventUI);
-	cancelUI.addEventListener("click", cancelEventUI);
-	saveUI.removeEventListener("click", createEvent);
-	saveUI.removeEventListener("click", updateEvent);
-	saveUI.addEventListener("click", createEvent);
+Schedular.UI.fill = function(){
+	this.fields.name.value 			= Schedular.CurrentEvent.title;
+	this.fields.description.value 	= Schedular.CurrentEvent.description;
+	this.fields.startDate.innerText	= Schedular.CurrentEvent.start.format("DD-DD-YYYY");
+	this.fields.startTime.innerText	= Schedular.CurrentEvent.startTime;
+	this.fields.endDate.innerText 	= Schedular.CurrentEvent.end.format("DD-DD-YYYY");
+	this.fields.endTime.innerText 	= Schedular.CurrentEvent.endTime;
+	this.fields.resource.innerText 	= Schedular.CurrentEvent.resource.title;
+	this.setCurrentEventType(Schedular.CurrentEvent.eventType);
 }
-
-function existingEventListeners(instance) {
-	window.currentSchInstance = instance;
-	var cancelUI = document.getElementById("sch-cancel-event-ui");
-	var saveUI = document.getElementById("sch-save-event-ui");
-
-	cancelUI.removeEventListener("click", cancelEventUI);
-	cancelUI.addEventListener("click", cancelEventUI);
-	saveUI.removeEventListener("click", createEvent);
-	saveUI.removeEventListener("click", updateEvent);
-	saveUI.addEventListener("click", updateEvent);
-}
-
-function cancelEventUI(e) {
-	window.currentSchInstance.cancelEventUI();
-}
-
-function createEvent(e) {
-	window.currentSchInstance.createEvent();
-}
-
-function updateEvent(e) {
-	window.currentSchInstance.updateEvent();
-}
-
-function renderTitles() {
-	var titles = document.getElementsByClassName("fc-title");
-	for (var i = 0; i < titles.length; i++) {
-		var div = document.createElement("div");
-		div.className = "fc-title__content";
-		div.innerHTML = titles[i].innerText;
-		titles[i].innerHTML = "";
-		titles[i].appendChild(div);
+Schedular.UI.setCurrentEventType = function(typeToSet){
+	if (typeToSet != "") {
+		for (var i = 0; i < this.fields.eventTypes.length; i++) {
+			this.fields.eventTypes[i].selected = false;
+			if (this.fields.eventTypes[i].value == typeToSet) {
+				toSelect = this.fields.eventTypes[i];
+			}
+		}
+		toSelect.selected = true;
 	}
+}
+Schedular.UI.getCurrentEventType = function() {
+	for (var i = 0; i < this.fields.eventTypes.length; i++) {
+		if (this.fields.eventTypes[i].selected) {
+			return this.fields.eventTypes[i].value;
+			break;
+		}
+	}
+}
+Schedular.UI.fields = {
+	name 		: document.getElementById("schedular_name"),
+	description	: document.getElementById("schedular_description"),
+	startDate	: document.getElementById("schedular-event-ui__startdate"),
+	startTime	: document.getElementById("schedular-event-ui__starttime"),
+	endDate		: document.getElementById("schedular-event-ui__enddate"),
+	endTime		: document.getElementById("schedular-event-ui__endtime"),
+	resource	: document.getElementById("schedular-event-ui__resourcename"),
+	eventTypes 	: document.getElementById("event-types").getElementsByTagName("option")
+};
+
+Schedular.CurrentEvent.clear = function() {
+	this.id 			= undefined;
+	this.start 			= undefined; // Moment JS obj
+	this.end			= undefined; // Moment JS obj
+	this.startDate		= "1970-01-01";
+	this.startTime		= "00:00:00";
+	this.endDate		= "1970-01-01";
+	this.endTime		= "00:00:00";
+	this.resource 		= {
+		id 	: "",
+		name: ""
+	};
+	this.title 			= "";
+	this.description 	= "";
+	this.eventType 		= "";
+	this.columnFields	= {};
+	this.event 			= {};
+	this.newEvent		= false;
+}
+
+Schedular.CurrentEvent.setCurrent = function(event) {
+	this.clear();
+	this.id 			= event.id;
+	this.start  		= event.start;
+	this.end 			= event.end;
+	this.startDate 		= event.start.format("YYYY-MM-DD");
+	this.startTime 		= event.start.format("HH:mm:ss");
+	this.endDate 		= event.end.format("YYYY-MM-DD");
+	this.endTime 		= event.end.format("HH:mm:ss");
+	this.resource 		= typeof event.resourceId == "object" ? event.resourceId : window.Schedular.resources[event.resourceId];
+	this.title 			= event.title;
+	this.description	= event.description;
+	this.eventType 		= event.eventType;
+	this.event 	 		= event;
+	this.newEvent 		= event.newEvent == true ? true : false;
+	console.log("Current Event: ");
+	console.log(this);
+}
+Schedular.CurrentEvent.ajax = function(functionName, callback) {
+	var r = new XMLHttpRequest();
+	r.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    		callback(r.response);
+	    }
+	};
+	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=" + functionName + "&data="+encodeURIComponent(JSON.stringify(this)), true);
+	r.send();
+}
+Schedular.CurrentEvent.setColumnFields = function() {
+	this.columnFields = {
+		"schedular_startdate"	: this.startDate,
+		"schedular_starttime"	: this.startTime,
+		"schedular_enddate"		: this.endDate,
+		"schedular_endtime"		: this.endTime,
+		"assigned_user_id"		: this.resource.id,
+		"description"			: this.description,
+		"schedular_eventtype"	: this.eventType,
+		"schedular_name"		: this.title
+	}
+}
+Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
+	this.columnFields.description			= Schedular.UI.fields.description.value;
+	this.columnFields.schedular_eventtype	= Schedular.UI.getCurrentEventType();
+	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
+	console.log("Column fields fetched from UI");
+	console.log(this.columnFields);
+}
+Schedular.CurrentEvent.update = function() {
+	if (this.id == undefined) {
+		throw new Error("No event set as current");
+	}
+	this.setColumnFields();
+	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
+
+	this.ajax("updateEvent", callback);
+
+	function callback(response) {
+		var result = JSON.parse(response);
+		if (Schedular.UI.state == true) Schedular.CurrentEvent.reRender(result);
+	}
+}
+Schedular.CurrentEvent.create = function() {
+	this.setColumnFields();
+	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
+	console.log(this);
+
+	this.ajax("createEvent", callback);
+
+	function callback(response) {
+		var result = JSON.parse(response);
+		if (Schedular.UI.state == true) Schedular.CurrentEvent.render(result);
+	}
+}
+Schedular.CurrentEvent.reRender = function(cbResult) {
+	Schedular.CurrentEvent.event.title 			= cbResult.schedular_name;
+	Schedular.CurrentEvent.event.description 	= cbResult.description;
+	Schedular.CurrentEvent.event.backgroundColor= cbResult.bgcolor;
+	Schedular.CurrentEvent.event.borderColor	= shadeColor(cbResult.bgcolor, -40);
+	$('#schedular').fullCalendar('updateEvent', Schedular.CurrentEvent.event);
+
+	Schedular.UI.clear();
+	Schedular.UI.hide();
+}
+Schedular.CurrentEvent.render = function(cbResult) {
+	var event = {
+		id 				: cbResult.event.id,
+		resourceId 		: cbResult.event.assigned_user_id,
+		start 			: cbResult.event.schedular_startdate + "T" + cbResult.event.schedular_starttime,
+		end 			: cbResult.event.schedular_enddate + "T" + cbResult.event.schedular_endtime,
+		title 			: cbResult.event.schedular_name,
+		description 	: cbResult.event.description,
+		backgroundColor	: cbResult.event.bgcolor,
+		textColor 		: "#000000",
+		borderColor 	: shadeColor(cbResult.event.bgcolor, -40)
+	};
+	$('#schedular').fullCalendar('renderEvent', event);
+
+	Schedular.UI.clear();
+	Schedular.UI.hide();
+}
+
+// https://stackoverflow.com/a/13532993
+function shadeColor(color, percent) {
+
+    var R = parseInt(color.substring(1,3),16);
+    var G = parseInt(color.substring(3,5),16);
+    var B = parseInt(color.substring(5,7),16);
+
+    R = parseInt(R * (100 + percent) / 100);
+    G = parseInt(G * (100 + percent) / 100);
+    B = parseInt(B * (100 + percent) / 100);
+
+    R = (R<255)?R:255;  
+    G = (G<255)?G:255;  
+    B = (B<255)?B:255;  
+
+    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+    return "#"+RR+GG+BB;
 }

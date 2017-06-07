@@ -6,6 +6,7 @@
 			<sql><![CDATA[CREATE TABLE `vtiger_schedular` (
 					`schedularid` int(11) NOT NULL,
 					`schedular_no` varchar(56) default NULL,
+					`schedular_name` varchar(255) default NULL,
 					`schedular_startdate` DATE NOT NULL,
 					`schedular_enddate` DATE NOT NULL,
 					`schedular_starttime` VARCHAR(8) NOT NULL,
@@ -27,6 +28,27 @@
 						`schedular_settingsid` int(11) NOT NULL,
 						`schedular_available_users` VARCHAR(255) NOT NULL,
 						PRIMARY KEY (`schedular_settingsid`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_schedular_eventcolors</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_schedular_eventcolors` (
+						`eventtype_id` int(11) NOT NULL,
+						`eventtype_bgcolor` VARCHAR(255) NOT NULL,
+						`eventtype_textcolor` VARCHAR(255) NOT NULL,
+						PRIMARY KEY (`eventtype_id`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_schedular_relations</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_schedular_relations` (
+						`schedular_relid` int(11) NOT NULL AUTO_INCREMENT,
+						`schedular_relmodule_name` VARCHAR(255) NOT NULL,
+						`schedular_relmodule_filterfields` VARCHAR(255) NOT NULL,
+						`schedular_relmodule_retfields` VARCHAR(255) NOT NULL,
+						`schedular_filterrel_id` VARCHAR(255) NOT NULL,
+						`schedular_filterrel_field` VARCHAR(255) NOT NULL,
+						PRIMARY KEY (`schedular_relid`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 		</table>
 	</tables>

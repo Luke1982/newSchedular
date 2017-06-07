@@ -6,6 +6,18 @@
  * The Initial Developer of the Original Code is MajorLabel.
  * All Rights Reserved.
  ************************************************************************************/
+
+// https://gist.github.com/chaoszcat/5325115#file-gistfile1-php
+function shadeColor($color, $percent) {
+	$num = base_convert(substr($color, 1), 16, 10);
+	$amt = round(2.55 * $percent);
+	$r = ($num >> 16) + $amt;
+	$b = ($num >> 8 & 0x00ff) + $amt;
+	$g = ($num & 0x0000ff) + $amt;
+	
+	return '#'.substr(base_convert(0x1000000 + ($r<255?$r<1?0:$r:255)*0x10000 + ($b<255?$b<1?0:$b:255)*0x100 + ($g<255?$g<1?0:$g:255), 10, 16), 1);
+}
+
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 	global $adb;
 	$start_date = new DateTime($_REQUEST['start']);
@@ -28,28 +40,52 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event['resourceId'] = $event['smownerid'];
 		$prepared_event['start'] = $event['schedular_startdate'] . 'T' . $event['schedular_starttime'];
 		$prepared_event['end'] = $event['schedular_enddate'] . 'T' . $event['schedular_endtime'];
-		$prepared_event['title'] = '<div class="event-title__name">' . $event['schedular_name'] . '</div>';
-		$prepared_event['title'] .= '<div class="event-title__desc">' . $event['description'] . '</div>';
+		$prepared_event['title'] = $event['schedular_name'];
 		$prepared_event['backgroundColor'] = $event['eventtype_bgcolor'];
-		$prepared_event['borderColor'] = '#ffffff';
+		$prepared_event['borderColor'] = shadeColor($event['eventtype_bgcolor'], -40);
 		$prepared_event['textColor'] = '#000000';
+		$prepared_event['description'] = $event['description'];
+		$prepared_event['eventType'] = $event['schedular_eventtype'];
 		$events[] = $prepared_event;
 	}
 	echo json_encode($events);
 }
 
-if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateevent') {
-	global $current_user;
+// if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateevent') {
+// 	global $current_user;
+// 	require_once('modules/Schedular/Schedular.php');
+
+// 	$data = json_decode($_REQUEST['data'], true);
+
+// 	$rec = new Schedular();
+// 	$rec->retrieve_entity_info($data['schedularid'], 'Schedular');
+// 	$rec->id = $data['schedularid'];
+// 	$rec->mode = 'edit';
+
+// 	foreach ($data as $cf => $value) {
+// 		$rec->column_fields[$cf] = $value;
+// 	}
+
+// 	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);
+// 	$meta = $handler->getMeta();
+// 	$rec->column_fields = DataTransform::sanitizeRetrieveEntityInfo($rec->column_fields, $meta);
+	
+// 	$rec->save('Schedular');
+// 	echo json_encode($rec->column_fields);
+// }
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
+	global $current_user, $adb;
 	require_once('modules/Schedular/Schedular.php');
 
 	$data = json_decode($_REQUEST['data'], true);
 
 	$rec = new Schedular();
-	$rec->retrieve_entity_info($data['schedularid'], 'Schedular');
-	$rec->id = $data['schedularid'];
+	$rec->retrieve_entity_info($data['id'], 'Schedular');
+	$rec->id = $data['id'];
 	$rec->mode = 'edit';
 
-	foreach ($data as $cf => $value) {
+	foreach ($data['columnFields'] as $cf => $value) {
 		$rec->column_fields[$cf] = $value;
 	}
 
@@ -58,6 +94,9 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateevent') {
 	$rec->column_fields = DataTransform::sanitizeRetrieveEntityInfo($rec->column_fields, $meta);
 	
 	$rec->save('Schedular');
+
+	$result = $adb->pquery("SELECT eventtype_bgcolor FROM vtiger_schedular_eventcolors INNER JOIN vtiger_schedular_eventtype ON vtiger_schedular_eventcolors.eventtype_id=vtiger_schedular_eventtype.schedular_eventtypeid WHERE vtiger_schedular_eventtype.schedular_eventtype = ?", array($rec->column_fields['schedular_eventtype']));
+	$rec->column_fields['bgcolor'] = $adb->query_result($result, 0, 'eventtype_bgcolor');
 	echo json_encode($rec->column_fields);
 }
 
@@ -160,7 +199,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 	$s->column_fields['createdtime'] = date('Y-m-d H:i:s');
 	$s->column_fields['modifiedtime'] = date('Y-m-d H:i:s');
 
-	foreach ($data as $cf => $value) {
+	foreach ($data['columnFields'] as $cf => $value) {
 		$s->column_fields[$cf] = $value;
 	}
 
