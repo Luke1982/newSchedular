@@ -75,12 +75,12 @@
 		{foreach from=$relations item=relation key=key name=name}
 			{call name=relationautocomplete relation=$relation}
 		{/foreach}
-		<fieldset class="slds-form-element">
+{* 		<fieldset class="slds-form-element">
 			<label class="slds-form-element__label" for="schedular_description">Description</label>
 			<div class="slds-form-element__control">
 				<textarea id="schedular_description" class="slds-textarea" placeholder="Description"><pre>{$relations|print_r}</pre></textarea>
 			</div>
-		</fieldset>			
+		</fieldset>	 *}		
 		<fieldset class="slds-form-element">
 			<div class="slds-button-group" role="group">
 				<button class="slds-button slds-button_neutral" id="sch-save-event-ui">Save</button>
