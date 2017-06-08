@@ -18,6 +18,32 @@ function shadeColor($color, $percent) {
 	return '#'.substr(base_convert(0x1000000 + ($r<255?$r<1?0:$r:255)*0x10000 + ($b<255?$b<1?0:$b:255)*0x100 + ($g<255?$g<1?0:$g:255), 10, 16), 1);
 }
 
+function getRelatedRecords($id) {
+	global $adb;
+	$records = array();
+
+	$r = $adb->pquery("SELECT vtiger_entityname.fieldname, vtiger_entityname.entityidfield, vtiger_entityname.tablename, vtiger_entityname.entityidcolumn, vtiger_entityname.modulename, vtiger_crmentityrel.relcrmid FROM vtiger_crmentityrel LEFT JOIN vtiger_entityname ON vtiger_crmentityrel.relmodule=vtiger_entityname.modulename WHERE vtiger_crmentityrel.crmid = ?", array($id));
+
+	while ($relation = $adb->fetch_array($r)) {
+		if ($relation['relcrmid'] != 0) {
+			$qu = "SELECT " . $relation['fieldname'] . " FROM " . $relation['tablename'] . " WHERE " . $relation['entityidfield'] . " = ?";
+			$pa = array($relation['relcrmid']);
+			$re = $adb->pquery($qu, $pa);
+			$relation['label'] = $adb->query_result($re, 0, $relation['fieldname']);
+			$relation['translatedFieldName'] = getTranslatedString(getFieldLabelFromColumnName($relation['fieldname']), $relation['modulename']);
+			$records[] = $relation;
+		}
+	}
+
+	return $records;
+}
+
+function getFieldLabelFromColumnName($column_name)  {
+	global $adb;
+	$r = $adb->pquery("SELECT fieldlabel FROM vtiger_field WHERE columnname = ? LIMIT 1", array($column_name));
+	return $adb->query_result($r, 0, 'fieldlabel');
+}
+
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'translate') {
 	$data = json_decode($_REQUEST['data'], true);
 	echo getTranslatedString($data['label'], $data['module']);
@@ -51,6 +77,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event['textColor'] = '#000000';
 		$prepared_event['description'] = $event['description'];
 		$prepared_event['eventType'] = $event['schedular_eventtype'];
+		$prepared_event['existingRelations'] = getRelatedRecords($event['crmid']);
 		$events[] = $prepared_event;
 	}
 	echo json_encode($events);
@@ -121,6 +148,25 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 
 	foreach ($data['columnFields'] as $cf => $value) {
 		$rec->column_fields[$cf] = $value;
+	}
+
+	foreach ($data['relations'] as $relModule => $relations) {
+		if ($relations != '') {
+			$r = $adb->pquery("SELECT * FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", array(
+					$data['id'],
+					'Schedular',
+					$relations,
+					$relModule					
+				));
+			if ($adb->getAffectedRowCount($r) == 0) {
+				$adb->pquery("INSERT INTO vtiger_crmentityrel (crmid, module, relcrmid, relmodule) VALUES (?,?,?,?)", array(
+						$data['id'],
+						'Schedular',
+						$relations,
+						$relModule
+					));
+			}
+		}
 	}
 
 	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);

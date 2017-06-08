@@ -98,6 +98,27 @@ window.addEventListener("load", function(){
 						div.className = "fc-content__custom";
 						div.innerText = event.description;
 						contentDiv.appendChild(div);
+
+						// console.log(event.existingRelations);
+						if (event.existingRelations.length > 0) {
+							for (var i = 0; i < event.existingRelations.length; i++) {
+								var div 		= document.createElement("div");
+								div.className 	= "fc-content__custom";
+
+								var bold 		= document.createElement("b");
+								bold.innerText 	= event.existingRelations[i].translatedFieldName + ": ";
+
+								var link 		= document.createElement("a");
+								link.href 		= "index.php?action=DetailView&module=" + event.existingRelations[i].modulename + "&record=" + event.existingRelations[i].relcrmid;
+								link.target 	= "_blank";
+								link.innerText 	= event.existingRelations[i].label;
+
+								div.appendChild(bold);
+								div.appendChild(link);
+
+								contentDiv.appendChild(div);								
+							}
+						}
 					},
 					viewRender : function(view, element) {
 						getEvents({
@@ -144,9 +165,12 @@ window.addEventListener("load", function(){
 						// sEvent.addNewEvent();
 					},
 					eventClick: function(calEvent, jsEvent, view) {
-						Schedular.CurrentEvent.setCurrent(calEvent);
-						Schedular.UI.show();
-						Schedular.UI.fill();
+						if (jsEvent.originalEvent.target.href == undefined) {
+							// Only open the UI if it wasn't a link
+							Schedular.CurrentEvent.setCurrent(calEvent);
+							Schedular.UI.show();
+							Schedular.UI.fill();
+						}
 						// var sEvent = new SchedularEvent({
 						// 		"start" 	: calEvent.start,
 						// 		"end" 		: calEvent.end,
@@ -264,26 +288,6 @@ Schedular.UI = {
 					})(),
 	state 		   : false
 };
-Schedular.CurrentEvent = {
-	id 			: undefined,
-	start 		: undefined, // Moment JS obj
-	end			: undefined, // Moment JS obj
-	startDate	: "1970-01-01",
-	startTime	: "00:00:00",
-	endDate		: "1970-01-01",
-	endTime		: "00:00:00",
-	resource 	: {
-		id 	: "",
-		name: ""
-	},
-	title 		: "",
-	description : "",
-	eventType 	: "",
-	columnFields: {},
-	event 		: {},
-	newEvent 	: false
-};
-
 Schedular.UI.show = function(){
 	this.el.classList.add("active");
 	this.state = true;
@@ -352,7 +356,26 @@ Schedular.UI.fields = {
 	resource	: document.getElementById("schedular-event-ui__resourcename"),
 	eventTypes 	: document.getElementById("event-types").getElementsByTagName("option")
 };
-
+Schedular.CurrentEvent = {
+	id 			: undefined,
+	start 		: undefined, // Moment JS obj
+	end			: undefined, // Moment JS obj
+	startDate	: "1970-01-01",
+	startTime	: "00:00:00",
+	endDate		: "1970-01-01",
+	endTime		: "00:00:00",
+	resource 	: {
+		id 	: "",
+		name: ""
+	},
+	title 		: "",
+	description : "",
+	eventType 	: "",
+	columnFields: {},
+	event 		: {},
+	newEvent 	: false,
+	relations	: {}
+};
 Schedular.CurrentEvent.clear = function() {
 	this.id 			= undefined;
 	this.start 			= undefined; // Moment JS obj
@@ -371,6 +394,7 @@ Schedular.CurrentEvent.clear = function() {
 	this.columnFields	= {};
 	this.event 			= {};
 	this.newEvent		= false;
+	this.relations		= {};
 }
 
 Schedular.CurrentEvent.setCurrent = function(event) {
@@ -388,8 +412,8 @@ Schedular.CurrentEvent.setCurrent = function(event) {
 	this.eventType 		= event.eventType;
 	this.event 	 		= event;
 	this.newEvent 		= event.newEvent == true ? true : false;
-	console.log("Current Event: ");
-	console.log(this);
+	// console.log("Current Event: ");
+	// console.log(this);
 }
 Schedular.CurrentEvent.ajax = function(functionName, callback) {
 	var r = new XMLHttpRequest();
@@ -413,18 +437,32 @@ Schedular.CurrentEvent.setColumnFields = function() {
 		"schedular_name"		: this.title
 	}
 }
+Schedular.CurrentEvent.setRelations = function() {
+	var relationInputs = document.getElementsByClassName("relation-autocomplete-input");
+	var hiddenRelationInputs = document.getElementsByClassName("relation-autocomplete__hidden");
+	var relations = {};
+
+	if (relationInputs != undefined) {
+		for (var i = 0; i < relationInputs.length; i++) {
+			var relData 	= JSON.parse(relationInputs[i].getAttribute("data-ac"));
+			relations[relData.schedular_relmodule_name] = hiddenRelationInputs[i].value;
+		}
+	}
+	this.relations = relations;
+}
 Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.description			= Schedular.UI.fields.description.value;
 	this.columnFields.schedular_eventtype	= Schedular.UI.getCurrentEventType();
 	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
-	console.log("Column fields fetched from UI");
-	console.log(this.columnFields);
+	// console.log("Column fields fetched from UI");
+	// console.log(this.columnFields);
 }
 Schedular.CurrentEvent.update = function() {
 	if (this.id == undefined) {
 		throw new Error("No event set as current");
 	}
 	this.setColumnFields();
+	this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
 
 	this.ajax("updateEvent", callback);
@@ -436,8 +474,9 @@ Schedular.CurrentEvent.update = function() {
 }
 Schedular.CurrentEvent.create = function() {
 	this.setColumnFields();
+	this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
-	console.log(this);
+	// console.log(this);
 
 	this.ajax("createEvent", callback);
 
@@ -472,44 +511,6 @@ Schedular.CurrentEvent.render = function(cbResult) {
 
 	Schedular.UI.clear();
 	Schedular.UI.hide();
-}
-
-// https://stackoverflow.com/a/13532993
-function shadeColor(color, percent) {
-
-    var R = parseInt(color.substring(1,3),16);
-    var G = parseInt(color.substring(3,5),16);
-    var B = parseInt(color.substring(5,7),16);
-
-    R = parseInt(R * (100 + percent) / 100);
-    G = parseInt(G * (100 + percent) / 100);
-    B = parseInt(B * (100 + percent) / 100);
-
-    R = (R<255)?R:255;  
-    G = (G<255)?G:255;  
-    B = (B<255)?B:255;  
-
-    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
-    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
-    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
-
-    return "#"+RR+GG+BB;
-}
-
-function getTranslatedAjax(label, module) {
-	if (module == undefined) module = "Schedular";
-	var data = {
-		module : module,
-		label : label
-	};
-	var r = new XMLHttpRequest();
-	r.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    		return r.response;
-	    }
-	};
-	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=translate&data="+encodeURIComponent(JSON.stringify(data)), true);
-	r.send();	
 }
 
 /* ======= Auto complete part relations ====== */
@@ -767,6 +768,8 @@ AutocompleteRelation.prototype.clearTargetUL = function () {
 	}
 }
 
+window.addEventListener("keypress", Schedular.AutoComplete.HandleKeys);
+
 /* https://medium.com/@_jh3y/throttling-and-debouncing-in-javascript-b01cad5c8edf */
 
 var throttle = function(func, limit) {
@@ -784,4 +787,40 @@ var throttle = function(func, limit) {
   };
 };
 
-window.addEventListener("keypress", Schedular.AutoComplete.HandleKeys);
+// https://stackoverflow.com/a/13532993
+function shadeColor(color, percent) {
+
+    var R = parseInt(color.substring(1,3),16);
+    var G = parseInt(color.substring(3,5),16);
+    var B = parseInt(color.substring(5,7),16);
+
+    R = parseInt(R * (100 + percent) / 100);
+    G = parseInt(G * (100 + percent) / 100);
+    B = parseInt(B * (100 + percent) / 100);
+
+    R = (R<255)?R:255;  
+    G = (G<255)?G:255;  
+    B = (B<255)?B:255;  
+
+    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+    return "#"+RR+GG+BB;
+}
+
+function getTranslatedAjax(label, module) {
+	if (module == undefined) module = "Schedular";
+	var data = {
+		module : module,
+		label : label
+	};
+	var r = new XMLHttpRequest();
+	r.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    		return r.response;
+	    }
+	};
+	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=translate&data="+encodeURIComponent(JSON.stringify(data)), true);
+	r.send();	
+}
