@@ -93,13 +93,19 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 
 	$q .= " WHERE " . $table_name . "." . $searchfield . " LIKE '%" . $term . "%'";
 
+	// var_dump($q);
+
 	$r = $adb->query($q);
 	
-	$results = [];
-	while ($res = $adb->fetch_array($r)) {
-		$results[] = $res;
+	if ($adb->getAffectedRowCount($r) > 0) {
+		$results = [];
+		while ($res = $adb->fetch_array($r)) {
+			$results[] = $res;
+		}
+		echo json_encode($results);
+	} else {
+		echo "[]";
 	}
-	echo json_encode($results);
 }
 
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {

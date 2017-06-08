@@ -515,10 +515,79 @@ function getTranslatedAjax(label, module) {
 /* ======= Auto complete part relations ====== */
 var acInputs = document.getElementsByClassName("relation-autocomplete-input");
 for (var i = 0; i < acInputs.length; i++) {
-	var ac = new AutocompleteRelation(acInputs[i], i);
-	acInputs[i].addEventListener("input", function(e){
-		throttle(ac.get(e), 500);
-	});
+	(function(_i){
+		var ac = new AutocompleteRelation(acInputs[_i], _i);
+		acInputs[_i].addEventListener("input", function(e){
+			throttle(ac.get(e), 500);
+		});
+	})(i);
+}
+
+Schedular.AutoComplete = {};
+
+Schedular.AutoComplete.Current = {
+	"inputField" 		: undefined,
+	"suggestionList" 	: undefined,
+	"selectedItem"		: undefined,
+	"instance" 			: undefined
+};
+
+Schedular.AutoComplete.Current.clear = function() {
+	this.inputField			= undefined;
+	this.suggestionList 	= undefined;
+	this.selectedItem		= undefined;
+	this.instance 			= undefined;
+};
+
+Schedular.AutoComplete.Current.setFocus = function(item) {
+	for (var i = 0; i < this.suggestionList.children.length; i++) {
+		this.suggestionList.children[i].firstChild.classList.remove("slds-has-focus");
+	}
+	item.firstChild.classList.add("slds-has-focus");
+};
+
+Schedular.AutoComplete.HandleKeys = function(e) {
+	if (e.keyCode == 27) {
+		// ESC
+		Schedular.AutoComplete.Current.suggestionList.hide();
+		Schedular.AutoComplete.Current.inputField.value = "";
+		Schedular.AutoComplete.Current.clear();
+	} else if (e.keyCode == 40) {
+		// Down arrow
+		if (Schedular.AutoComplete.Current.selectedItem == undefined) {
+			Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.suggestionList.firstChild;
+			Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
+		} else {
+			if (Schedular.AutoComplete.Current.selectedItem.nextSibling == null) {
+				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem;
+			} else {
+				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem.nextSibling;
+				Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
+			}
+		}
+	} else if (e.keyCode == 38) {
+		// Up arrow
+		if (Schedular.AutoComplete.Current.selectedItem == undefined) {
+			Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.suggestionList.lastChild;
+			Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
+		} else {
+			if (Schedular.AutoComplete.Current.selectedItem.previousSibling == null) {
+				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem;
+			} else {
+				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem.previousSibling;
+				Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
+			}
+		}
+	} else if (e.keyCode == 13) {
+		// Enter
+		if (Schedular.AutoComplete.Current.instance != undefined) {
+			Schedular.AutoComplete.Current.instance.select({
+				label 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-label"),
+				value 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-crmid")
+			});
+		}
+	}
+
 }
 
 function AutocompleteRelation(target, i) {
@@ -531,10 +600,22 @@ function AutocompleteRelation(target, i) {
 	this.maxResults 	= 5;
 
 	this.targetUL.show 	= function() {
-		if (this.style.opacity != 1) this.style.opacity = 1;
+		if (!this.classList.contains("active")) {
+			(function(){
+				var allAcLists = document.getElementsByClassName("relation-autocomplete__target");
+				for (var i = 0; i < allAcLists.length; i++) {
+					allAcLists[i].hide();
+				}
+			})();
+			this.style.opacity = 1;
+			this.classList.add("active");
+		}
 	}
 	this.targetUL.hide 	= function() {
-		if (this.style.opacity != 0) this.style.opacity = 0;
+		if (this.classList.contains("active")) {
+			this.style.opacity = 0;
+			this.classList.remove("active");
+		}	
 	}
 	this.targetUL.style.transition = "opacity 100ms ease";
 }
@@ -548,34 +629,47 @@ AutocompleteRelation.prototype.get = function(e) {
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-	    		acInstance.targetUL.show();
 	    		acInstance.set(JSON.parse(r.response));
+	    		// console.log(r.response);
 		    }
 		};
 		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=acRelation&data="+encodeURIComponent(JSON.stringify(this.data)), true);
 		r.send();
 	} else {
 		this.clearTargetUL();
+		this.targetUL.hide();
 	}
 }
 
 AutocompleteRelation.prototype.set = function(items) {
-	this.clearTargetUL();
-	var acInstance = this;
-	var limit = acInstance.maxResults < items.length ? acInstance.maxResults : items.length;
+	if (items.length > 0) {
+		this.clearTargetUL();
+		this.targetUL.show();
+		var acInstance = this;
+		var limit = acInstance.maxResults < items.length ? acInstance.maxResults : items.length;
 
-	for (var i = 0; i < limit; i++) {
+		for (var i = 0; i < limit; i++) {
 
-		var li = this.buildListItem(items[i]);
-		this.targetUL.appendChild(li);
+			var li = this.buildListItem(items[i]);
+			this.targetUL.appendChild(li);
 
-		li.addEventListener("click", function(e){
-			acInstance.select({
-				label 		: this.getAttribute("data-label"),
-				value 		: this.getAttribute("data-crmid")
+			li.addEventListener("click", function(e){
+				acInstance.select({
+					label 		: this.getAttribute("data-label"),
+					value 		: this.getAttribute("data-crmid")
+				});
 			});
-		});
 
+		}
+
+		// Add the currently used nodes in the global Schedular object
+		Schedular.AutoComplete.Current.inputField 		= this.inputField;
+		Schedular.AutoComplete.Current.suggestionList 	= this.targetUL;
+		// add the JS instance to the global object
+		Schedular.AutoComplete.Current.instance 		= this;
+		// Set the first result as selected
+		Schedular.AutoComplete.Current.selectedItem		= this.targetUL.firstChild;
+		Schedular.AutoComplete.Current.setFocus(this.targetUL.firstChild);
 	}
 }
 
@@ -586,8 +680,10 @@ AutocompleteRelation.prototype.select = function(params) {
 	this.inputField.value 	= label;
 	this.hiddenInput.value 	= value;
 
+	// Housekeeping after selection
 	this.clearTargetUL();
 	this.targetUL.hide();
+	Schedular.AutoComplete.Current.clear();
 }
 
 AutocompleteRelation.prototype.buildListItem = function(item) {
@@ -687,3 +783,5 @@ var throttle = function(func, limit) {
     }
   };
 };
+
+window.addEventListener("keypress", Schedular.AutoComplete.HandleKeys);
