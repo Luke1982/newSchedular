@@ -426,7 +426,8 @@ Schedular.UI.createRelation = function(relation) {
 	pill.setAttribute("relation-relcrmid", relation.relcrmid);
 
 	var link 		= document.createElement("a");
-	link.href 		= "javascript:void(0);";
+	link.href 		= "index.php?action=DetailView&module=" + relation.modulename + "&record=" + relation.relcrmid;
+	link.target 	= "_blank";
 	link.className 	= "slds-pill__action";
 	link.title 		= relation.label;
 
