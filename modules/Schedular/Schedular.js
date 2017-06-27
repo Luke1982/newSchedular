@@ -149,7 +149,7 @@ window.addEventListener("load", function(){
 						{ id: '5', resourceId: 'd', start: '2017-05-07T10:00:00', end: '2017-05-07T15:00:00', title: 'event 5' }
 					],
 					eventAfterRender : function(event, element, view) {
-						console.log(event);
+						// console.log(event);
 						var contentDiv = element[0].firstChild;
 						var div = document.createElement("div");
 						div.className = "fc-content__custom";
@@ -187,39 +187,26 @@ window.addEventListener("load", function(){
 						Schedular.CurrentEvent.setCurrent(event);
 						Schedular.CurrentEvent.update();
 						Schedular.UI.hide();
-						// var sEvent = new SchedularEvent(event);
-						// sEvent.updateEventDragDrop();
 					},
 					eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) {
 						Schedular.CurrentEvent.setCurrent(event);
 						Schedular.CurrentEvent.update();
 						Schedular.UI.hide();
-						// var sEvent = new SchedularEvent(event);
-						// sEvent.updateEventDragDrop();
 					},
 					select: function(start, end, jsEvent, view, resource) {
 						Schedular.CurrentEvent.setCurrent({
-							id 			: undefined,
-							start 		: start,
-							end 		: end,
-							resourceId 	: resource.id, // Force resource to be obtained from global object
-							title		: "",
-							description : "",
-							eventType 	: "",
-							newEvent 	: true
+							id 					: undefined,
+							start 				: start,
+							end 				: end,
+							resourceId 			: resource.id, // Force resource to be obtained from global object
+							title				: "",
+							description 		: "",
+							eventType 			: "",
+							newEvent 			: true,
+							existingRelations 	: [] // Force empty array to prevent error from "setExistingRelations"
 						});
 						Schedular.UI.show();
 						Schedular.UI.fill();
-						// Schedular.CurrentEvent.current(event);
-						// var sEvent = new SchedularEvent({
-						// 		"start" 	: start,
-						// 		"end" 		: end,
-						// 		"_id"		: null,
-						// 		"resourceId": resource,
-						// 		"title"		: null,
-						// 		"eventType"	: null
-						// 	});
-						// sEvent.addNewEvent();
 					},
 					eventClick: function(calEvent, jsEvent, view) {
 						if (jsEvent.originalEvent.target.href == undefined) {
@@ -227,20 +214,7 @@ window.addEventListener("load", function(){
 							Schedular.CurrentEvent.setCurrent(calEvent);
 							Schedular.UI.show();
 							Schedular.UI.fill();
-						}
-						// var sEvent = new SchedularEvent({
-						// 		"start" 	: calEvent.start,
-						// 		"end" 		: calEvent.end,
-						// 		"_id"		: calEvent.id,
-						// 		"resourceId": {
-						// 			"id" 		: calEvent.resourceId,
-						// 			"title" 	: window.schedularResources[calEvent.resourceId]
-						// 		},
-						// 		"title"		: calEvent.title,
-						// 		"eventType"	: calEvent.eventType,
-						// 		"description": calEvent.description
-						// 	});
-						// sEvent.updateEventUI();					
+						}				
 					}
 				});
 
@@ -490,7 +464,7 @@ Schedular.CurrentEvent = {
 	columnFields: {},
 	event 		: {},
 	newEvent 	: false,
-	relations	: {},
+	relations	: [],
 	relToRemove : []
 };
 Schedular.CurrentEvent.clear = function() {
@@ -511,7 +485,7 @@ Schedular.CurrentEvent.clear = function() {
 	this.columnFields	= {};
 	this.event 			= {};
 	this.newEvent		= false;
-	this.relations		= {};
+	this.relations		= [];
 	this.relToRemove 	= [];
 }
 
@@ -557,24 +531,21 @@ Schedular.CurrentEvent.setColumnFields = function() {
 	}
 }
 Schedular.CurrentEvent.setRelations = function() {
-	var relationInputs = document.getElementsByClassName("relation-autocomplete-input");
-	var hiddenRelationInputs = document.getElementsByClassName("relation-autocomplete__hidden");
-	var relations = {};
+	var existingRelations = document.getElementsByClassName("existing-relation");
 
-	if (relationInputs != undefined) {
-		for (var i = 0; i < relationInputs.length; i++) {
-			var relData 	= JSON.parse(relationInputs[i].getAttribute("data-ac"));
-			relations[relData.schedular_relmodule_name] = hiddenRelationInputs[i].value;
+	if (existingRelations != undefined) {
+		for (var i = 0; i < existingRelations.length; i++) {
+			this.relations[i] = {
+				modulename 	: existingRelations[i].getAttribute("relation-modulename"),
+				relcrmid 	: existingRelations[i].getAttribute("relation-relcrmid")
+			};
 		}
 	}
-	this.relations = relations;
 }
 Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.description			= Schedular.UI.fields.description.value;
 	this.columnFields.schedular_eventtype	= Schedular.UI.getCurrentEventType();
 	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
-	// console.log("Column fields fetched from UI");
-	// console.log(this.columnFields);
 }
 Schedular.CurrentEvent.update = function() {
 	if (this.id == undefined) {
@@ -672,6 +643,7 @@ Schedular.AutoComplete.Current = {
 };
 
 Schedular.AutoComplete.Current.clear = function() {
+	this.inputField.value 	= "";
 	this.inputField			= undefined;
 	this.suggestionList 	= undefined;
 	this.selectedItem		= undefined;
@@ -686,57 +658,59 @@ Schedular.AutoComplete.Current.setFocus = function(item) {
 };
 
 Schedular.AutoComplete.HandleKeys = function(e) {
-	if (e.keyCode == 27) {
-		// ESC
-		Schedular.AutoComplete.Current.suggestionList.hide();
-		Schedular.AutoComplete.Current.inputField.value = "";
-		Schedular.AutoComplete.Current.clear();
-	} else if (e.keyCode == 40) {
-		// Down arrow
-		if (Schedular.AutoComplete.Current.selectedItem == undefined) {
-			Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.suggestionList.firstChild;
-			Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
-		} else {
-			if (Schedular.AutoComplete.Current.selectedItem.nextSibling == null) {
-				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem;
-			} else {
-				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem.nextSibling;
+	if (Schedular.AutoComplete.Current.suggestionList != undefined) {
+		if (e.keyCode == 27) {
+			// ESC
+			Schedular.AutoComplete.Current.suggestionList.hide();
+			Schedular.AutoComplete.Current.inputField.value = "";
+			Schedular.AutoComplete.Current.clear();
+		} else if (e.keyCode == 40) {
+			// Down arrow
+			if (Schedular.AutoComplete.Current.selectedItem == undefined) {
+				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.suggestionList.firstChild;
 				Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
-			}
-		}
-	} else if (e.keyCode == 38) {
-		// Up arrow
-		if (Schedular.AutoComplete.Current.selectedItem == undefined) {
-			Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.suggestionList.lastChild;
-			Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
-		} else {
-			if (Schedular.AutoComplete.Current.selectedItem.previousSibling == null) {
-				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem;
 			} else {
-				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem.previousSibling;
-				Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
+				if (Schedular.AutoComplete.Current.selectedItem.nextSibling == null) {
+					Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem;
+				} else {
+					Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem.nextSibling;
+					Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
+				}
 			}
-		}
-	} else if (e.keyCode == 13) {
-		// Enter
-		if (Schedular.AutoComplete.Current.instance != undefined) {
-			Schedular.AutoComplete.Current.instance.select({
-				label 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-label"),
-				value 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-crmid")
-			});
+		} else if (e.keyCode == 38) {
+			// Up arrow
+			if (Schedular.AutoComplete.Current.selectedItem == undefined) {
+				Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.suggestionList.lastChild;
+				Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
+			} else {
+				if (Schedular.AutoComplete.Current.selectedItem.previousSibling == null) {
+					Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem;
+				} else {
+					Schedular.AutoComplete.Current.selectedItem = Schedular.AutoComplete.Current.selectedItem.previousSibling;
+					Schedular.AutoComplete.Current.setFocus(Schedular.AutoComplete.Current.selectedItem);
+				}
+			}
+		} else if (e.keyCode == 13) {
+			// Enter
+			if (Schedular.AutoComplete.Current.instance != undefined) {
+				Schedular.AutoComplete.Current.instance.select({
+					label 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-label"),
+					value 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-crmid")
+				});
+			}
 		}
 	}
-
 }
 
 function AutocompleteRelation(target, i) {
 	this.inputField 	= target;
 	this.data 			= JSON.parse(target.getAttribute("data-ac"));
 	this.targetUL 		= document.getElementsByClassName("relation-autocomplete__target")[i];
-	this.hiddenInput	= document.getElementsByClassName("relation-autocomplete__hidden")[i];
+	// this.hiddenInput	= document.getElementsByClassName("relation-autocomplete__hidden")[i];
 	this.displayFields 	= this.data.schedular_relmodule_retfields.split(",");
 	this.moduleName 	= this.data.schedular_relmodule_name;
 	this.maxResults 	= 5;
+	this.relationCont 	= document.getElementsByClassName("existing-relations__" + target.getAttribute("data-module"))[0];
 
 	this.targetUL.show 	= function() {
 		if (!this.classList.contains("active")) {
@@ -816,8 +790,17 @@ AutocompleteRelation.prototype.select = function(params) {
 	var label = params.label;
 	var value = params.value;
 
-	this.inputField.value 	= label;
-	this.hiddenInput.value 	= value;
+	// TO-DO: remove when relations are collected from pills
+	// this.inputField.value 	= label;
+	// this.hiddenInput.value 	= value;
+
+	var modName = this.moduleName;
+	var newRelation = Schedular.UI.createRelation({
+		modulename : modName,
+		relcrmid : params.value,
+		label : params.label
+	});
+	this.relationCont.appendChild(newRelation);
 
 	// Housekeeping after selection
 	this.clearTargetUL();
@@ -880,14 +863,14 @@ AutocompleteRelation.prototype.buildListItem = function(item) {
 
 	span = document.createElement("span");
 	span.setAttribute("class", "slds-listbox__option-meta slds-listbox__option-meta_entity");
-	span.innerText = this.buildSecondayReturnFields(item);
+	span.innerText = this.buildSecondaryReturnFields(item);
 
 	li.children[0].children[1].appendChild(span);
 
 	return li;
 }
 
-AutocompleteRelation.prototype.buildSecondayReturnFields = function(item) {
+AutocompleteRelation.prototype.buildSecondaryReturnFields = function(item) {
 	var returnString = "";
 	for (var i = 0; i < this.displayFields.length; i++) {
 		if (i != 0) {

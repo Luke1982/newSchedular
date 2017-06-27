@@ -150,20 +150,20 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 		$rec->column_fields[$cf] = $value;
 	}
 
-	foreach ($data['relations'] as $relModule => $relations) {
-		if ($relations != '') {
+	foreach ($data['relations'] as $new_relation) {
+		if ($new_relation != '') {
 			$r = $adb->pquery("SELECT * FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", array(
 					$data['id'],
 					'Schedular',
-					$relations,
-					$relModule					
+					$new_relation['relcrmid'],
+					$new_relation['modulename']					
 				));
 			if ($adb->getAffectedRowCount($r) == 0) {
 				$adb->pquery("INSERT INTO vtiger_crmentityrel (crmid, module, relcrmid, relmodule) VALUES (?,?,?,?)", array(
 						$data['id'],
 						'Schedular',
-						$relations,
-						$relModule
+						$new_relation['relcrmid'],
+						$new_relation['modulename']	
 					));
 			}
 		}
@@ -313,20 +313,20 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 			'event' => $s->column_fields
 		);
 
-	foreach ($data['relations'] as $relModule => $relations) {
-		if ($relations != '') {
+	foreach ($data['relations'] as $new_relation) {
+		if ($new_relation != '') {
 			$r = $adb->pquery("SELECT * FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", array(
 					$s->column_fields['id'],
 					'Schedular',
-					$relations,
-					$relModule					
+					$new_relation['relcrmid'],
+					$new_relation['modulename']
 				));
 			if ($adb->getAffectedRowCount($r) == 0) {
 				$adb->pquery("INSERT INTO vtiger_crmentityrel (crmid, module, relcrmid, relmodule) VALUES (?,?,?,?)", array(
 						$s->column_fields['id'],
 						'Schedular',
-						$relations,
-						$relModule
+						$new_relation['relcrmid'],
+						$new_relation['modulename']
 					));
 			}
 		}
