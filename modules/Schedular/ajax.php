@@ -177,6 +177,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 
 	$result = $adb->pquery("SELECT eventtype_bgcolor FROM vtiger_schedular_eventcolors INNER JOIN vtiger_schedular_eventtype ON vtiger_schedular_eventcolors.eventtype_id=vtiger_schedular_eventtype.schedular_eventtypeid WHERE vtiger_schedular_eventtype.schedular_eventtype = ?", array($rec->column_fields['schedular_eventtype']));
 	$rec->column_fields['bgcolor'] = $adb->query_result($result, 0, 'eventtype_bgcolor');
+	$rec->column_fields['existingRelations'] = getRelatedRecords($data['id']);
 	echo json_encode($rec->column_fields);
 }
 
@@ -302,7 +303,28 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 			'creation' => 'success',
 			'event' => $s->column_fields
 		);
+
+	foreach ($data['relations'] as $relModule => $relations) {
+		if ($relations != '') {
+			$r = $adb->pquery("SELECT * FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", array(
+					$s->column_fields['id'],
+					'Schedular',
+					$relations,
+					$relModule					
+				));
+			if ($adb->getAffectedRowCount($r) == 0) {
+				$adb->pquery("INSERT INTO vtiger_crmentityrel (crmid, module, relcrmid, relmodule) VALUES (?,?,?,?)", array(
+						$s->column_fields['id'],
+						'Schedular',
+						$relations,
+						$relModule
+					));
+			}
+		}
+	}
+	$new_event['event']['existingRelations'] = getRelatedRecords($s->column_fields['id']);
 	echo json_encode($new_event);
+	// var_dump($data);
 }
 
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getEventDBInfo') {

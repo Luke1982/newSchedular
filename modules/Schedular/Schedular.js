@@ -92,7 +92,7 @@ window.addEventListener("load", function(){
 						{ id: '5', resourceId: 'd', start: '2017-05-07T10:00:00', end: '2017-05-07T15:00:00', title: 'event 5' }
 					],
 					eventAfterRender : function(event, element, view) {
-						// console.log(event);
+						console.log(event);
 						var contentDiv = element[0].firstChild;
 						var div = document.createElement("div");
 						div.className = "fc-content__custom";
@@ -100,7 +100,7 @@ window.addEventListener("load", function(){
 						contentDiv.appendChild(div);
 
 						// console.log(event.existingRelations);
-						if (event.existingRelations.length > 0) {
+						if (event.existingRelations != undefined && event.existingRelations.length > 0) {
 							for (var i = 0; i < event.existingRelations.length; i++) {
 								var div 		= document.createElement("div");
 								div.className 	= "fc-content__custom";
@@ -413,7 +413,7 @@ Schedular.CurrentEvent.setCurrent = function(event) {
 	this.event 	 		= event;
 	this.newEvent 		= event.newEvent == true ? true : false;
 	// console.log("Current Event: ");
-	// console.log(this);
+	// console.log(event);
 }
 Schedular.CurrentEvent.ajax = function(functionName, callback) {
 	var r = new XMLHttpRequest();
@@ -476,20 +476,22 @@ Schedular.CurrentEvent.create = function() {
 	this.setColumnFields();
 	this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
-	// console.log(this);
+	console.log(this);
 
 	this.ajax("createEvent", callback);
 
 	function callback(response) {
 		var result = JSON.parse(response);
+		// console.log(response);
 		if (Schedular.UI.state == true) Schedular.CurrentEvent.render(result);
 	}
 }
 Schedular.CurrentEvent.reRender = function(cbResult) {
-	Schedular.CurrentEvent.event.title 			= cbResult.schedular_name;
-	Schedular.CurrentEvent.event.description 	= cbResult.description;
-	Schedular.CurrentEvent.event.backgroundColor= cbResult.bgcolor;
-	Schedular.CurrentEvent.event.borderColor	= shadeColor(cbResult.bgcolor, -40);
+	Schedular.CurrentEvent.event.title 				= cbResult.schedular_name;
+	Schedular.CurrentEvent.event.description 		= cbResult.description;
+	Schedular.CurrentEvent.event.backgroundColor	= cbResult.bgcolor;
+	Schedular.CurrentEvent.event.borderColor		= shadeColor(cbResult.bgcolor, -40);
+	Schedular.CurrentEvent.event.existingRelations	= cbResult.existingRelations;
 	$('#schedular').fullCalendar('updateEvent', Schedular.CurrentEvent.event);
 
 	Schedular.UI.clear();
@@ -497,15 +499,16 @@ Schedular.CurrentEvent.reRender = function(cbResult) {
 }
 Schedular.CurrentEvent.render = function(cbResult) {
 	var event = {
-		id 				: cbResult.event.id,
-		resourceId 		: cbResult.event.assigned_user_id,
-		start 			: cbResult.event.schedular_startdate + "T" + cbResult.event.schedular_starttime,
-		end 			: cbResult.event.schedular_enddate + "T" + cbResult.event.schedular_endtime,
-		title 			: cbResult.event.schedular_name,
-		description 	: cbResult.event.description,
-		backgroundColor	: cbResult.event.bgcolor,
-		textColor 		: "#000000",
-		borderColor 	: shadeColor(cbResult.event.bgcolor, -40)
+		id 					: cbResult.event.id,
+		resourceId 			: cbResult.event.assigned_user_id,
+		start 				: cbResult.event.schedular_startdate + "T" + cbResult.event.schedular_starttime,
+		end 				: cbResult.event.schedular_enddate + "T" + cbResult.event.schedular_endtime,
+		title 				: cbResult.event.schedular_name,
+		description 		: cbResult.event.description,
+		backgroundColor		: cbResult.event.bgcolor,
+		textColor 			: "#000000",
+		borderColor 		: shadeColor(cbResult.event.bgcolor, -40),
+		existingRelations	: cbResult.event.existingRelations
 	};
 	$('#schedular').fullCalendar('renderEvent', event);
 
