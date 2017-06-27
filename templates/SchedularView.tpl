@@ -2,7 +2,7 @@
 {* <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-icon.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-combobox.css"> *}
-<link rel="stylesheet" type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.min.css">
+<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/salesforce-lightning-design-system.min.css">
 <div id="schedular" style="min-height: 500px;"></div>
 <!-- Data DIV's -->
 <div style="display: none;">

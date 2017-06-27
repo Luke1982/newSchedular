@@ -169,6 +169,15 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 		}
 	}
 
+	foreach ($data['relToRemove'] as $rel_to_remove) {
+		$r = $adb->pquery("DELETE FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", array(
+				$data['id'],
+				'Schedular',
+				$rel_to_remove['relcrmid'],
+				$rel_to_remove['modulename']				
+			));
+	}
+
 	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);
 	$meta = $handler->getMeta();
 	$rec->column_fields = DataTransform::sanitizeRetrieveEntityInfo($rec->column_fields, $meta);

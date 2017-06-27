@@ -92,4 +92,10 @@
 		</div>
 	</div>
 </fieldset>
+<fieldset class="slds-form-element">
+  <label class="slds-form-element__label" for="input-unique-id">Existing {$relation.schedular_relmodule_name|@getTranslatedString:$relation.schedular_relmodule_name}</label>
+  <div class="slds-form-element__control existing-relations existing-relations__{$relation.schedular_relmodule_name}">
+  	
+  </div>
+</fieldset>
 {/function}

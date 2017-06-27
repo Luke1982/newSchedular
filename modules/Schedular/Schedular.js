@@ -299,6 +299,7 @@ Schedular.UI.hide = function(){
 Schedular.UI.clear = function(){
 	var inputs = this.el.getElementsByTagName("input");
 	var textareas = this.el.getElementsByTagName("textarea");
+	var existingRelations = this.el.getElementsByClassName("existing-relations");
 	var eventTypes = document.getElementById("event-types").getElementsByTagName("option");
 
 	for (var i = 0; i < inputs.length; i++) {
@@ -315,6 +316,10 @@ Schedular.UI.clear = function(){
 		textareas[i].innerHTML = "";
 	}
 
+	for (var i = 0; i < existingRelations.length; i++) {
+		existingRelations[i].innerHTML = "";
+	}
+
 	eventTypes[0].selected = true;
 }
 Schedular.UI.fill = function(){
@@ -326,6 +331,7 @@ Schedular.UI.fill = function(){
 	this.fields.endTime.innerText 	= Schedular.CurrentEvent.endTime;
 	this.fields.resource.innerText 	= Schedular.CurrentEvent.resource.title;
 	this.setCurrentEventType(Schedular.CurrentEvent.eventType);
+	this.setExistingRelations(Schedular.CurrentEvent.relations);
 }
 Schedular.UI.setCurrentEventType = function(typeToSet){
 	if (typeToSet != "") {
@@ -345,6 +351,58 @@ Schedular.UI.getCurrentEventType = function() {
 			break;
 		}
 	}
+}
+Schedular.UI.setExistingRelations = function(relations) {
+	for (var i = 0; i < relations.length; i++) {
+		var newPill = Schedular.UI.createRelation(relations[i]);
+		var parent = document.getElementsByClassName("existing-relations__" + relations[i].modulename)[0];
+		if (parent != undefined) {
+			parent.appendChild(newPill);
+		}
+	}
+}
+Schedular.UI.createRelation = function(relation) {
+	var pill 		= document.createElement("span");
+	pill.className 	= "slds-pill slds-pill_link existing-relation";
+	pill.setAttribute("data-reactroot", "");
+	pill.setAttribute("relation-modulename", relation.modulename);
+	pill.setAttribute("relation-relcrmid", relation.relcrmid);
+
+	var link 		= document.createElement("a");
+	link.href 		= "javascript:void(0);";
+	link.className 	= "slds-pill__action";
+	link.title 		= relation.label;
+
+	var label 		= document.createElement("span");
+	label.className = "slds-pill__label";
+	label.innerText = relation.label;
+
+	link.appendChild(label);
+	pill.appendChild(link);
+
+	var button 			= document.createElement("button");
+	button.className 	= "slds-button slds-button_icon slds-button_icon slds-pill__remove";
+	button.title 		= "Remove";
+
+	var svg 			= document.createElement("svg");
+	svg.className 		= "slds-button__icon";
+	svg.setAttribute("aria-hidden", "true");
+
+	var use 			= document.createElement("use");
+	use.setAttribute("xlink:href", "include/LD/assets/icons/utility-sprite/svg/symbols.svg#close");
+
+	var ass 			= document.createElement("span");
+	ass.className 		= "slds-assistive-text";
+	ass.innerText 		= "Remove";
+
+	svg.appendChild(use);
+	button.appendChild(svg);
+	button.appendChild(ass);
+	pill.appendChild(button);
+
+	button.addEventListener("click", Schedular.CurrentEvent.removeExistingRelation);
+
+	return pill;
 }
 Schedular.UI.fields = {
 	name 		: document.getElementById("schedular_name"),
@@ -374,7 +432,8 @@ Schedular.CurrentEvent = {
 	columnFields: {},
 	event 		: {},
 	newEvent 	: false,
-	relations	: {}
+	relations	: {},
+	relToRemove : []
 };
 Schedular.CurrentEvent.clear = function() {
 	this.id 			= undefined;
@@ -395,6 +454,7 @@ Schedular.CurrentEvent.clear = function() {
 	this.event 			= {};
 	this.newEvent		= false;
 	this.relations		= {};
+	this.relToRemove 	= [];
 }
 
 Schedular.CurrentEvent.setCurrent = function(event) {
@@ -412,6 +472,7 @@ Schedular.CurrentEvent.setCurrent = function(event) {
 	this.eventType 		= event.eventType;
 	this.event 	 		= event;
 	this.newEvent 		= event.newEvent == true ? true : false;
+	this.relations 		= event.existingRelations;
 	// console.log("Current Event: ");
 	// console.log(event);
 }
@@ -515,6 +576,21 @@ Schedular.CurrentEvent.render = function(cbResult) {
 
 	Schedular.UI.clear();
 	Schedular.UI.hide();
+}
+Schedular.CurrentEvent.removeExistingRelation = function() {
+	var el = this; // "This" is the button element the event listener lives on
+	while (el = el.parentElement) {
+		if (el.classList.contains("existing-relation")) {
+			var parent = el;
+			break;
+		}
+	}
+	var relationToRemove = {
+		"modulename" 	: parent.getAttribute("relation-modulename"),
+		"relcrmid" 		: parent.getAttribute("relation-relcrmid")
+	};
+	Schedular.CurrentEvent.relToRemove.push(relationToRemove);
+	parent.parentElement.removeChild(parent);
 }
 
 /* ======= Auto complete part relations ====== */
@@ -772,7 +848,7 @@ AutocompleteRelation.prototype.clearTargetUL = function () {
 	}
 }
 
-window.addEventListener("keypress", Schedular.AutoComplete.HandleKeys);
+window.addEventListener("keydown", Schedular.AutoComplete.HandleKeys);
 
 /* https://medium.com/@_jh3y/throttling-and-debouncing-in-javascript-b01cad5c8edf */
 
