@@ -138,7 +138,7 @@ window.addEventListener("load", function(){
 					height: 800,
 
 					//// uncomment this line to hide the all-day slot
-					//allDaySlot: false,
+					allDaySlot: false,
 
 					resources: getResources(),
 					events: [
