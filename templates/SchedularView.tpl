@@ -16,16 +16,16 @@
 <!-- // Data DIV's -->
 <!-- Add / Edit Event UI -->
 <div id="schedular-event-ui">
-	<div id="schedular-event-ui__draghandle">Drag me</div>
+	<div id="schedular-event-ui__draghandle">{$MOD.clicktodrag}</div>
 	<div class="slds-form slds-form_horizontal">
 		<fieldset class="slds-form-element">
 			<table width="100%" style="color: #54698d;">
 				<tbody>
 					<tr style="font-weight: bold;">
-						<td width="25%">Start date</td>
-						<td width="25%">Start time</td>
-						<td width="25%">End date</td>
-						<td width="25%">End time</td>
+						<td width="25%">{$MOD.startdate}</td>
+						<td width="25%">{$MOD.starttime}</td>
+						<td width="25%">{$MOD.enddate}</td>
+						<td width="25%">{$MOD.endtime}</td>
 					</tr>
 					<tr>
 						<td width="25%" id="schedular-event-ui__startdate"></td>
@@ -34,7 +34,7 @@
 						<td width="25%" id="schedular-event-ui__endtime"></td>
 					</tr>
 					<tr style="font-weight: bold;">
-						<td width="25%">Resource</td>
+						<td width="25%">{$MOD.resource}</td>
 						<td width="25%"></td>
 						<td width="25%"></td>
 						<td width="25%"></td>
@@ -49,19 +49,19 @@
 			</table>
 		</fieldset>
 		<div class="slds-form-element">
-			<label class="slds-form-element__label" for="schedular_name">Title</label>
+			<label class="slds-form-element__label" for="schedular_name">{$MOD.title}</label>
 			<div class="slds-form-element__control">
 				<input id="schedular_name" name="schedular_name" class="slds-input" placeholder="Placeholder Text" type="text">
 			</div>
 		</div>
 		<div class="slds-form-element">
-			<label class="slds-form-element__label" for="schedular_description">Description</label>
+			<label class="slds-form-element__label" for="schedular_description">{$MOD.description}</label>
 			<div class="slds-form-element__control">
 				<textarea id="schedular_description" class="slds-textarea" placeholder="Description"></textarea>
 			</div>
 		</div>		
 		<fieldset class="slds-form-element">
-			<label class="slds-form-element__label" for="select-01">Event types</label>
+			<label class="slds-form-element__label" for="select-01">{$MOD.schedular_eventtype}</label>
 			<div class="slds-form-element__control">
 				<div class="slds-select_container">
 					<select class="slds-select" id="event-types">
@@ -83,8 +83,8 @@
 		</fieldset>	 *}		
 		<fieldset class="slds-form-element">
 			<div class="slds-button-group" role="group">
-				<button class="slds-button slds-button_neutral" id="sch-save-event-ui">Save</button>
-				<button class="slds-button slds-button_neutral" id="sch-cancel-event-ui">Cancel</button>
+				<button class="slds-button slds-button_neutral" id="sch-save-event-ui">{$MOD.save}</button>
+				<button class="slds-button slds-button_neutral" id="sch-cancel-event-ui">{$MOD.cancel}</button>
 			</div>
 		</fieldset>
 	</div>

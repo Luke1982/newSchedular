@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 // include_once('modules/Vtiger/ListView.php');
-global $adb;
+global $app_strings, $mod_strings, $current_language, $adb;
 
 // Get the selected users
 $r = $adb->pquery("SELECT schedular_available_users FROM vtiger_schedularsettings WHERE schedular_settingsid = ?", array(1));
@@ -39,6 +39,9 @@ while ($relation = $adb->fetch_array($r)) {
 	$relation['json'] = json_encode($relation);
 	$relations[] = $relation;
 }
+
+$smarty->assign('MOD', $mod_strings);
+$smarty->assign('APP', $app_strings);
 
 $smarty->assign('relations', $relations);
 $smarty->assign('resource_users', $users);
