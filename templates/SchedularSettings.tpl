@@ -1,10 +1,12 @@
 {include file="modules/Schedular/SchedularComponents.tpl"}
-<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-radio.css">
+{* <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-radio.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-tabs.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-checkbox.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-notify.css">
+ *}
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/Schedular.css">
+<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/salesforce-lightning-design-system.min.css">
 <script type="text/javascript" src="modules/Schedular/lib/js/SchedularSettings.js"></script>
 <script type="text/javascript" src="modules/Schedular/lib/js/colorpicker.min.js"></script>
 <div style="padding: 2%;">
