@@ -16,7 +16,8 @@ window.addEventListener("load", function(){
 		"modules/Schedular/lib/js/moment.min.js",
 		"modules/Schedular/lib/js/fullcalendar.min.js",
 		"modules/Schedular/lib/js/scheduler.min.js",
-		"modules/Schedular/lib/js/interact.min.js"
+		"modules/Schedular/lib/js/interact.min.js",
+		"modules/Schedular/lib/js/fullcalendar-locale/" + navigator.language + ".js"
 	];
 
 	function require(scripts, i) {
@@ -54,7 +55,7 @@ window.addEventListener("load", function(){
 					header: {
 						left: 'prev,next today',
 						center: 'title',
-						right: 'agendaDay,agendaTwoDay,agendaWeek,month'
+						right: 'agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaWeek,month, timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
 					},
 					minTime : "08:00:00",
 					maxTime : "19:00:00",
@@ -69,7 +70,62 @@ window.addEventListener("load", function(){
 					views: {
 						agendaTwoDay: {
 							type: 'agenda',
+							duration: { days: 2 },
+
+							// views that are more than a day will NOT do this behavior by default
+							// so, we need to explicitly enable it
+							groupByResource: true,
+
+							//// uncomment this line to group by day FIRST with resources underneath
+							groupByDateAndResource: true
+						},
+						agendaThreeDay: {
+							type: 'agenda',
 							duration: { days: 3 },
+
+							// views that are more than a day will NOT do this behavior by default
+							// so, we need to explicitly enable it
+							groupByResource: true,
+
+							//// uncomment this line to group by day FIRST with resources underneath
+							groupByDateAndResource: true
+						},
+						agendaFourDay: {
+							type: 'agenda',
+							duration: { days: 4 },
+
+							// views that are more than a day will NOT do this behavior by default
+							// so, we need to explicitly enable it
+							groupByResource: true,
+
+							//// uncomment this line to group by day FIRST with resources underneath
+							groupByDateAndResource: true
+						},
+						timelineTwoDay: {
+							type: 'timeline',
+							duration: { days: 2 },
+
+							// views that are more than a day will NOT do this behavior by default
+							// so, we need to explicitly enable it
+							groupByResource: true,
+
+							//// uncomment this line to group by day FIRST with resources underneath
+							groupByDateAndResource: true
+						},
+						timelineThreeDay: {
+							type: 'timeline',
+							duration: { days: 3 },
+
+							// views that are more than a day will NOT do this behavior by default
+							// so, we need to explicitly enable it
+							groupByResource: true,
+
+							//// uncomment this line to group by day FIRST with resources underneath
+							groupByDateAndResource: true
+						},
+						timelineFourDay: {
+							type: 'timeline',
+							duration: { days: 4 },
 
 							// views that are more than a day will NOT do this behavior by default
 							// so, we need to explicitly enable it
@@ -79,6 +135,7 @@ window.addEventListener("load", function(){
 							groupByDateAndResource: true
 						}
 					},
+					height: 800,
 
 					//// uncomment this line to hide the all-day slot
 					//allDaySlot: false,

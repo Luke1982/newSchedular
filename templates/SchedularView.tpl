@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-icon.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-combobox.css"> *}
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/salesforce-lightning-design-system.min.css">
-<div id="schedular" style="min-height: 500px;"></div>
+<div id="schedular"></div>
 <!-- Data DIV's -->
 <div style="display: none;">
 	{foreach from=$resource_users item=user key=key}
