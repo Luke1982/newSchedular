@@ -89,7 +89,6 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 
 	$addressModules = array(
 			'Accounts',
-			'Contacts',
 			'Invoice',
 			'SalesOrder',
 			'Quotes'
@@ -118,7 +117,17 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 		$q .= " INNER JOIN " . $table_name . "billads ON " . $table_name . "." . $table_index . "=" .  $table_name . "billads." . $single_module_name . "addressid";
 	}
 
+	if ($searchMod == 'Contacts') {
+		$q .= " INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid=vtiger_contactaddress.contactaddressid";
+	}
+
 	$q .= " WHERE " . $table_name . "." . $searchfield . " LIKE '%" . $term . "%'";
+
+	if (count($data['filterfields']) > 1) {
+		for ($i=0; $i < count($data['filterfields']); $i++) { 
+			if ($i != 0) {$q .= " OR " . $table_name . "." . $data['filterfields'][$i] . " LIKE '%" . $term . "%'";}
+		}
+	}
 
 	// var_dump($q);
 
