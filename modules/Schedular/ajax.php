@@ -22,15 +22,16 @@ function getRelatedRecords($id) {
 	global $adb;
 	$records = array();
 
-	$r = $adb->pquery("SELECT vtiger_entityname.fieldname, vtiger_entityname.entityidfield, vtiger_entityname.tablename, vtiger_entityname.entityidcolumn, vtiger_entityname.modulename, vtiger_crmentityrel.relcrmid FROM vtiger_crmentityrel LEFT JOIN vtiger_entityname ON vtiger_crmentityrel.relmodule=vtiger_entityname.modulename WHERE vtiger_crmentityrel.crmid = ?", array($id));
+	$r = $adb->pquery("SELECT vtiger_entityname.*, vtiger_crmentityrel.relcrmid FROM vtiger_crmentityrel LEFT JOIN vtiger_entityname ON vtiger_crmentityrel.relmodule=vtiger_entityname.modulename WHERE vtiger_crmentityrel.crmid = ?", array($id));
 
 	while ($relation = $adb->fetch_array($r)) {
 		if ($relation['relcrmid'] != 0) {
-			$qu = "SELECT " . $relation['fieldname'] . " FROM " . $relation['tablename'] . " WHERE " . $relation['entityidfield'] . " = ?";
+			$fieldnames = explode(',', $relation['fieldname']);
+			$qu = "SELECT " . $fieldnames[0] . " FROM " . $relation['tablename'] . " WHERE " . $relation['entityidfield'] . " = ?";
 			$pa = array($relation['relcrmid']);
 			$re = $adb->pquery($qu, $pa);
-			$relation['label'] = $adb->query_result($re, 0, $relation['fieldname']);
-			$relation['translatedFieldName'] = getTranslatedString(getFieldLabelFromColumnName($relation['fieldname']), $relation['modulename']);
+			$relation['label'] = $adb->query_result($re, 0, $fieldnames[0]);
+			$relation['translatedFieldName'] = getTranslatedString(getFieldLabelFromColumnName($fieldnames[0]), $relation['modulename']);
 			$records[] = $relation;
 		}
 	}

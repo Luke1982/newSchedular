@@ -543,6 +543,7 @@ Schedular.CurrentEvent.setRelations = function() {
 			};
 		}
 	}
+	console.log(this.relations);
 }
 Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.description			= Schedular.UI.fields.description.value;
@@ -748,7 +749,7 @@ AutocompleteRelation.prototype.get = function(e) {
 		r.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    		acInstance.set(JSON.parse(r.response));
-	    		console.log(JSON.parse(r.response));
+	    		// console.log(JSON.parse(r.response));
 		    }
 		};
 		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=acRelation&data="+encodeURIComponent(JSON.stringify(this.data)), true);
