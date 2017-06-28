@@ -3,7 +3,7 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.3.3</version>
+	<version>0.3.4</version>
 	<short_description>A modules that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
 		<vtiger_version>5.8.0</vtiger_version>
@@ -26,20 +26,10 @@
 			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 			*************************************************************************************************
 			*  Module       : Schedular
-			*  Version      : 0.3.3
+			*  Version      : 0.3.4
 			*************************************************************************************************/
 			]]></inline>
 		</license>
-		<migrations>
-			<migration version='0.3.2'>
-				<tables>
-					<table>
-						<name>vtiger_schedularsettings</name>
-						<sql><![CDATA[ALTER TABLE `vtiger_schedularsettings` ADD COLUMN business_hours_start VARCHAR(56) DEFAULT NULL, ADD COLUMN business_hours_end VARCHAR(56) DEFAULT NULL]]></sql>
-					</table>
-				</tables>
-			</migration>
-		</migrations>
 		<tables>
 			<table>
 				<name>vtiger_schedular</name>
