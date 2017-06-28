@@ -232,21 +232,26 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createRelation') {
 	include_once('vtlib/Vtiger/Module.php');
 	$data = json_decode($_REQUEST['data'], true);
 
-	$r = $adb->pquery("INSERT INTO vtiger_schedular_relations (schedular_relmodule_name) VALUES (?)", array($data['moduleName']));
-	if ($adb->getAffectedRowCount($r) == 1) {
-
-		$moduleInstance = Vtiger_Module::getInstance('Schedular');
-		$relatedModule = Vtiger_Module::getInstance($data['moduleName']);
-		$relationLabel = $data['moduleName'];
-		$moduleInstance->setRelatedList($relatedModule, $relationLabel, Array('ADD','SELECT'));
-
-		$r = $adb->query("SELECT * FROM vtiger_schedular_relations ORDER BY schedular_relid DESC LIMIT 1");
-		$new_row = $adb->fetch_array($r);
-		$new_row['result'] = 'success';
-		echo json_encode($new_row);
-
+	$r = $adb->pquery("SELECT * FROM vtiger_schedular_relations WHERE schedular_relmodule_name = ?", array($data['moduleName']));
+	if ($adb->getAffectedRowCount($r) > 0) {
+		echo json_encode(array('result' => 'exists'));
 	} else {
-		echo json_encode(array('result' => 'fail'));
+		$r = $adb->pquery("INSERT INTO vtiger_schedular_relations (schedular_relmodule_name) VALUES (?)", array($data['moduleName']));
+		if ($adb->getAffectedRowCount($r) == 1) {
+
+			$moduleInstance = Vtiger_Module::getInstance('Schedular');
+			$relatedModule = Vtiger_Module::getInstance($data['moduleName']);
+			$relationLabel = $data['moduleName'];
+			$moduleInstance->setRelatedList($relatedModule, $relationLabel, Array('ADD','SELECT'));
+
+			$r = $adb->query("SELECT * FROM vtiger_schedular_relations ORDER BY schedular_relid DESC LIMIT 1");
+			$new_row = $adb->fetch_array($r);
+			$new_row['result'] = 'success';
+			echo json_encode($new_row);
+
+		} else {
+			echo json_encode(array('result' => 'fail'));
+		}
 	}
 }
 

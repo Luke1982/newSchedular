@@ -46,11 +46,17 @@ $mod_strings = Array(
 	'return_fields' 				=> 'Return fields',
 	'include_relation_id' 			=> 'Include relation ID',
 	'relation_filterfield' 			=> 'Filter on field from included relation',
+	'business_hours_start' 			=> 'Start of business hours',
+	'business_hours_end' 			=> 'End of business hours',
+	'save_general_settings' 		=> 'Save general settings',
+	'general_settings'				=> 'General settings',
 
 	// Settings toasts
 	'toast_users_saved' 			=> 'Available users saved to database',
 	'toast_eventtypes_saved' 		=> 'Event type preferences saved',
 	'toast_relation_updated' 		=> 'Relation updated',
+	'toast_relation_exists' 		=> 'Relation already exists',
+	'toast_relation_removed' 		=> 'Relation removed',
 
 	// Event types
 	'Checkup' 						=> 'a Checkup',

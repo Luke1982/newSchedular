@@ -21,9 +21,12 @@
 			<li class="slds-tabs_scoped__item" title="{$MOD.relations}" role="presentation">
 				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-3" id="tab-scoped-3__item">{$MOD.relations}</a>
 			</li>
+			<li class="slds-tabs_scoped__item" title="{$MOD.general_settings}" role="presentation">
+				<a class="slds-tabs_scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-4" id="tab-scoped-4__item">{$MOD.general_settings}</a>
+			</li>
 		</ul>
 		<div id="tab-scoped-1" class="slds-tabs_scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
-			<div class="slds-form slds-form_horizontal">
+			<div class="slds-form slds-form_stacked">
 				<fieldset class="slds-form-element">
 					<legend class="slds-form-element__legend slds-form-element__label">{$MOD.av_users}</legend>
 					<div class="slds-form-element__control">
@@ -100,18 +103,39 @@
 			{/foreach}
 			</div>
 		</div>
+		<div id="tab-scoped-4" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-4__item">
+			<div class="slds-form slds-form_stacked" style="margin: 10px 0;">
+				<div class="slds-form-element">
+					<label class="slds-form-element__label" for="select-module-to-relate">{$MOD.business_hours_start}</label>
+					<div class="slds-form-element__control">
+						<input id="business-hours-start" class="slds-input" placeholder="{$MOD.business_hours_start}" type="text">
+					</div>
+				</div>
+				<div class="slds-form-element">
+					<label class="slds-form-element__label" for="select-module-to-relate">{$MOD.business_hours_end}</label>
+					<div class="slds-form-element__control">
+						<input id="business-hours-end" class="slds-input" placeholder="{$MOD.business_hours_end}" type="text">
+					</div>
+				</div>
+				<button class="slds-button slds-button_brand" id="save-general-settings">
+					<svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+						<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#database"></use>
+					</svg>{$MOD.save_general_settings}
+				</button>
+			</div>
+		</div>
 	</div>
 	<!-- Relation card template -->
 	{call relationcard template='true'}
 	<!-- // Relation card template -->
-	<!-- Toast -->
+	<!-- Toasts -->
 	<div id="toast" style="display: none;">
-		<div class="slds-notify_container slds-is-relative">
-			<div class="slds-notify slds-notify_toast slds-theme_success" role="alert">
-				<span class="slds-assistive-text">success</span>
-				<span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+		<div class="slds-notify_container">
+			<div class="slds-notify slds-notify_toast slds-theme_TOASTTYPE" role="alert">
+				<span class="slds-assistive-text">TOASTTYPE</span>
+				<span class="slds-icon_container slds-icon-utility-TOASTTYPE slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
 					<svg class="slds-icon slds-icon_small" aria-hidden="true">
-						<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+						<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#TOASTTYPE"></use>
 					</svg>
 				</span>
 				<div class="slds-notify__content">
@@ -126,12 +150,14 @@
 			</div>
 		</div>
 	</div>
-	<!-- // Toast -->
+	<!-- // Toasts -->
 	<!-- Hidden lang DIV -->
 	<div style="display: none;">
 		<div id="toast-message__users-saved">{$MOD.toast_users_saved}</div>
 		<div id="toast-message__event-types-saved">{$MOD.toast_eventtypes_saved}</div>
 		<div id="toast-message__relation-updated">{$MOD.toast_relation_updated}</div>
+		<div id="toast-message__relation-exists">{$MOD.toast_relation_exists}</div>
+		<div id="toast-message__relation-removed">{$MOD.toast_relation_removed}</div>
 	</div>
 	<!-- // Hidden lang DIV -->
 </div>

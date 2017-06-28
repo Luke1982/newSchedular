@@ -397,7 +397,7 @@ Schedular.UI.setExistingRelations = function(relations) {
 Schedular.UI.createRelation = function(relation) {
 	var pill 		= document.createElement("span");
 	pill.className 	= "slds-pill slds-pill_link existing-relation";
-	pill.setAttribute("data-reactroot", "");
+	// pill.setAttribute("data-reactroot", "");
 	pill.setAttribute("relation-modulename", relation.modulename);
 	pill.setAttribute("relation-relcrmid", relation.relcrmid);
 
@@ -415,15 +415,17 @@ Schedular.UI.createRelation = function(relation) {
 	pill.appendChild(link);
 
 	var button 			= document.createElement("button");
-	button.className 	= "slds-button slds-button_icon slds-button_icon slds-pill__remove";
+	button.className 	= "slds-button slds-button_icon slds-pill__remove";
 	button.title 		= "Remove";
 
 	var svg 			= document.createElement("svg");
 	svg.className 		= "slds-button__icon";
 	svg.setAttribute("aria-hidden", "true");
 
-	var use 			= document.createElement("use");
-	use.setAttribute("xlink:href", "include/LD/assets/icons/utility-sprite/svg/symbols.svg#close");
+	var use 			= document.createElement("span");
+	// var use 			= document.createElement("use");
+	// use.setAttribute("xlink:href", "include/LD/assets/icons/utility-sprite/svg/symbols.svg#close");
+	use.innerText 		= "X";
 
 	var ass 			= document.createElement("span");
 	ass.className 		= "slds-assistive-text";

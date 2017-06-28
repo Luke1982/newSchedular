@@ -99,6 +99,8 @@ SchedularSettings.prototype.createRelation = function() {
 			response = JSON.parse(response);
 			if (response.result == "success") {
 				window.settings.createRelationUI(response);
+			} else if (response.result == "exists") {
+				window.settings.toast("toast-message__relation-exists", "error");
 			}
 		}
 	});
@@ -133,6 +135,7 @@ SchedularSettings.prototype.removeRelation = function() {
 				"callback"	: function(response) {
 					if (response == 'true') {
 						document.getElementById("schedular-relations").removeChild(el);
+						window.settings.toast("toast-message__relation-removed", "info");
 					}
 				}
 			});
@@ -158,7 +161,7 @@ SchedularSettings.prototype.updateRelation = function() {
 				"callback"	: function(response) {
 					console.log(response);
 					if (response == "true") {
-						window.settings.toast("toast-message__relation-updated");
+						window.settings.toast("toast-message__relation-updated", "success");
 					}
 				}
 			});
@@ -169,6 +172,7 @@ SchedularSettings.prototype.updateRelation = function() {
 
 SchedularSettings.prototype.toast = function(message, type) {
 	var toastDiv = document.getElementById("toast");
+	toastDiv.innerHTML = toastDiv.innerHTML.replace(/TOASTTYPE/g, type);
 	var toastText = document.getElementById("toasttext");
 	var closeToast = document.getElementById("close-toast");
 
@@ -176,6 +180,8 @@ SchedularSettings.prototype.toast = function(message, type) {
 	toastText.innerText = document.getElementById(message).innerText;
 	closeToast.addEventListener("click", function(){
 		toastDiv.style.display = "none";
+		var re = new RegExp(type,"g");
+		toastDiv.innerHTML = toastDiv.innerHTML.replace(re, "TOASTTYPE");
 	});
 }
 
