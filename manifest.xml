@@ -3,7 +3,7 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.3.0</version>
+	<version>0.3.1</version>
 	<short_description>A modules that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
 		<vtiger_version>5.8.0</vtiger_version>
@@ -26,22 +26,16 @@
 			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 			*************************************************************************************************
 			*  Module       : Schedular
-			*  Version      : 0.3.0
+			*  Version      : 0.3.1
 			*************************************************************************************************/
 			]]></inline>
 		</license>
 		<migrations>
-			<migration version='0.2.0'>
+			<migration version='0.3.0'>
 				<tables>
 					<table>
 						<name>vtiger_schedularsettings</name>
-						<sql><![CDATA[CREATE TABLE `vtiger_schedularsettings` (
-								`schedular_settings_id` INT(11) NOT NULL, 
-								`business_hours_start` VARCHAR(56) DEFAULT NULL, 
-								`business_hours_end` VARCHAR(56) DEFAULT NULL, 
-								PRIMARY KEY (`schedular_settings_id`)
-							) ENGINE=InnoDB DEFAULT CHARSET=utf8]]>
-						</sql>
+						<sql><![CDATA[ALTER TABLE `vtiger_schedularsettings` ADD COLUMN business_hours_start VARCHAR(56) DEFAULT NULL, ADD COLUMN business_hours_end VARCHAR(56) DEFAULT NULL]]></sql>
 					</table>
 				</tables>
 			</migration>
@@ -71,11 +65,10 @@
 				<table>
 					<name>vtiger_schedularsettings</name>
 					<sql><![CDATA[CREATE TABLE `vtiger_schedularsettings` (
-							`schedular_settings_id` INT(11) NOT NULL, 
-							`business_hours_start` VARCHAR(56) DEFAULT NULL, 
-							`business_hours_end` VARCHAR(56) DEFAULT NULL, 
-							PRIMARY KEY (`schedular_settings_id`)
-							) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+						`schedular_settingsid` int(11) NOT NULL,
+						`schedular_available_users` VARCHAR(255) NOT NULL,
+						PRIMARY KEY (`schedular_settingsid`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 					</table>
 				<table>
 					<name>vtiger_schedular_eventcolors</name>
