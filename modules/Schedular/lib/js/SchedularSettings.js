@@ -156,7 +156,10 @@ SchedularSettings.prototype.updateRelation = function() {
 					"incRelFiltField"	: el.getElementsByClassName("relation__included-rel-filterfield")[0].value,
 				},
 				"callback"	: function(response) {
-					console.log(response)
+					console.log(response);
+					if (response == "true") {
+						window.settings.toast("toast-message__relation-updated");
+					}
 				}
 			});
 			break;

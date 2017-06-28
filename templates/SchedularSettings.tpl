@@ -131,6 +131,7 @@
 	<div style="display: none;">
 		<div id="toast-message__users-saved">{$MOD.toast_users_saved}</div>
 		<div id="toast-message__event-types-saved">{$MOD.toast_eventtypes_saved}</div>
+		<div id="toast-message__relation-updated">{$MOD.toast_relation_updated}</div>
 	</div>
 	<!-- // Hidden lang DIV -->
 </div>

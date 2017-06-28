@@ -271,8 +271,6 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 				)
 		);
 
-	var_dump($data);
-
 	if ($adb->getAffectedRowCount($r) == 1) {
 		echo 'true';
 	}  else {
