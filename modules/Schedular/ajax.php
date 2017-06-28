@@ -266,10 +266,12 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 				$data['filterFields'], 
 				$data['returnFields'], 
 				$data['inclRelId'], 
-				$data['inclRelFiltField'], 
+				$data['incRelFiltField'], 
 				$data['relationId']
 				)
 		);
+
+	var_dump($data);
 
 	if ($adb->getAffectedRowCount($r) == 1) {
 		echo 'true';
