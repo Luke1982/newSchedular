@@ -107,6 +107,9 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 	foreach ($data['returnfields'] as $returnfield) {
 		$selectfields .= $returnfield . ' AS ' . $returnfield . ', ';
 	}
+	if ($data['schedular_filterrel_field'] != '') {
+		$selectfields .= $data['schedular_filterrel_field'] . ' AS ' . $data['schedular_filterrel_field'] . ', ';
+	}
 	$selectfields .= $table_index . ' AS crmid';
 	$searchfield = $data['filterfields'][0];
 
@@ -129,14 +132,18 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 		}
 	}
 
-	// var_dump($q);
-
 	$r = $adb->query($q);
 	
 	if ($adb->getAffectedRowCount($r) > 0) {
 		$results = [];
 		while ($res = $adb->fetch_array($r)) {
-			$results[] = $res;
+			if ($data['schedular_filterrel_id'] != '') {
+				if (in_array($res[$data['schedular_filterrel_field']], $data['relatedRecords'])) {
+					$results[] = $res;
+				}
+			} else {
+				$results[] = $res;
+			}
 		}
 		echo json_encode($results);
 	} else {

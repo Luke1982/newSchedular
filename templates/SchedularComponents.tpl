@@ -60,7 +60,7 @@
 			<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
 				<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
 					{* <input type="hidden" class="relation-autocomplete__hidden" name="" value=""> *}
-					<input class="slds-input slds-combobox__input relation-autocomplete-input" data-relid="{$relation.schedular_relid}" data-module="{$relation.schedular_relmodule_name}" id="search-{$relation.schedular_relmodule_name|strtolower}" aria-activedescendant="schedular-relation-{$relation.schedular_relid}" aria-autocomplete="list" aria-controls="schedular-relation-{$relation.schedular_relid}" autocomplete="off" role="textbox" placeholder="{$MOD.searchin} {$relation.schedular_relmodule_name|@getTranslatedString:$relation.schedular_relmodule_name}" type="text" data-ac='{$relation.json}' data-relid="{$relation.schedular_relid}">
+					<input class="slds-input slds-combobox__input relation-autocomplete-input" data-filterrel-id="{$relation.schedular_filterrel_id}" data-module="{$relation.schedular_relmodule_name}" id="search-{$relation.schedular_relmodule_name|strtolower}" aria-activedescendant="schedular-relation-{$relation.schedular_relid}" aria-autocomplete="list" aria-controls="schedular-relation-{$relation.schedular_relid}" autocomplete="off" role="textbox" placeholder="{$MOD.searchin} {$relation.schedular_relmodule_name|@getTranslatedString:$relation.schedular_relmodule_name}" type="text" data-ac='{$relation.json}' data-relid="{$relation.schedular_relid}">
 					<span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" title="Description of icon when needed">
 						<svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
 							<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
@@ -94,7 +94,7 @@
 </fieldset>
 <fieldset class="slds-form-element">
   <label class="slds-form-element__label" for="input-unique-id">{$MOD.currentlylinked} {$relation.schedular_relmodule_name|@getTranslatedString:$relation.schedular_relmodule_name}</label>
-  <div class="slds-form-element__control existing-relations existing-relations__{$relation.schedular_relmodule_name}">
+  <div class="slds-form-element__control existing-relations existing-relations__{$relation.schedular_relmodule_name}" data-relid="{$relation.schedular_relid}">
   	
   </div>
 </fieldset>

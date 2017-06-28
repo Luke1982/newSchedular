@@ -385,9 +385,11 @@ Schedular.UI.getCurrentEventType = function() {
 }
 Schedular.UI.setExistingRelations = function(relations) {
 	for (var i = 0; i < relations.length; i++) {
-		var newPill = Schedular.UI.createRelation(relations[i]);
-		var parent = document.getElementsByClassName("existing-relations__" + relations[i].modulename)[0];
+		var newPill 	= Schedular.UI.createRelation(relations[i]);
+		var parent 		= document.getElementsByClassName("existing-relations__" + relations[i].modulename)[0];
+		var relationId 	= parent.getAttribute("data-relid");
 		if (parent != undefined) {
+			newPill.setAttribute("relation-id", relationId);
 			parent.appendChild(newPill);
 		}
 	}
@@ -711,6 +713,8 @@ function AutocompleteRelation(target, i) {
 	this.moduleName 	= this.data.schedular_relmodule_name;
 	this.maxResults 	= 5;
 	this.relationCont 	= document.getElementsByClassName("existing-relations__" + target.getAttribute("data-module"))[0];
+	this.relationId 	= this.relationCont.getAttribute("data-relid");
+	this.filterRelId 	= this.inputField.getAttribute("data-filterrel-id");
 
 	this.targetUL.show 	= function() {
 		if (!this.classList.contains("active")) {
@@ -737,13 +741,14 @@ AutocompleteRelation.prototype.get = function(e) {
 	var term = e.target.value;
 	if (term.length > 3) {
 		this.data.term = term;
+		this.data.relatedRecords = this.getRelatedRecords();
 		var acInstance = this;
 
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    		acInstance.set(JSON.parse(r.response));
-	    		// console.log(r.response);
+	    		console.log(JSON.parse(r.response));
 		    }
 		};
 		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=acRelation&data="+encodeURIComponent(JSON.stringify(this.data)), true);
@@ -796,16 +801,28 @@ AutocompleteRelation.prototype.select = function(params) {
 
 	var modName = this.moduleName;
 	var newRelation = Schedular.UI.createRelation({
-		modulename : modName,
-		relcrmid : params.value,
-		label : params.label
+		modulename 	: modName,
+		relcrmid 	: params.value,
+		label 		: params.label
 	});
+	newRelation.setAttribute("relation-id", this.relationId);
 	this.relationCont.appendChild(newRelation);
 
 	// Housekeeping after selection
 	this.clearTargetUL();
 	this.targetUL.hide();
 	Schedular.AutoComplete.Current.clear();
+}
+
+AutocompleteRelation.prototype.getRelatedRecords = function() {
+	var AllExistingRelations 	= document.getElementsByClassName("existing-relation");
+	var relationsToFilterOn 	= [];
+	for (var i = 0; i < AllExistingRelations.length; i++) {
+		if(AllExistingRelations[i].getAttribute("relation-id") == this.filterRelId) {
+			relationsToFilterOn.push(AllExistingRelations[i].getAttribute("relation-relcrmid"));
+		}
+	}
+	return relationsToFilterOn;
 }
 
 AutocompleteRelation.prototype.buildListItem = function(item) {
