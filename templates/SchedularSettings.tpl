@@ -99,7 +99,7 @@
 			<div id="schedular-relations">
 			{* <pre>{$schedular_relations|print_r}</pre> *}
 			{foreach from=$schedular_relations item=relation key=key}
-				{call relationcard template='false' relation=$relation}
+				{* {call relationcard template='false' relation=$relation} *}
 			{/foreach}
 			</div>
 		</div>
@@ -126,7 +126,7 @@
 		</div>
 	</div>
 	<!-- Relation card template -->
-	{call relationcard template='true'}
+	{* {call relationcard template='true'} *}
 	<!-- // Relation card template -->
 	<!-- Toasts -->
 	<div id="toast" style="display: none;">
