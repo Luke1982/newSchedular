@@ -57,6 +57,7 @@ $mod_strings = Array(
 	'toast_relation_updated' 		=> 'Relation updated',
 	'toast_relation_exists' 		=> 'Relation already exists',
 	'toast_relation_removed' 		=> 'Relation removed',
+	'toast_general_settings_saved'	=> 'General settings saved',
 
 	// Event types
 	'Checkup' 						=> 'a Checkup',

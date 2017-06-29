@@ -3,6 +3,7 @@ function SchedularSettings() {
 	this.saveAvUsersButton = document.getElementById("save-available-users");
 	this.saveEvTypeSettingsButton = document.getElementById("save-event-settings");
 	this.createRelButton = document.getElementById("create-relation");
+	this.saveGeneralSettingsButton = document.getElementById("save-general-settings");
 
 	this.saveAvUsersButton.addEventListener("click", function(){
 		settings.saveAvUsers();
@@ -12,6 +13,9 @@ function SchedularSettings() {
 	});
 	this.createRelButton.addEventListener("click", function(){
 		settings.createRelation();
+	});
+	this.saveGeneralSettingsButton.addEventListener("click", function(){
+		settings.saveGeneralSettings();
 	});
 }
 
@@ -50,7 +54,7 @@ SchedularSettings.prototype.saveAvUsers = function() {
 		},
 		"callback"	: function(response) {
 			if (response == "true") {
-				window.settings.toast("toast-message__users-saved");
+				window.settings.toast("toast-message__users-saved", "success");
 			}
 		}
 	});
@@ -75,7 +79,26 @@ SchedularSettings.prototype.saveEventTypeSettings = function() {
 		},
 		"callback"	: function(response) {
 			if (response == "true") {
-				window.settings.toast("toast-message__event-types-saved");
+				window.settings.toast("toast-message__event-types-saved", "success");
+			}
+		}
+	});
+}
+
+SchedularSettings.prototype.saveGeneralSettings = function() {
+	var bHoursStart = document.getElementById("business-hours-start").value;
+	var bHoursEnd = document.getElementById("business-hours-end").value;
+
+	this.save({
+		"action" 	: "saveGeneralSettings",
+		"toSave"	: {
+			"business_hours_start"	: bHoursStart,
+			"business_hours_end"	: bHoursEnd
+		},
+		"callback"	: function(response) {
+			console.log(response);
+			if (response == "true") {
+				window.settings.toast("toast-message__general-settings-saved", "success");
 			}
 		}
 	});
@@ -171,6 +194,7 @@ SchedularSettings.prototype.updateRelation = function() {
 }
 
 SchedularSettings.prototype.toast = function(message, type) {
+	if (type == undefined) {type = "info";}
 	var toastDiv = document.getElementById("toast");
 	toastDiv.innerHTML = toastDiv.innerHTML.replace(/TOASTTYPE/g, type);
 	var toastText = document.getElementById("toasttext");
@@ -180,7 +204,7 @@ SchedularSettings.prototype.toast = function(message, type) {
 	toastText.innerText = document.getElementById(message).innerText;
 	closeToast.addEventListener("click", function(){
 		toastDiv.style.display = "none";
-		var re = new RegExp(type,"g");
+		var re = new RegExp(type, "g");
 		toastDiv.innerHTML = toastDiv.innerHTML.replace(re, "TOASTTYPE");
 	});
 }

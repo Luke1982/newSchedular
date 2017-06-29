@@ -27,6 +27,8 @@
 			<sql><![CDATA[CREATE TABLE `vtiger_schedularsettings` (
 						`schedular_settingsid` int(11) NOT NULL,
 						`schedular_available_users` VARCHAR(255) NOT NULL,
+						`business_hours_start` VARCHAR(56) DEFAULT NULL, 
+						`business_hours_end` VARCHAR(56) DEFAULT NULL, 
 						PRIMARY KEY (`schedular_settingsid`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 		</table>
@@ -34,8 +36,8 @@
 			<name>vtiger_schedular_eventcolors</name>
 			<sql><![CDATA[CREATE TABLE `vtiger_schedular_eventcolors` (
 						`eventtype_id` int(11) NOT NULL,
-						`eventtype_bgcolor` VARCHAR(255) NOT NULL,
-						`eventtype_textcolor` VARCHAR(255) NOT NULL,
+						`eventtype_bgcolor` VARCHAR(255) DEFAULT '#000000',
+						`eventtype_textcolor` VARCHAR(255) DEFAULT '#ffffff',
 						PRIMARY KEY (`eventtype_id`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 		</table>

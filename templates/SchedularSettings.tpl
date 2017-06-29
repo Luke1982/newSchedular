@@ -158,6 +158,7 @@
 		<div id="toast-message__relation-updated">{$MOD.toast_relation_updated}</div>
 		<div id="toast-message__relation-exists">{$MOD.toast_relation_exists}</div>
 		<div id="toast-message__relation-removed">{$MOD.toast_relation_removed}</div>
+		<div id="toast-message__general-settings-saved">{$MOD.toast_general_settings_saved}</div>
 	</div>
 	<!-- // Hidden lang DIV -->
 </div>

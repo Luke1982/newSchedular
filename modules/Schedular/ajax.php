@@ -210,7 +210,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveAvailableUsers') {
 	global $adb;
 	$data = json_decode($_REQUEST['data'], true);
-	$r = $adb->pquery("REPLACE INTO vtiger_schedularsettings SET schedular_settingsid = ?, schedular_available_users = ?", array(1, $data));
+	$r = $adb->pquery("UPDATE vtiger_schedularsettings SET schedular_available_users = ? WHERE schedular_settingsid = ?", array($data, 1));
 	if ($adb->getAffectedRowCount($r) >= 1) {
 		echo "true";
 	} else {
@@ -225,6 +225,15 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveEventTypeSetti
 		$r = $adb->pquery("INSERT INTO vtiger_schedular_eventcolors (eventtype_id, eventtype_bgcolor) VALUES (?,?) ON DUPLICATE KEY UPDATE eventtype_bgcolor = ?", array($eventtype_id, $eventtype['colors']['bg'], $eventtype['colors']['bg']));
 	}
 	echo 'true';
+}
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveGeneralSettings') {
+	global $adb;
+	$data = json_decode($_REQUEST['data'], true);
+	$q = "UPDATE vtiger_schedularsettings SET business_hours_start = ?, business_hours_end = ? WHERE schedular_settingsid = ?";
+	$p = array($data['business_hours_start'], $data['business_hours_end'], 1);
+	$r = $adb->pquery($q, $p);
+	echo "true";
 }
 
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createRelation') {

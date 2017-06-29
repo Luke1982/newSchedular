@@ -136,6 +136,7 @@ window.addEventListener("load", function(){
 						}
 					},
 					height: 800,
+					weekends: false,
 
 					//// uncomment this line to hide the all-day slot
 					allDaySlot: false,
