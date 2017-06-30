@@ -156,6 +156,10 @@ class Schedular extends CRMEntity {
 		if($event_type == 'module.postinstall') {
 			// TODO Handle post installation actions
 			$this->setModuleSeqNumber('configure', $modulename, $modulename.'-', '0000001');
+
+			global $adb;
+			$adb->pquery("INSERT INTO vtiger_schedularsettings (schedular_settingsid, schedular_available_users, business_hours_start, business_hours_end) VALUES (?,?,?)", array(1, '', '', ''));
+			
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
 		} else if($event_type == 'module.enabled') {
