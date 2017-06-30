@@ -19,7 +19,7 @@ foreach ($users as $key => $user) {
 }
 
 // Get the event types
-$r = $adb->pquery("SELECT * FROM vtiger_schedular_eventtype INNER JOIN vtiger_schedular_eventcolors ON vtiger_schedular_eventtype.schedular_eventtypeid=vtiger_schedular_eventcolors.eventtype_id", array());
+$r = $adb->pquery("SELECT * FROM vtiger_schedular_eventtype LEFT JOIN vtiger_schedular_eventcolors ON vtiger_schedular_eventtype.schedular_eventtypeid=vtiger_schedular_eventcolors.eventtype_id", array());
 $event_types = array();
 if ($adb->getAffectedRowCount($r) == 0) {
 	$r = $adb->pquery("SELECT * FROM vtiger_schedular_eventtype", array());
