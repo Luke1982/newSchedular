@@ -56,7 +56,7 @@
 					<name>vtiger_schedularsettings</name>
 					<sql><![CDATA[CREATE TABLE `vtiger_schedularsettings` (
 						`schedular_settingsid` int(11) NOT NULL,
-						`schedular_available_users` VARCHAR(255) NOT NULL,
+						`schedular_available_users` VARCHAR(255) DEFAULT NULL,
 						`business_hours_start` VARCHAR(56) DEFAULT NULL, 
 						`business_hours_end` VARCHAR(56) DEFAULT NULL, 
 						PRIMARY KEY (`schedular_settingsid`)
@@ -75,11 +75,11 @@
 					<name>vtiger_schedular_relations</name>
 					<sql><![CDATA[CREATE TABLE `vtiger_schedular_relations` (
 						`schedular_relid` int(11) NOT NULL AUTO_INCREMENT,
-						`schedular_relmodule_name` VARCHAR(255) NOT NULL,
-						`schedular_relmodule_filterfields` VARCHAR(255) NOT NULL,
-						`schedular_relmodule_retfields` VARCHAR(255) NOT NULL,
-						`schedular_filterrel_id` VARCHAR(255) NOT NULL,
-						`schedular_filterrel_field` VARCHAR(255) NOT NULL,
+						`schedular_relmodule_name` VARCHAR(255) DEFAULT NULL,
+						`schedular_relmodule_filterfields` VARCHAR(255) DEFAULT NULL,
+						`schedular_relmodule_retfields` VARCHAR(255) DEFAULT NULL,
+						`schedular_filterrel_id` VARCHAR(255) DEFAULT NULL,
+						`schedular_filterrel_field` VARCHAR(255) DEFAULT NULL,
 						PRIMARY KEY (`schedular_relid`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 					</table>
