@@ -118,15 +118,17 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 
 	if (in_array($searchMod, $addressModules)) {
 		if ($searchMod == 'SalesOrder') {
-			$address_table_prefix 	= 'vtiger_so';
-			$address_modulename 	= 'so';
+			$address_table_prefix 		= 'vtiger_so';
+			$address_ship_modulename 	= 'soship';
+			$address_bill_modulename 	= 'sobill';
 		} else {
-			$address_table_prefix 	= $table_name;
-			$address_modulename 	= $single_module_name;
+			$address_table_prefix 		= $table_name;
+			$address_ship_modulename 	= $single_module_name;
+			$address_bill_modulename 	= $single_module_name;
 		}
 
-		$q .= " INNER JOIN " . $address_table_prefix . "shipads ON " . $table_name . "." . $table_index . "=" .  $address_table_prefix . "shipads." . $address_modulename . "shipaddressid";
-		$q .= " INNER JOIN " . $address_table_prefix . "billads ON " . $table_name . "." . $table_index . "=" .  $address_table_prefix . "billads." . $address_modulename . "billaddressid";
+		$q .= " INNER JOIN " . $address_table_prefix . "shipads ON " . $table_name . "." . $table_index . "=" .  $address_table_prefix . "shipads." . $address_ship_modulename . "addressid";
+		$q .= " INNER JOIN " . $address_table_prefix . "billads ON " . $table_name . "." . $table_index . "=" .  $address_table_prefix . "billads." . $address_bill_modulename . "addressid";
 	}
 
 	if ($searchMod == 'Contacts') {
