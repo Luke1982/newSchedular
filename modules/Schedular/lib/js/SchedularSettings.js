@@ -41,7 +41,7 @@ SchedularSettings.prototype.saveAvUsers = function() {
 
 	for (var i = 0; i < checkboxes.length; i++) {
 		if (checkboxes[i].checked == true) {
-			var userId = checkboxes[i].id.slice(-1);
+			var userId = (checkboxes[i].id.split("-"))[1];
 			selectedUsers += userId + ",";
 		}
 	}
