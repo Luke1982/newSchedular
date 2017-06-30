@@ -70,22 +70,6 @@
 				</div>
 				<div id="listbox-unique-id" role="listbox" class="">
 					<ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid relation-autocomplete__target" style="opacity : 0;" role="presentation">
-{* 						<li role="presentation" class="slds-listbox__item">
-							<span id="listbox-option-unique-id-01" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-has-focus" role="option">
-								<span class="slds-media__figure">
-									<span class="slds-icon_container slds-icon-standard-account" title="Description of icon when needed">
-										<svg class="slds-icon slds-icon_small" aria-hidden="true">
-											<use xlink:href="include/LD/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
-										</svg>
-										<span class="slds-assistive-text">Description of icon</span>
-									</span>
-								</span>
-								<span class="slds-media__body">
-									<span class="slds-listbox__option-text slds-listbox__option-text_entity">Acme</span>
-									<span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Account • San Francisco</span>
-								</span>
-							</span>
-						</li> *}
 					</ul>
 				</div>
 			</div>
