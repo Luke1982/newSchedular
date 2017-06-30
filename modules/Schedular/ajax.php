@@ -117,8 +117,16 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 	$q = "SELECT " . $selectfields . " FROM " . $table_name;
 
 	if (in_array($searchMod, $addressModules)) {
-		$q .= " INNER JOIN " . $table_name . "shipads ON " . $table_name . "." . $table_index . "=" .  $table_name . "shipads." . $single_module_name . "addressid";
-		$q .= " INNER JOIN " . $table_name . "billads ON " . $table_name . "." . $table_index . "=" .  $table_name . "billads." . $single_module_name . "addressid";
+		if ($searchMod == 'SalesOrder') {
+			$address_table_prefix 	= 'vtiger_so';
+			$address_modulename 	= 'so';
+		} else {
+			$address_table_prefix 	= $table_name;
+			$address_modulename 	= $single_module_name;
+		}
+
+		$q .= " INNER JOIN " . $address_table_prefix . "shipads ON " . $table_name . "." . $table_index . "=" .  $address_table_prefix . "shipads." . $address_modulename . "shipaddressid";
+		$q .= " INNER JOIN " . $address_table_prefix . "billads ON " . $table_name . "." . $table_index . "=" .  $address_table_prefix . "billads." . $address_modulename . "billaddressid";
 	}
 
 	if ($searchMod == 'Contacts') {
