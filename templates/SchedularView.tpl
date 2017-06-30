@@ -1,4 +1,4 @@
-{include file="modules/Schedular/SchedularComponents.tpl"}
+{* {include file="modules/Schedular/SchedularComponents.tpl"} *}
 {* <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-icon.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-combobox.css"> *}

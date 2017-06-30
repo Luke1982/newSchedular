@@ -1,4 +1,4 @@
-{include file="modules/Schedular/SchedularComponents.tpl"}
+{* {include file="modules/Schedular/SchedularComponents.tpl"} *}
 {* <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-radio.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-tabs.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
@@ -267,6 +267,7 @@
 	<!-- // Hidden lang DIV -->
 </div>
 <script type="text/javascript">
+{literal}
 	window.addEventListener("load", function(){
 		var tabHeads = document.getElementsByClassName("slds-tabs_scoped__item");
 		var tabs = document.getElementsByClassName("slds-tabs_scoped__content");
@@ -300,4 +301,5 @@
         	})(i);
 		}
 	});
+{/literal}
 </script>
