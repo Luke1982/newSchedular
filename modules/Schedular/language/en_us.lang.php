@@ -31,6 +31,8 @@ $mod_strings = Array(
 	'description'					=> 'Description',
 	'save'							=> 'Save',
 	'cancel'						=> 'Cancel',
+	'remove'						=> 'Remove',
+	'update'						=> 'Update',
 
 	// Field labels
 	'schedular_eventtype'			=> 'Event Type',

@@ -197,8 +197,8 @@
 				</div>
 			</header>
 			<div class="slds-no-flex">
-				<button class="slds-button slds-button_neutral schedular-relation__remove">Remove</button>
-				<button class="slds-button slds-button_neutral schedular-relation__update">Update</button>
+				<button class="slds-button slds-button_neutral schedular-relation__remove">{$MOD.remove}</button>
+				<button class="slds-button slds-button_neutral schedular-relation__update">{$MOD.update}</button>
 			</div>
 		</div>
 		<div class="slds-card__body slds-card__body_inner">
@@ -206,25 +206,25 @@
 				<div class="slds-form-element">
 					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.filter_fields}</label>
 					<div class="slds-form-element__control">
-						<input id="" class="slds-input relation__filterfields" placeholder="Enter comma separated search fields" type="text" value="{$relation.schedular_relmodule_filterfields}">
+						<input id="" class="slds-input relation__filterfields" placeholder="{$MOD.placeholder_searchfields}" type="text" value="{$relation.schedular_relmodule_filterfields}">
 					</div>
 				</div>
 				<div class="slds-form-element">
 					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.return_fields}</label>
 					<div class="slds-form-element__control">
-						<input id="" class="slds-input relation__retfields" placeholder="Enter comma separated return fields" type="text" value="{$relation.schedular_relmodule_retfields}">
+						<input id="" class="slds-input relation__retfields" placeholder="{$MOD.placeholder_returnfields}" type="text" value="{$relation.schedular_relmodule_retfields}">
 					</div>
 				</div>
 				<div class="slds-form-element">
 					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.include_relation_id}</label>
 					<div class="slds-form-element__control">
-						<input id="" class="slds-input relation__include-id" placeholder="Enter relation ID you want to include in the search" type="text" value="{$relation.schedular_filterrel_id}">
+						<input id="" class="slds-input relation__include-id" placeholder="{$MOD.placeholder_relationid}" type="text" value="{$relation.schedular_filterrel_id}">
 					</div>
 				</div>
 				<div class="slds-form-element">
 					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_filterfield}</label>
 					<div class="slds-form-element__control">
-						<input id="" class="slds-input relation__included-rel-filterfield" placeholder="Filter field for the included relation's CRM ID" type="text" value="{$relation.schedular_filterrel_field}">
+						<input id="" class="slds-input relation__included-rel-filterfield" placeholder="{$MOD.placeholder_relfilterfield}" type="text" value="{$relation.schedular_filterrel_field}">
 					</div>
 				</div>
 			</div>
@@ -249,7 +249,7 @@
 					<svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
 						<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
 					</svg>
-					<span class="slds-assistive-text">Close</span>
+					<span class="slds-assistive-text">{$MOD.close}</span>
 				</button>
 			</div>
 		</div>
