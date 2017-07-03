@@ -26,7 +26,7 @@ while ($user = $adb->fetch_array($r)) {
 }
 
 // Get the event types
-$r = $adb->pquery("SELECT * FROM vtiger_schedular_eventtype", array());
+$r = $adb->pquery("SELECT * FROM vtiger_schedular_eventtype LEFT JOIN vtiger_schedular_eventcolors ON vtiger_schedular_eventtype.schedular_eventtypeid=vtiger_schedular_eventcolors.eventtype_id", array());
 $event_types = array();
 while ($eventtype = $adb->fetch_array($r)) {
 	$event_types[] = $eventtype;

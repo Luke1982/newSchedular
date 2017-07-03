@@ -32,6 +32,7 @@ $mod_strings = Array(
 	'remove'						=> 'Verwijder',
 	'update'						=> 'Update',
 	'close'							=> 'Sluit',
+	'legend'						=> 'Legenda',
 
 	// Field labels
 	'schedular_eventtype'			=> 'Type afspraak',

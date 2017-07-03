@@ -126,6 +126,7 @@
 	<!-- Hidden DIV that hold some language strings -->
 	<div id="schedular-lang-strings">
 		<input type="hidden" name="resource-label" id="resource-label" value="{$MOD.resources}" />
+		<input type="hidden" name="legend-label" id="legend-label" value="{$MOD.legend}" />
 	</div>
 	<!-- Hidden div that holds all the data to save -->
 	<div id="schedular-savedata">
@@ -141,5 +142,16 @@
 	</div>
 	<!-- // Hidden div that holds all the data to save -->
 </div>
+<!-- Eventtype color legend div -->
+<div id="schedular-eventtypes-legends">
+	{foreach from=$event_types item=event_type key=key}
+	<div class="eventtype-legend">
+		<div class="eventtype-legend__colorbox" style="background-color: {$event_type.eventtype_bgcolor}"></div>
+		<div class="eventtype-legend__name">{$event_type.schedular_eventtype}</div>
+	</div>
+	{/foreach}
+	<div id="close-schedular-eventtypes-legend">X</div>
+</div>
+<!-- // Eventtype color legend div -->
 <!-- // Add / Edit Event UI -->
 <script type="text/javascript" src="modules/Schedular/Schedular.js"></script>

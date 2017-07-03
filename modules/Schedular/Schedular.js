@@ -55,8 +55,16 @@ window.addEventListener("load", function(){
 					editable: true,
 					selectable: true,
 					eventLimit: true, // allow "more" link when too many events
+					customButtons: {
+						legend: {
+							text: document.getElementById("legend-label").value,
+							click: function() {
+								document.getElementById("schedular-eventtypes-legends").classList.toggle("active");
+							}
+						}
+					},
 					header: {
-						left: 'prev,next today',
+						left: 'prev,next today legend',
 						center: 'title',
 						right: 'agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaFiveDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
 					},
@@ -273,6 +281,10 @@ window.addEventListener("load", function(){
 
 					target.classList.add("no-transition");
 				}
+
+				document.getElementById("close-schedular-eventtypes-legend").addEventListener("click", function(){
+					document.getElementById("schedular-eventtypes-legends").classList.toggle("active");
+				});
 
 				clearInterval(int); // Schedular is launched, stop the interval
 			}
