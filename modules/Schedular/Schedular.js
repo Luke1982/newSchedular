@@ -489,6 +489,25 @@ Schedular.UI.fields = {
 	resource	: document.getElementById("schedular-event-ui__resourcename"),
 	eventTypes 	: document.getElementById("event-types").getElementsByTagName("option")
 };
+Schedular.UI.validate = function() {
+	var inputs = this.el.getElementsByTagName("input");
+	var hasError = [];
+	for (var i = 0; i < inputs.length; i++) {
+		inputs[i].classList.remove("sch-has-error");
+		if (inputs[i].getAttribute("data-required") == "true" && inputs[i].value == "") {
+			hasError.push(inputs[i]);
+		}
+	}
+	if (hasError.length > 0) {
+		for (var i = 0; i < hasError.length; i++) {
+			hasError[i].classList.add("sch-has-error");
+		}
+		return false;
+	} else {
+		return true;
+	}
+}
+
 Schedular.CurrentEvent = {
 	id 			: undefined,
 	start 		: undefined, // Moment JS obj
@@ -600,7 +619,9 @@ Schedular.CurrentEvent.update = function() {
 	this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
 
-	this.ajax("updateEvent", callback);
+	if (Schedular.UI.validate() == true) {
+		this.ajax("updateEvent", callback);
+	}
 
 	function callback(response) {
 		var result = JSON.parse(response);
@@ -613,7 +634,9 @@ Schedular.CurrentEvent.create = function() {
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
 	// console.log(this);
 
-	this.ajax("createEvent", callback);
+	if (Schedular.UI.validate() == true) {
+		this.ajax("createEvent", callback);
+	}
 
 	function callback(response) {
 		var result = JSON.parse(response);

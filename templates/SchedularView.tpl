@@ -51,7 +51,7 @@
 		<div class="slds-form-element">
 			<label class="slds-form-element__label" for="schedular_name">{$MOD.title}</label>
 			<div class="slds-form-element__control">
-				<input id="schedular_name" name="schedular_name" class="slds-input" placeholder="Placeholder Text" type="text">
+				<input id="schedular_name" name="schedular_name" class="slds-input" data-required="true" placeholder="Placeholder Text" type="text">
 			</div>
 		</div>
 		<div class="slds-form-element">
