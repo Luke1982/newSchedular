@@ -49,6 +49,7 @@ window.addEventListener("load", function(){
 				$('#schedular').fullCalendar({
 					schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 					resourceAreaWidth: '15%',
+					resourceLabelText: document.getElementById("resource-label").value,
 					defaultView: 'agendaDay',
 					defaultDate: new Date(),
 					editable: true,
