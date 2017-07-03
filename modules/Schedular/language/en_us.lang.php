@@ -33,6 +33,7 @@ $mod_strings = Array(
 	'cancel'						=> 'Cancel',
 	'remove'						=> 'Remove',
 	'update'						=> 'Update',
+	'close'							=> 'Close',	
 
 	// Field labels
 	'schedular_eventtype'			=> 'Event Type',
@@ -52,6 +53,10 @@ $mod_strings = Array(
 	'business_hours_end' 			=> 'End of business hours',
 	'save_general_settings' 		=> 'Save general settings',
 	'general_settings'				=> 'General settings',
+	'placeholder_searchfields'		=> 'Enter comma separated search fields',
+	'placeholder_returnfields'		=> 'Enter comma separated return fields',
+	'placeholder_relationid'		=> 'Enter relation ID you want to include in the search',
+	'placeholder_relfilterfield'	=> 'Filter field for the included relation\'s CRM ID',	
 
 	// Settings toasts
 	'toast_users_saved' 			=> 'Available users saved to database',
