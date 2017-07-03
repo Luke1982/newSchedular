@@ -48,6 +48,7 @@ window.addEventListener("load", function(){
 			if (typeof jQuery == "function" && typeof jQuery().fullCalendar == "function" && typeof moment == "function") {
 				$('#schedular').fullCalendar({
 					schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+					resourceAreaWidth: '15%',
 					defaultView: 'agendaDay',
 					defaultDate: new Date(),
 					editable: true,
