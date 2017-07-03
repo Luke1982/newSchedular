@@ -631,7 +631,11 @@ Schedular.CurrentEvent.update = function() {
 	this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
 
-	if (Schedular.UI.validate() == true) {
+	if (Schedular.UI.state == true) {
+		if (Schedular.UI.validate() == true) {
+			this.ajax("updateEvent", callback);
+		}
+	} else {
 		this.ajax("updateEvent", callback);
 	}
 
