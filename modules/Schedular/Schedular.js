@@ -390,6 +390,7 @@ Schedular.UI.clear = function(){
 		} else if (inputs[i].type == "radio" || inputs[i].type == "checkbox") {
 			inputs[i].checked == false;
 		}
+		inputs[i].classList.remove("sch-has-error");
 	}
 
 	for (var i = 0; i < textareas.length; i++) {
