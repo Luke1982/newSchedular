@@ -147,7 +147,7 @@
 	{foreach from=$event_types item=event_type key=key}
 	<div class="eventtype-legend">
 		<div class="eventtype-legend__colorbox" style="background-color: {$event_type.eventtype_bgcolor}"></div>
-		<div class="eventtype-legend__name">{$event_type.schedular_eventtype}</div>
+		<div class="eventtype-legend__name">{$event_type.schedular_eventtype|@getTranslatedString:'Schedular'}</div>
 	</div>
 	{/foreach}
 	<div id="close-schedular-eventtypes-legend">X</div>
