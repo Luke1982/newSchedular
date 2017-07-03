@@ -143,6 +143,8 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 		}
 	}
 
+	// var_dump($q);
+
 	$r = $adb->query($q);
 	
 	if ($adb->getAffectedRowCount($r) > 0) {
@@ -336,7 +338,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 
 	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);
 	$meta = $handler->getMeta();
-	$s->column_fields = DataTransform::sanitizeRetrieveEntityInfo($s->column_fields, $meta);	
+	$s->column_fields = DataTransform::sanitizeRetrieveEntityInfo($s->column_fields, $meta);
 
 	$s->save('Schedular');
 
@@ -384,4 +386,14 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getEventDBInfo') {
 	$r = $adb->pquery("SELECT * FROM vtiger_schedular WHERE schedularid = ?", array($data['id']));
 	echo json_encode($adb->fetch_array($r));
 	// var_dump($data);
+}
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveUserPrefs') {
+	global $current_user;
+
+	$data = json_decode($_REQUEST['data'], true);
+
+	$user_prefs = json_decode(file_get_contents('modules/Schedular/schedular_userprefs.json'), true);
+	$user_prefs[$current_user->id]['preferredView'] = $data['currentView'];
+	file_put_contents('modules/Schedular/schedular_userprefs.json', json_encode($user_prefs));
 }

@@ -120,6 +120,8 @@
 	<div id="schedular-general-settings">
 		<input type="hidden" name="business-hours-start" id="business-hours-start" value="{$general_settings.business_hours_start}" />
 		<input type="hidden" name="business-hours-end" id="business-hours-end" value="{$general_settings.business_hours_end}" />
+		<input type="hidden" name="current-user-id" id="current-user-id" value="{$current_user_id}" />
+		<input type="hidden" name="preferred-view" id="preferred-view" value="{$preferred_view}" />
 	</div>
 	<!-- Hidden DIV that hold some language strings -->
 	<div id="schedular-lang-strings">

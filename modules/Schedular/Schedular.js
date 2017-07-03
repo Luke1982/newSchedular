@@ -50,7 +50,7 @@ window.addEventListener("load", function(){
 					schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 					resourceAreaWidth: '15%',
 					resourceLabelText: document.getElementById("resource-label").value,
-					defaultView: 'agendaDay',
+					defaultView: getUserPreferredView(),
 					defaultDate: new Date(),
 					editable: true,
 					selectable: true,
@@ -58,7 +58,7 @@ window.addEventListener("load", function(){
 					header: {
 						left: 'prev,next today',
 						center: 'title',
-						right: 'agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
+						right: 'agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaFiveDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
 					},
 					minTime : document.getElementById("business-hours-start").value,
 					maxTime : document.getElementById("business-hours-end").value,
@@ -96,6 +96,17 @@ window.addEventListener("load", function(){
 						agendaFourDay: {
 							type: 'agenda',
 							duration: { days: 4 },
+
+							// views that are more than a day will NOT do this behavior by default
+							// so, we need to explicitly enable it
+							groupByResource: true,
+
+							//// uncomment this line to group by day FIRST with resources underneath
+							groupByDateAndResource: true
+						},
+						agendaFiveDay: {
+							type: 'agenda',
+							duration: { days: 5 },
 
 							// views that are more than a day will NOT do this behavior by default
 							// so, we need to explicitly enable it
@@ -186,6 +197,7 @@ window.addEventListener("load", function(){
 							start : view.activeRange.start._d,
 							end : view.activeRange.end._d
 						});
+						saveUserPrefs(view);
 					},
 					eventResize: function( event, delta, revertFunc, jsEvent, ui, view ) {
 						Schedular.CurrentEvent.setCurrent(event);
@@ -295,6 +307,29 @@ window.addEventListener("load", function(){
 		};
 		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getevents&start="+dates.start.toJSON()+"&end="+dates.end.toJSON(), true);
 		r.send();
+	}
+
+	function saveUserPrefs(view) {
+		var data = {
+			currentView : view.type,
+		};
+
+		var r = new XMLHttpRequest();
+		r.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+			}
+		};
+		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=saveUserPrefs&data="+encodeURIComponent(JSON.stringify(data)), true);
+		r.send();
+	}
+
+	function getUserPreferredView() {
+		var prefView = document.getElementById("preferred-view").value;
+		if (prefView != "") {
+			return prefView;
+		} else {
+			return 'agendaDay';
+		}
 	}
 
 });

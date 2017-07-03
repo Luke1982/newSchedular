@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 // include_once('modules/Vtiger/ListView.php');
-global $app_strings, $mod_strings, $current_language, $adb;
+global $app_strings, $mod_strings, $current_language, $adb, $current_user;
 
 // Get the selected users
 $r = $adb->pquery("SELECT * FROM vtiger_schedularsettings WHERE schedular_settingsid = ?", array(1));
@@ -42,6 +42,10 @@ while ($relation = $adb->fetch_array($r)) {
 	$relations[] = $relation;
 }
 
+// Get some specific user preferences
+$user_prefs = json_decode(file_get_contents('modules/Schedular/schedular_userprefs.json'), true)[$current_user->id];
+
+
 $smarty->assign('MOD', $mod_strings);
 $smarty->assign('APP', $app_strings);
 
@@ -49,5 +53,7 @@ $smarty->assign('relations', $relations);
 $smarty->assign('resource_users', $users);
 $smarty->assign('event_types', $event_types);
 $smarty->assign('general_settings', $general_settings);
+$smarty->assign('current_user_id', $current_user->id);
+$smarty->assign('preferred_view', $user_prefs['preferredView']);
 $smarty->display('modules/Schedular/SchedularView.tpl');
 ?>
