@@ -5,9 +5,9 @@
 #schedular-event-ui {
 	position: fixed;
 	width: 40%;
-	min-width: 350px;
+	min-width: 750px;
 	/*height: 85%;*/
-	padding: 2.5%;
+	padding: 4% 2.5%;
 	left: 30%;
 	top: 5%;
 	z-index: -1;
