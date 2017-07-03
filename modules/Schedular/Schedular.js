@@ -55,17 +55,17 @@ window.addEventListener("load", function(){
 					header: {
 						left: 'prev,next today',
 						center: 'title',
-						right: 'agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaWeek,month, timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
+						right: 'agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
 					},
-					minTime : "08:00:00",
-					maxTime : "19:00:00",
+					minTime : document.getElementById("business-hours-start").value,
+					maxTime : document.getElementById("business-hours-end").value,
 					slotDuration : "00:15:00",
 					businessHours: {
 					    // days of week. an array of zero-based day of week integers (0=Sunday)
 					    dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
 
-					    start: '08:00', // a start time (10am in this example)
-					    end: '18:00', // an end time (6pm in this example)
+					    start: document.getElementById("business-hours-start").value,
+					    end: document.getElementById("business-hours-end").value
 					},
 					views: {
 						agendaTwoDay: {
@@ -514,6 +514,7 @@ Schedular.CurrentEvent.setCurrent = function(event) {
 	// console.log(event);
 }
 Schedular.CurrentEvent.ajax = function(functionName, callback) {
+	console.log("CurrentEvent AJAX call for " + functionName);
 	var r = new XMLHttpRequest();
 	r.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -546,7 +547,7 @@ Schedular.CurrentEvent.setRelations = function() {
 			};
 		}
 	}
-	console.log(this.relations);
+	// console.log(this.relations);
 }
 Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.description			= Schedular.UI.fields.description.value;
@@ -572,13 +573,12 @@ Schedular.CurrentEvent.create = function() {
 	this.setColumnFields();
 	this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
-	console.log(this);
+	// console.log(this);
 
 	this.ajax("createEvent", callback);
 
 	function callback(response) {
 		var result = JSON.parse(response);
-		// console.log(response);
 		if (Schedular.UI.state == true) Schedular.CurrentEvent.render(result);
 	}
 }

@@ -116,6 +116,11 @@
 			</div>
 		</fieldset>
 	</div>
+	<!-- Hidden DIV that hold some values to be picked up by the JS init script -->
+	<div id="schedular-general-seetings">
+		<input type="hidden" name="business-hours-start" id="business-hours-start" value="{$general_settings.business_hours_start}" />
+		<input type="hidden" name="business-hours-end" id="business-hours-end" value="{$general_settings.business_hours_end}" />
+	</div>
 	<!-- Hidden div that holds all the data to save -->
 	<div id="schedular-savedata">
 		<input type="hidden" id="sch-startdate" data-columnfield="schedular_startdate" value="" />

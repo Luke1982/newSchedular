@@ -11,7 +11,9 @@
 global $app_strings, $mod_strings, $current_language, $adb;
 
 // Get the selected users
-$r = $adb->pquery("SELECT schedular_available_users FROM vtiger_schedularsettings WHERE schedular_settingsid = ?", array(1));
+$r = $adb->pquery("SELECT * FROM vtiger_schedularsettings WHERE schedular_settingsid = ?", array(1));
+// Get the rest of the settings from the previous query
+$general_settings = $adb->fetch_array($r);
 $sel_users = explode(',', $adb->query_result($r, 0, 'schedular_available_users'));
 
 // Get the users
@@ -46,5 +48,6 @@ $smarty->assign('APP', $app_strings);
 $smarty->assign('relations', $relations);
 $smarty->assign('resource_users', $users);
 $smarty->assign('event_types', $event_types);
+$smarty->assign('general_settings', $general_settings);
 $smarty->display('modules/Schedular/SchedularView.tpl');
 ?>
