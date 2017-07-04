@@ -78,6 +78,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event['textColor'] = '#000000';
 		$prepared_event['description'] = $event['description'];
 		$prepared_event['eventType'] = $event['schedular_eventtype'];
+		$prepared_event['eventStatus'] = $event['schedular_eventstatus'];
 		$prepared_event['existingRelations'] = getRelatedRecords($event['crmid']);
 		$events[] = $prepared_event;
 	}

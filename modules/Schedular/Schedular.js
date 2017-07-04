@@ -179,6 +179,13 @@ window.addEventListener("load", function(){
 						div.innerText = event.description;
 						contentDiv.appendChild(div);
 
+						if (event.eventStatus == "Completed") {
+							var completedSign = document.createElement("span");
+							completedSign.className = "slds-icon_container slds-icon-utility-check event-completed-mark";
+							completedSign.innerHTML = "<svg class=\"slds-icon slds-icon_xx-small slds-icon-text-default\" aria-hidden=\"true\"><use xlink:href=\"include/LD/assets/icons/utility-sprite/svg/symbols.svg#check\"></use></svg>";
+							contentDiv.appendChild(completedSign);
+						}
+
 						// console.log(event.existingRelations);
 						if (event.existingRelations != undefined && event.existingRelations.length > 0) {
 							for (var i = 0; i < event.existingRelations.length; i++) {
