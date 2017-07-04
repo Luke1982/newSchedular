@@ -111,8 +111,9 @@
 		</fieldset>	 *}		
 		<fieldset class="slds-form-element">
 			<div class="slds-button-group" role="group">
-				<button class="slds-button slds-button_neutral" id="sch-save-event-ui">{$MOD.save}</button>
-				<button class="slds-button slds-button_neutral" id="sch-cancel-event-ui">{$MOD.cancel}</button>
+				<button class="slds-button slds-button_success" id="sch-save-event-ui">{$MOD.save}</button>
+				<button class="slds-button slds-button_destructive" id="sch-cancel-event-ui">{$MOD.cancel}</button>
+				<a id="sch-visit-event-link" target="_blank"><button class="slds-button slds-button_neutral" id="sch-visit-event-ui">{$MOD.visit_event}</button></a>
 			</div>
 		</fieldset>
 	</div>

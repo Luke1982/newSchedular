@@ -77,7 +77,8 @@ $mod_strings = Array(
 	// Event UI
 	'clicktodrag' 					=> 'Click and drag here',
 	'searchin'						=> 'Search in',
-	'currentlylinked'				=> 'Currently linked'
+	'currentlylinked'				=> 'Currently linked',
+	'visit_event'					=> 'Visit event'
 );
 
 ?>

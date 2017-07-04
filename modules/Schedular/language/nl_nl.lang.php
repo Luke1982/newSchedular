@@ -75,7 +75,8 @@ $mod_strings = Array(
 	// Event UI
 	'clicktodrag' 					=> 'Klik en sleep hier',
 	'searchin'						=> 'Zoek in',
-	'currentlylinked'				=> 'Huidig gekoppelde'
+	'currentlylinked'				=> 'Huidig gekoppelde',
+	'visit_event'					=> 'Ga naar afspraak'
 );
 
 ?>

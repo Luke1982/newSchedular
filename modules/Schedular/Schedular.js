@@ -157,7 +157,7 @@ window.addEventListener("load", function(){
 							groupByDateAndResource: true
 						}
 					},
-					height: 800,
+					height: (screen.availHeight * .7),
 					weekends: false,
 
 					//// uncomment this line to hide the all-day slot
@@ -353,6 +353,9 @@ Schedular.UI = {
 	el 			  : (function(){
 						return document.getElementById("schedular-event-ui");
 					})(),
+	link 			  : (function(){
+						return document.getElementById("sch-visit-event-link");
+					})(),
 	closeListener : (function(){
 						document.getElementById("sch-cancel-event-ui").addEventListener("click", function(){
 							Schedular.UI.clear();
@@ -404,6 +407,7 @@ Schedular.UI.clear = function(){
 	}
 
 	eventTypes[0].selected = true;
+	this.link.href = "";
 }
 Schedular.UI.fill = function(){
 	this.fields.name.value 			= Schedular.CurrentEvent.title;
@@ -413,6 +417,7 @@ Schedular.UI.fill = function(){
 	this.fields.endDate.innerText 	= Schedular.CurrentEvent.end.format("DD-DD-YYYY");
 	this.fields.endTime.innerText 	= Schedular.CurrentEvent.endTime;
 	this.fields.resource.innerText 	= Schedular.CurrentEvent.resource.title;
+	this.link.href 					= "index.php?module=Schedular&action=DetailView&record=" + Schedular.CurrentEvent.id;
 	this.setCurrentEventType(Schedular.CurrentEvent.eventType);
 	this.setExistingRelations(Schedular.CurrentEvent.relations);
 }
