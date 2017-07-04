@@ -412,9 +412,9 @@ Schedular.UI.clear = function(){
 Schedular.UI.fill = function(){
 	this.fields.name.value 			= Schedular.CurrentEvent.title;
 	this.fields.description.value 	= Schedular.CurrentEvent.description;
-	this.fields.startDate.innerText	= Schedular.CurrentEvent.start.format("DD-DD-YYYY");
+	this.fields.startDate.innerText	= Schedular.CurrentEvent.start.format(window.userDateFormat.toUpperCase());
 	this.fields.startTime.innerText	= Schedular.CurrentEvent.startTime;
-	this.fields.endDate.innerText 	= Schedular.CurrentEvent.end.format("DD-DD-YYYY");
+	this.fields.endDate.innerText 	= Schedular.CurrentEvent.end.format(window.userDateFormat.toUpperCase());
 	this.fields.endTime.innerText 	= Schedular.CurrentEvent.endTime;
 	this.fields.resource.innerText 	= Schedular.CurrentEvent.resource.title;
 	this.link.href 					= "index.php?module=Schedular&action=DetailView&record=" + Schedular.CurrentEvent.id;
