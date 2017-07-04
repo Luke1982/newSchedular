@@ -44,6 +44,7 @@ $mod_strings = Array(
 	'schedular_endtime'				=> 'Eindtijd planning',
 	'schedular_startdate'			=> 'Startdatum planning',
 	'schedular_enddate'				=> 'Eindtijd planning',
+	'schedular_eventstatus'			=> 'Status planning',
 
 	// Settings
 	'av_users' 						=> 'Beschikbare gebruikers',
@@ -78,6 +79,11 @@ $mod_strings = Array(
 	'Checkup' 						=> 'Controle',
 	'Visit' 						=> 'Bezoek',
 	'Service'						=> 'Voer een dienst uit',
+
+	// Event statusses
+	'Planned'						=> 'Gepland',
+	'Completed'						=> 'Compleet',
+	'Cancelled'						=> 'Geannuleerd',
 
 	// Event UI
 	'clicktodrag' 					=> 'Klik en sleep hier',

@@ -3,7 +3,7 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.3.9</version>
+	<version>0.4.0</version>
 	<short_description>A module that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
 		<vtiger_version>5.8.0</vtiger_version>
@@ -26,7 +26,7 @@
 			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 			*************************************************************************************************
 			*  Module       : Schedular
-			*  Version      : 0.3.9
+			*  Version      : 0.4.0
 			*************************************************************************************************/
 			]]></inline>
 		</license>
@@ -42,6 +42,7 @@
 					`schedular_starttime` VARCHAR(8) NOT NULL,
 					`schedular_endtime` VARCHAR(8) NOT NULL,
 					`schedular_eventtype` VARCHAR(255) NOT NULL,
+					`schedular_eventstatus` VARCHAR(255) NOT NULL,
 					PRIMARY KEY (`schedularid`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 				</table>
@@ -236,6 +237,31 @@
 									<picklistvalue>Visit</picklistvalue>
 									<picklistvalue>Service</picklistvalue>
 									<picklistvalue>Checkup</picklistvalue>
+								</picklistvalues>
+							</field>
+							<field>
+								<fieldname>schedular_eventstatus</fieldname>
+								<uitype>15</uitype>
+								<columnname>schedular_eventstatus</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_eventstatus</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<sequence>8</sequence>
+								<maximumlength>100</maximumlength>
+								<typeofdata>V~M</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
+								<defaultvalue></defaultvalue>
+								<picklistvalues>
+									<picklistvalue>Planned</picklistvalue>
+									<picklistvalue>Completed</picklistvalue>
+									<picklistvalue>Cancelled</picklistvalue>
 								</picklistvalues>
 							</field>
 							<field>

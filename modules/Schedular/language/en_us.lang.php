@@ -46,6 +46,8 @@ $mod_strings = Array(
 	'schedular_endtime'				=> 'Endtime',
 	'schedular_startdate'			=> 'Startdate',
 	'schedular_enddate'				=> 'Endtime',
+	'schedular_eventstatus'			=> 'Eventstatus',
+
 
 	// Settings
 	'av_users' 						=> 'Available users',
@@ -80,6 +82,11 @@ $mod_strings = Array(
 	'Checkup' 						=> 'a Checkup',
 	'Visit' 						=> 'a Visit',
 	'Service'						=> 'perform Service',
+
+	// Event statusses
+	'Planned'						=> 'Planned',
+	'Completed'						=> 'Completed',
+	'Cancelled'						=> 'Cancelled',
 
 	// Event UI
 	'clicktodrag' 					=> 'Click and drag here',

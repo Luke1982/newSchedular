@@ -187,6 +187,25 @@ class Schedular extends CRMEntity {
 				global $adb;
 				$adb->query("ALTER TABLE vtiger_schedularsettings ADD row_height VARCHAR(56) DEFAULT NULL after business_hours_end");
 			}
+			if (version_compare($moduleInstance->version, '0.4.0') == -1) {
+				include_once 'include/utils/utils.php';
+				include_once('vtlib/Vtiger/Module.php');
+
+				$block							= 	Vtiger_Block::getInstance('LBL_SCHEDULAR_INFORMATION', $moduleInstance);
+				
+				// Setup the field
+				$statusField					=	new Vtiger_Field();
+				$statusField->name				=	'schedular_eventstatus';
+				$statusField->label				=	'schedular_eventstatus';
+				$statusField->table				=	'vtiger_schedular';
+				$statusField->column			=	'schedular_eventstatus';
+				$statusField->columntype		=	'VARCHAR(255)';
+				$statusField->uitype			=	15;
+				$statusField->typeofdata		=	'V~M';
+			
+				$block->addField($statusField);		
+				$statusField->setPicklistValues( array('Planned', 'Completed', 'Cancelled') );	
+			}
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 		}
