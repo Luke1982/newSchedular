@@ -73,12 +73,16 @@
 }
 .event-completed-mark {
 	position: absolute;
-	right: 2px;
-	top: 2px;
-	border: 2px solid #54698d !important;
+	right: 0;
+	top: -2px;
+	border-left: 1px solid #54698d !important;
+	border-bottom: 1px solid #54698d !important;
 	background-color: #ffffff !important;
-	border-radius: 50% !important;
-	padding: 3px !important;
+	border-radius: 0 0 0 4px !important;
+	padding: 2px !important;
+}
+.fc-timeline-event {
+	padding: 0 !important;
 }
 .sch-has-error {
 	border: 1px solid red !important;
