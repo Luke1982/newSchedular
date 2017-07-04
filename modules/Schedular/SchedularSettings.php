@@ -1,7 +1,7 @@
 <?php
 
 // Get the users
-$r = $adb->pquery("SELECT id, first_name, last_name FROM vtiger_users", array());
+$r = $adb->pquery("SELECT id, first_name, last_name FROM vtiger_users WHERE status = ?", array('Active'));
 $users = array();
 while ($user = $adb->fetch_array($r)) {
 	$users[] = $user;
