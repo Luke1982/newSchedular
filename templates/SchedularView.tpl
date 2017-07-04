@@ -145,13 +145,23 @@
 </div>
 <!-- Eventtype color legend div -->
 <div id="schedular-eventtypes-legends">
+	<div id="schedular-eventtypes-legends__header">
+		<span class="slds-icon_container slds-icon-utility-announcement" title="Description of icon when needed">
+			<svg class="slds-icon slds-icon_x-small slds-icon-text-light" aria-hidden="true">
+			<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#move"></use>
+			</svg>
+			<span class="slds-assistive-text">Description of icon</span>
+		</span>
+		<div id="close-schedular-eventtypes-legend">X</div>
+	</div>
+	<div id="schedular-eventtypes-legends__content">
 	{foreach from=$event_types item=event_type key=key}
 	<div class="eventtype-legend">
 		<div class="eventtype-legend__colorbox" style="background-color: {$event_type.eventtype_bgcolor}"></div>
 		<div class="eventtype-legend__name">{$event_type.schedular_eventtype|@getTranslatedString:'Schedular'}</div>
 	</div>
 	{/foreach}
-	<div id="close-schedular-eventtypes-legend">X</div>
+	</div>
 </div>
 <!-- // Eventtype color legend div -->
 <!-- // Add / Edit Event UI -->

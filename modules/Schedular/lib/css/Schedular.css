@@ -82,22 +82,27 @@ div.fc-rows > table > tbody > tr > td > div {
 	background-color: #ffffff;
 	left: 0;
 	top: 15%;
-	padding: 1% 2%;
-	z-index: 99999999999999;
-	-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.4);
-	-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.4);
-	box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.4);
+	z-index: -1;
+	opacity: 0;
+	
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(99,99,99,0.6);
+	-moz-box-shadow: 0px 0px 4px 0px rgba(99,99,99,0.6);
+	box-shadow: 0px 0px 4px 0px rgba(99,99,99,0.6);
 
-	-webkit-transform: translateX(-100%);
-	-moz-transform: translateX(-100%);
-	transform: translateX(-100%);
-
-	transition: transform 100ms;
+	transition: opacity 100ms linear 0ms, z-index 100ms linear 100ms;
 }
 #schedular-eventtypes-legends.active {
-	-webkit-transform: translateX(0);
-	-moz-transform: translateX(0);
-	transform: translateX(0);
+	opacity: 1;
+	z-index: 99999999999999;
+	transition: opacity 100ms linear 10ms, z-index 100ms linear 0ms;
+}
+#schedular-eventtypes-legends__header {
+	background-color: #54698d;
+	color: #fff !important;
+	padding: 10px 5px;
+}
+#schedular-eventtypes-legends__content {
+	padding: 2% 4%;
 }
 .eventtype-legend:after {
 	content: "";
@@ -117,12 +122,10 @@ div.fc-rows > table > tbody > tr > td > div {
 	color: #000000 !important;
 }
 #close-schedular-eventtypes-legend {
-	position: absolute;
-	right: 10px;
-	top: 10px;
-	color: #cccccc;
-	border: 1px solid #cccccc;
-	padding: 2px 4px;
+	float: right;
+	margin: -3px 0 0 0;
+	border: 1px solid #ffffff;
+	padding: 2px 6px;
 	border-radius: 3px;
 	cursor: pointer;
 }

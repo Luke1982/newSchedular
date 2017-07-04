@@ -264,6 +264,21 @@ window.addEventListener("load", function(){
 						}
 				});
 
+				interact('#schedular-eventtypes-legends__header').draggable({
+						// enable inertial throwing
+						// inertia: true,
+						// keep the element within the area of it's parent
+						restrict: {
+							restriction: "div#schedular",
+							endOnly: true,
+							elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+						},
+						// enable autoScroll
+						autoScroll: true,
+						// call this function on every dragmove event
+						onmove: dragMoveListener
+				});
+
 				function dragMoveListener (event) {
 					var target = event.target.parentElement,
 					// keep the dragged position in the data-x/data-y attributes
