@@ -389,6 +389,7 @@ Schedular.UI = {
 	state 		   : false
 };
 Schedular.UI.show = function(){
+	this.fields.name.focus();
 	this.el.classList.add("active");
 	this.state = true;
 }
