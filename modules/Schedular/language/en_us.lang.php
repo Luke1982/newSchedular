@@ -34,7 +34,9 @@ $mod_strings = Array(
 	'remove'						=> 'Remove',
 	'update'						=> 'Update',
 	'close'							=> 'Close',
-	'legend'						=> 'Legend',	
+	'legend'						=> 'Legend',
+	'enabled'						=> 'Enabled',
+	'disabled'						=> 'Disabled',
 
 	// Field labels
 	'schedular_eventtype'			=> 'Event Type',

@@ -33,6 +33,8 @@ $mod_strings = Array(
 	'update'						=> 'Update',
 	'close'							=> 'Sluit',
 	'legend'						=> 'Legenda',
+	'enabled'						=> 'Ingeschakeld',
+	'disabled'						=> 'Uitgeschakeld',
 
 	// Field labels
 	'schedular_eventtype'			=> 'Type afspraak',

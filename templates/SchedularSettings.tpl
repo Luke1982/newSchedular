@@ -28,19 +28,17 @@
 		<div id="tab-scoped-1" class="slds-tabs_scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
 			<div class="slds-form slds-form_stacked">
 				<fieldset class="slds-form-element">
-					<legend class="slds-form-element__legend slds-form-element__label">{$MOD.av_users}</legend>
-					<div class="slds-form-element__control">
-						<div class="slds-checkbox_button-group">
-							{foreach from=$av_users item='av_user'}
-							<span class="slds-button slds-checkbox_button">
-								<input id="user-{$av_user.id}" name="checkbox" type="checkbox" class="available-users__checkbox"{if $av_user.selected == true}checked="checked"{/if}>
-								<label class="slds-checkbox_button__label" for="user-{$av_user.id}">
-									<span class="slds-checkbox_faux">{$av_user.first_name}&nbsp;{$av_user.last_name}</span>
-								</label>
-							</span>
-							{/foreach}
-						</div>
-					</div>
+				{foreach from=$av_users item='av_user'}
+					<label class="slds-checkbox_toggle slds-grid">
+						<span class="slds-form-element__label slds-m-bottom_none sch-available-user-label">{$av_user.first_name}&nbsp;{$av_user.last_name}</span>
+						<input name="checkbox" aria-describedby="Toggle user" value="on" type="checkbox" id="user-{$av_user.id}" class="available-users__checkbox"{if $av_user.selected == true} checked="checked"{/if}>
+						<span id="toggle-desc" class="slds-checkbox_faux_container" aria-live="assertive">
+							<span class="slds-checkbox_faux"></span>
+							<span class="slds-checkbox_on">{$MOD.enabled}</span>
+							<span class="slds-checkbox_off">{$MOD.disabled}</span>
+						</span>
+					</label>
+				{/foreach}
 				</fieldset>
 				<fieldset class="slds-form-element">
 					<button class="slds-button slds-button_brand" id="save-available-users">
