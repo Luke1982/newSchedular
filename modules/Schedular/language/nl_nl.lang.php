@@ -9,12 +9,12 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' 					=> 'Planner',
-	'SINGLE_ModuleName' 			=> 'Planner',
-	'ModuleName ID' 				=> 'Module Name ID',
+	'Schedular' 					=> 'Planner',
+	'SINGLE_Schedular' 				=> 'Planner',
+	'Schedular ID' 					=> 'Module Name ID',
 
 	'LBL_CUSTOM_INFORMATION' 		=> 'Aangepaste informatie',
-	'LBL_MODULEBLOCK_INFORMATION' 	=> 'Planningsinformatie',
+	'LBL_SCHEDULAR_INFORMATION' 	=> 'Planningsinformatie',
 	'LBL_DESCRIPTION_INFORMATION'	=> 'Beschrijving',
 
 	// General strings
@@ -38,6 +38,12 @@ $mod_strings = Array(
 
 	// Field labels
 	'schedular_eventtype'			=> 'Type afspraak',
+	'schedular_no'					=> 'Planningsnummer',
+	'schedular_name'				=> 'Titel planning',
+	'schedular_starttime'			=> 'Starttijd planning',
+	'schedular_endtime'				=> 'Eindtijd planning',
+	'schedular_startdate'			=> 'Startdatum planning',
+	'schedular_enddate'				=> 'Eindtijd planning',
 
 	// Settings
 	'av_users' 						=> 'Beschikbare gebruikers',

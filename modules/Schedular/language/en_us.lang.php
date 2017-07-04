@@ -9,12 +9,12 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' 					=> 'Schedular',
-	'SINGLE_ModuleName' 			=> 'Module Name',
-	'ModuleName ID' 				=> 'Module Name ID',
+	'Schedular' 					=> 'Schedular',
+	'SINGLE_Schedular'	 			=> 'Module Name',
+	'Schedular ID'	 				=> 'Module Name ID',
 
 	'LBL_CUSTOM_INFORMATION' 		=> 'Custom Information',
-	'LBL_MODULEBLOCK_INFORMATION' 	=> 'ModuleBlock Information',
+	'LBL_SCHEDULAR_INFORMATION' 	=> 'Main Event Information',
 	'LBL_DESCRIPTION_INFORMATION'	=> 'Description',
 
 	'ModuleFieldLabel' 				=> 'ModuleFieldLabel Text',
@@ -40,6 +40,12 @@ $mod_strings = Array(
 
 	// Field labels
 	'schedular_eventtype'			=> 'Event Type',
+	'schedular_no'					=> 'Schedular no.',
+	'schedular_name'				=> 'Title',
+	'schedular_starttime'			=> 'Starttime',
+	'schedular_endtime'				=> 'Endtime',
+	'schedular_startdate'			=> 'Startdate',
+	'schedular_enddate'				=> 'Endtime',
 
 	// Settings
 	'av_users' 						=> 'Available users',
