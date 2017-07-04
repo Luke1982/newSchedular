@@ -71,9 +71,6 @@
 	display: inline-block;
 	width: 140px;
 }
-div.fc-rows > table > tbody > tr > td > div {
-	height: 80px !important;
-}
 .sch-has-error {
 	border: 1px solid red !important;
 }

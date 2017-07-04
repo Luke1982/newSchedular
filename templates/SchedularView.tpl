@@ -3,6 +3,13 @@
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-icon.css">
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-combobox.css"> *}
 <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/salesforce-lightning-design-system.min.css">
+<style type="text/css">
+{literal}
+	div.fc-rows > table > tbody > tr > td > div {
+		height: {/literal}{$general_settings.row_height}{literal} !important;
+	}
+{/literal}
+</style>
 <div id="schedular"></div>
 <!-- Data DIV's -->
 <div style="display: none;">
@@ -148,7 +155,7 @@
 	<div id="schedular-eventtypes-legends__header">
 		<span class="slds-icon_container slds-icon-utility-announcement" title="Description of icon when needed">
 			<svg class="slds-icon slds-icon_x-small slds-icon-text-light" aria-hidden="true">
-			<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#move"></use>
+				<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#move"></use>
 			</svg>
 			<span class="slds-assistive-text">Description of icon</span>
 		</span>

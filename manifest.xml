@@ -3,7 +3,7 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.3.8</version>
+	<version>0.3.9</version>
 	<short_description>A module that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
 		<vtiger_version>5.8.0</vtiger_version>
@@ -26,7 +26,7 @@
 			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 			*************************************************************************************************
 			*  Module       : Schedular
-			*  Version      : 0.3.8
+			*  Version      : 0.3.9
 			*************************************************************************************************/
 			]]></inline>
 		</license>
@@ -59,6 +59,7 @@
 						`schedular_available_users` VARCHAR(255) DEFAULT NULL,
 						`business_hours_start` VARCHAR(56) DEFAULT NULL, 
 						`business_hours_end` VARCHAR(56) DEFAULT NULL, 
+						`row_height` VARCHAR(56) DEFAULT NULL, 
 						PRIMARY KEY (`schedular_settingsid`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 					</table>

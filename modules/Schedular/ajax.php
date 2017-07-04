@@ -242,8 +242,8 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveEventTypeSetti
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveGeneralSettings') {
 	global $adb;
 	$data = json_decode($_REQUEST['data'], true);
-	$q = "UPDATE vtiger_schedularsettings SET business_hours_start = ?, business_hours_end = ? WHERE schedular_settingsid = ?";
-	$p = array($data['business_hours_start'], $data['business_hours_end'], 1);
+	$q = "UPDATE vtiger_schedularsettings SET business_hours_start = ?, business_hours_end = ?, row_height = ? WHERE schedular_settingsid = ?";
+	$p = array($data['business_hours_start'], $data['business_hours_end'], $data['row_height'], 1);
 	$r = $adb->pquery($q, $p);
 	echo "true";
 }

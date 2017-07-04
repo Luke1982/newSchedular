@@ -88,12 +88,14 @@ SchedularSettings.prototype.saveEventTypeSettings = function() {
 SchedularSettings.prototype.saveGeneralSettings = function() {
 	var bHoursStart = document.getElementById("business-hours-start").value;
 	var bHoursEnd = document.getElementById("business-hours-end").value;
+	var rowHeight = document.getElementById("schedular-row-height").value;
 
 	this.save({
 		"action" 	: "saveGeneralSettings",
 		"toSave"	: {
 			"business_hours_start"	: bHoursStart,
-			"business_hours_end"	: bHoursEnd
+			"business_hours_end"	: bHoursEnd,
+			"row_height"			: rowHeight
 		},
 		"callback"	: function(response) {
 			console.log(response);

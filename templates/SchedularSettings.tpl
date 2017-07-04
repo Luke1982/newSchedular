@@ -156,15 +156,21 @@
 		<div id="tab-scoped-4" class="slds-tabs_scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-4__item">
 			<div class="slds-form slds-form_stacked" style="margin: 10px 0;">
 				<div class="slds-form-element">
-					<label class="slds-form-element__label" for="select-module-to-relate">{$MOD.business_hours_start}</label>
+					<label class="slds-form-element__label" for="">{$MOD.business_hours_start}</label>
 					<div class="slds-form-element__control">
 						<input id="business-hours-start" class="slds-input" value="{$general_settings.business_hours_start}" placeholder="{$MOD.business_hours_start}" type="text">
 					</div>
 				</div>
 				<div class="slds-form-element">
-					<label class="slds-form-element__label" for="select-module-to-relate">{$MOD.business_hours_end}</label>
+					<label class="slds-form-element__label" for="">{$MOD.business_hours_end}</label>
 					<div class="slds-form-element__control">
 						<input id="business-hours-end" class="slds-input" value="{$general_settings.business_hours_end}" placeholder="{$MOD.business_hours_end}" type="text">
+					</div>
+				</div>
+				<div class="slds-form-element">
+					<label class="slds-form-element__label" for="schedular-row-height">{$MOD.row_height}</label>
+					<div class="slds-form-element__control">
+						<input id="schedular-row-height" name="schedular-row-height" class="slds-input" value="{$general_settings.row_height}" placeholder="{$MOD.row_height}" type="text">
 					</div>
 				</div>
 				<button class="slds-button slds-button_brand" id="save-general-settings">

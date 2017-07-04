@@ -182,6 +182,11 @@ class Schedular extends CRMEntity {
 			// TODO Handle actions when this module is about to be deleted.
 		} else if($event_type == 'module.preupdate') {
 			// TODO Handle actions before this module is updated.
+			$moduleInstance = Vtiger_Module::getInstance($modulename);
+			if (version_compare($moduleInstance->version, '0.3.9') == -1) {
+				global $adb;
+				$adb->query("ALTER TABLE vtiger_schedularsettings ADD row_height VARCHAR(56) DEFAULT NULL after business_hours_end");
+			}
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 		}

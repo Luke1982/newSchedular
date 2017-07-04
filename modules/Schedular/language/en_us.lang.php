@@ -62,6 +62,7 @@ $mod_strings = Array(
 	'business_hours_end' 			=> 'End of business hours',
 	'save_general_settings' 		=> 'Save general settings',
 	'general_settings'				=> 'General settings',
+	'row_height'					=> 'Row height (in pixels)',
 	'placeholder_searchfields'		=> 'Enter comma separated search fields',
 	'placeholder_returnfields'		=> 'Enter comma separated return fields',
 	'placeholder_relationid'		=> 'Enter relation ID you want to include in the search',

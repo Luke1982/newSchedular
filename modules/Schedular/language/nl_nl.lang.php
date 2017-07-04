@@ -60,6 +60,7 @@ $mod_strings = Array(
 	'business_hours_end' 			=> 'Einde van de werkdag',
 	'save_general_settings' 		=> 'Bewaar algemene instellingen',
 	'general_settings'				=> 'Algemene instellingen',
+	'row_height'					=> 'Rijhoogte (in pixels)',
 	'placeholder_searchfields'		=> 'Voeg zoekvelden in door een komma gescheiden',
 	'placeholder_returnfields'		=> 'Voeg teruggave velden in door een komma gescheiden',
 	'placeholder_relationid'		=> 'Voer het ID van de relatie in dat u in deze zoekopdracht wilt meenemen',
