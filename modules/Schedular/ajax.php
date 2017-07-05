@@ -333,6 +333,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 	$s->column_fields['created_user_id'] = $current_user->id;
 	$s->column_fields['createdtime'] = date('Y-m-d H:i:s');
 	$s->column_fields['modifiedtime'] = date('Y-m-d H:i:s');
+	$s->column_fields['schedular_eventstatus'] = 'Planned';
 
 	foreach ($data['columnFields'] as $cf => $value) {
 		$s->column_fields[$cf] = $value;
