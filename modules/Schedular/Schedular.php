@@ -173,6 +173,14 @@ class Schedular extends CRMEntity {
 
 			global $adb;
 			$adb->query("INSERT INTO vtiger_schedularsettings (schedular_settingsid, schedular_available_users, business_hours_start, business_hours_end) VALUES (1, '', '', '')");
+
+			// Create the event handlers for linked entities
+			require 'include/events/include.inc';
+			$em 		= new VTEventsManager($adb);
+			$eventName 	= 'corebos.entity.link.after';
+			$filePath 	= 'modules/Schedular/eventhandlers/SchedularAfterLinkSave.php';
+			$className 	= 'SchedularAfterLinkSave';
+			$em->registerHandler($eventName, $filePath, $className);
 			
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
@@ -208,6 +216,16 @@ class Schedular extends CRMEntity {
 			}
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
+			if (version_compare($moduleInstance->version, '0.4.1') == -1) {
+				// Create the event handlers for linked entities
+				global $adb;
+				require 'include/events/include.inc';
+				$em 		= new VTEventsManager($adb);
+				$eventName 	= 'corebos.entity.link.after';
+				$filePath 	= 'modules/Schedular/eventhandlers/SchedularAfterLinkSave.php';
+				$className 	= 'SchedularAfterLinkSave';
+				$em->registerHandler($eventName, $filePath, $className);	
+			}
 		}
 	}
 

@@ -324,6 +324,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 	global $current_user, $adb;
+
 	require_once('modules/Schedular/Schedular.php');
 	$data = json_decode($_REQUEST['data'], true);
 
@@ -366,12 +367,8 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 					$new_relation['modulename']
 				));
 			if ($adb->getAffectedRowCount($r) == 0) {
-				$adb->pquery("INSERT INTO vtiger_crmentityrel (crmid, module, relcrmid, relmodule) VALUES (?,?,?,?)", array(
-						$s->column_fields['id'],
-						'Schedular',
-						$new_relation['relcrmid'],
-						$new_relation['modulename']
-					));
+				require_once('include/utils/utils.php');
+				relateEntities($s, 'Schedular', $s->id, $new_relation['modulename'], array($new_relation['relcrmid']));
 			}
 		}
 	}
