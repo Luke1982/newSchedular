@@ -377,6 +377,23 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 	// var_dump($data);
 }
 
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'deleteEvent') {
+	global $current_user, $adb;
+
+	require_once('modules/Schedular/Schedular.php');
+	$data = json_decode($_REQUEST['data'], true);
+
+	$s = new Schedular();
+	$s->mode = 'edit';
+	$s->trash('Schedular', $data['id']);
+
+	if ($s->id == NULL) {
+		echo "true";
+	} else {
+		echo "false";
+	}
+}
+
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getEventDBInfo') {
 	global $adb;
 	$data = json_decode($_REQUEST['data'], true);

@@ -372,27 +372,34 @@ window.addEventListener("load", function(){
 
 var Schedular = {};
 Schedular.UI = {
-	el 			  : (function(){
-						return document.getElementById("schedular-event-ui");
-					})(),
-	link 			  : (function(){
-						return document.getElementById("sch-visit-event-link");
-					})(),
-	closeListener : (function(){
-						document.getElementById("sch-cancel-event-ui").addEventListener("click", function(){
-							Schedular.UI.clear();
-							Schedular.UI.hide();
-						});
-					})(),
-	saveListener : (function(){
-						document.getElementById("sch-save-event-ui").addEventListener("click", function(){
-							if (Schedular.CurrentEvent.newEvent == false) {
-								Schedular.CurrentEvent.update();
-							} else if (Schedular.CurrentEvent.newEvent == true) {
-								Schedular.CurrentEvent.create();
-							}
-						});
-					})(),
+	el 			  	: (function(){
+							return document.getElementById("schedular-event-ui");
+						})(),
+	link 			: (function(){
+							return document.getElementById("sch-visit-event-link");
+						})(),
+	closeListener 	: (function(){
+							document.getElementById("sch-cancel-event-ui").addEventListener("click", function(){
+								Schedular.UI.clear();
+								Schedular.UI.hide();
+							});
+						})(),
+	saveListener 	: (function(){
+							document.getElementById("sch-save-event-ui").addEventListener("click", function(){
+								if (Schedular.CurrentEvent.newEvent == false) {
+									Schedular.CurrentEvent.update();
+								} else if (Schedular.CurrentEvent.newEvent == true) {
+									Schedular.CurrentEvent.create();
+								}
+							});
+						})(),
+	deleteListener : (function(){
+							document.getElementById("sch-delete-event-ui").addEventListener("click", function(){
+								if (Schedular.CurrentEvent.newEvent == false) {
+									Schedular.CurrentEvent.delete();
+								}
+							});
+						})(),
 	state 		   : false
 };
 Schedular.UI.show = function(){
@@ -686,6 +693,19 @@ Schedular.CurrentEvent.create = function() {
 	function callback(response) {
 		var result = JSON.parse(response);
 		if (Schedular.UI.state == true) Schedular.CurrentEvent.render(result);
+	}
+}
+Schedular.CurrentEvent.delete = function() {
+	var currentEvent = this;
+	this.ajax("deleteEvent", callback);
+
+	function callback(response) {
+		if (response == "true") {
+			$('#schedular').fullCalendar('removeEvents', currentEvent.id);
+			currentEvent.clear();
+			Schedular.UI.clear();
+			Schedular.UI.hide();
+		}
 	}
 }
 Schedular.CurrentEvent.reRender = function(cbResult) {

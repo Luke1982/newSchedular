@@ -119,8 +119,13 @@
 		<fieldset class="slds-form-element">
 			<div class="slds-button-group" role="group">
 				<button class="slds-button slds-button_success" id="sch-save-event-ui">{$MOD.save}</button>
-				<button class="slds-button slds-button_destructive" id="sch-cancel-event-ui">{$MOD.cancel}</button>
+				<button class="slds-button slds-button_brand" id="sch-cancel-event-ui">{$MOD.cancel}</button>
 				<a id="sch-visit-event-link" target="_blank"><button class="slds-button slds-button_neutral" id="sch-visit-event-ui">{$MOD.visit_event}</button></a>
+				<button class="slds-button slds-button_destructive" id="sch-delete-event-ui">
+					<svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+						<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#delete"></use>
+					</svg>{$MOD.remove}
+				</button>
 			</div>
 		</fieldset>
 	</div>
