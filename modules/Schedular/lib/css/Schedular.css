@@ -52,6 +52,22 @@
 	background-color: #54698d;
 	color: #ffffff;
 }
+#schedular-ui-loader {
+	position: absolute;
+	background-color: rgba(255,255,255,0.7);
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+	opacity: 0;
+	transition: opacity 100ms linear 0ms, z-index 0ms linear 100ms;
+}
+#schedular-ui-loader.active {
+	z-index: 99999999999;
+	opacity: 1;
+	transition: opacity 100ms linear 0ms, z-index 0ms linear 0ms;
+}
 .event-type__colorpicker {
 	margin: 10px 0;
 }

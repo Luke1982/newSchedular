@@ -375,6 +375,9 @@ Schedular.UI = {
 	el 			  	: (function(){
 							return document.getElementById("schedular-event-ui");
 						})(),
+	loader 			  	: (function(){
+							return document.getElementById("schedular-ui-loader");
+						})(),
 	link 			: (function(){
 							return document.getElementById("sch-visit-event-link");
 						})(),
@@ -410,6 +413,12 @@ Schedular.UI.show = function(){
 Schedular.UI.hide = function(){
 	this.el.classList.remove("active");
 	this.state = false;
+}
+Schedular.UI.setLoader = function(){
+	this.loader.classList.add("active");
+}
+Schedular.UI.removeLoader = function(){
+	this.loader.classList.remove("active");
 }
 Schedular.UI.clear = function(){
 	var inputs = this.el.getElementsByTagName("input");
@@ -660,6 +669,7 @@ Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
 }
 Schedular.CurrentEvent.update = function() {
+	Schedular.UI.setLoader();
 	if (this.id == undefined) {
 		throw new Error("No event set as current");
 	}
@@ -676,11 +686,13 @@ Schedular.CurrentEvent.update = function() {
 	}
 
 	function callback(response) {
+		Schedular.UI.removeLoader();
 		var result = JSON.parse(response);
 		if (Schedular.UI.state == true) Schedular.CurrentEvent.reRender(result);
 	}
 }
 Schedular.CurrentEvent.create = function() {
+	Schedular.UI.setLoader();
 	this.setColumnFields();
 	this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
@@ -691,15 +703,18 @@ Schedular.CurrentEvent.create = function() {
 	}
 
 	function callback(response) {
+		Schedular.UI.removeLoader();
 		var result = JSON.parse(response);
 		if (Schedular.UI.state == true) Schedular.CurrentEvent.render(result);
 	}
 }
 Schedular.CurrentEvent.delete = function() {
+	Schedular.UI.setLoader();
 	var currentEvent = this;
 	this.ajax("deleteEvent", callback);
 
 	function callback(response) {
+		Schedular.UI.removeLoader();
 		if (response == "true") {
 			$('#schedular').fullCalendar('removeEvents', currentEvent.id);
 			currentEvent.clear();

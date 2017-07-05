@@ -129,6 +129,13 @@
 			</div>
 		</fieldset>
 	</div>
+	<div id="schedular-ui-loader">
+		<div role="status" class="slds-spinner slds-spinner_small slds-spinner_brand">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+		</div>
+	</div>
 	<!-- Hidden DIV that hold some values to be picked up by the JS init script -->
 	<div id="schedular-general-settings">
 		<input type="hidden" name="business-hours-start" id="business-hours-start" value="{$general_settings.business_hours_start}" />
