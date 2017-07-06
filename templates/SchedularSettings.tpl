@@ -146,6 +146,12 @@
 									<input id="" class="slds-input relation__included-rel-filterfield" placeholder="Filter field for the included relation's CRM ID" type="text" value="{$relation.schedular_filterrel_field}">
 								</div>
 							</div>
+							<div class="slds-form-element">
+								<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_customfilters}</label>
+								<div class="slds-form-element__control">
+									<input id="" class="slds-input relation__customfilters" placeholder="{$MOD.placeholder_customfilters}" type="text" value="{$relation.schedular_customfilters}">
+								</div>
+							</div>
 						</div>
 					</div>
 					<footer class="slds-card__footer"></footer>
@@ -229,6 +235,12 @@
 					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_filterfield}</label>
 					<div class="slds-form-element__control">
 						<input id="" class="slds-input relation__included-rel-filterfield" placeholder="{$MOD.placeholder_relfilterfield}" type="text" value="{$relation.schedular_filterrel_field}">
+					</div>
+				</div>
+				<div class="slds-form-element">
+					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_customfilters}</label>
+					<div class="slds-form-element__control">
+						<input id="" class="slds-input relation__customfilters" placeholder="{$MOD.placeholder_customfilters}" type="text" value="{$relation.schedular_customfilters}">
 					</div>
 				</div>
 			</div>

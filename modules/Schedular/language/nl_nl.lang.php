@@ -57,6 +57,7 @@ $mod_strings = Array(
 	'return_fields' 				=> 'Velden om terug te geven',
 	'include_relation_id' 			=> 'Koppel relatie met dit ID',
 	'relation_filterfield' 			=> 'Filter dit veld op de gekoppelde relatie',
+	'relation_customfilters'		=> 'Eigen filters',
 	'business_hours_start' 			=> 'Begin van de werkdag',
 	'business_hours_end' 			=> 'Einde van de werkdag',
 	'save_general_settings' 		=> 'Bewaar algemene instellingen',
@@ -66,6 +67,8 @@ $mod_strings = Array(
 	'placeholder_returnfields'		=> 'Voeg teruggave velden in door een komma gescheiden',
 	'placeholder_relationid'		=> 'Voer het ID van de relatie in dat u in deze zoekopdracht wilt meenemen',
 	'placeholder_relfilterfield'	=> 'Filter dit veld op de ID(\'s) van de ingevoegde relatie',
+	'placeholder_customfilters'		=> 'Voeg kolom=waarde paren in door komma\'s gescheiden, zoals: \'sostatus=Delivered,duedate=1970-01-01\'',	
+
 
 	// Settings toasts
 	'toast_users_saved' 			=> 'Beschikbare gebruiker opgeslagen in de database',

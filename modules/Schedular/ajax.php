@@ -114,6 +114,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 	}
 	$selectfields .= $table_index . ' AS crmid';
 	$searchfield = $data['filterfields'][0];
+	$custom_filters = $data['customfilters'];
 
 	$q = "SELECT " . $selectfields . " FROM " . $table_name;
 
@@ -136,15 +137,28 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 		$q .= " INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid=vtiger_contactaddress.contactaddressid";
 	}
 
-	$q .= " WHERE " . $table_name . "." . $searchfield . " LIKE '%" . $term . "%'";
+	$q .= " WHERE (" . $table_name . "." . $searchfield . " LIKE '%" . $term . "%'";
+
+	if (count($data['filterfields']) == 1) { $q .= ")"; } // close the condition group if only one filterfield is supplied
 
 	if (count($data['filterfields']) > 1) {
 		for ($i=0; $i < count($data['filterfields']); $i++) { 
-			if ($i != 0) {$q .= " OR " . $table_name . "." . $data['filterfields'][$i] . " LIKE '%" . $term . "%'";}
+			if ($i != 0) {$q .= " OR " . $table_name . "." . $data['filterfields'][$i] . " LIKE '%" . $term . "%')";}
 		}
 	}
 
-	// var_dump($q);
+	// Implement custom filters
+	if (count($custom_filters) > 0) {
+		$q .= " AND (";
+		for ($i=0; $i < count($custom_filters); $i++) { 
+			list($column, $value) = explode('=', $custom_filters[$i]);
+			$q .= $table_name . "." . $column . " = '" . $value . "'";
+			if ($i < (count($custom_filters) - 1)) {
+				$q .= " OR ";
+			}
+		}
+		$q .= ")";
+	}
 
 	$r = $adb->query($q);
 	
@@ -301,16 +315,13 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 	global $adb;
 	$data = json_decode($_REQUEST['data'], true);
 
-	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET 
-		schedular_relmodule_filterfields = ?, 
-		schedular_relmodule_retfields = ?, 
-		schedular_filterrel_id = ?, 
-		schedular_filterrel_field = ? WHERE schedular_relid = ?", 
+	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET schedular_relmodule_filterfields = ?, schedular_relmodule_retfields = ?, schedular_filterrel_id = ?, schedular_filterrel_field = ?, schedular_customfilters = ? WHERE schedular_relid = ?",
 			array(
-				$data['filterFields'], 
-				$data['returnFields'], 
-				$data['inclRelId'], 
-				$data['incRelFiltField'], 
+				$data['filterFields'],
+				$data['returnFields'],
+				$data['inclRelId'],
+				$data['incRelFiltField'],
+				$data['customFilters'],
 				$data['relationId']
 				)
 		);
@@ -318,7 +329,10 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 	if ($adb->getAffectedRowCount($r) == 1) {
 		echo 'true';
 	}  else {
-		echo 'false';
+		// echo 'false';
+		echo '<pre>';
+		var_dump($r);
+		echo '</pre>';
 	}
 }
 

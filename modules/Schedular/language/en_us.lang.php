@@ -60,6 +60,7 @@ $mod_strings = Array(
 	'return_fields' 				=> 'Return fields',
 	'include_relation_id' 			=> 'Include relation ID',
 	'relation_filterfield' 			=> 'Filter on field from included relation',
+	'relation_customfilters'		=> 'Custom filters',
 	'business_hours_start' 			=> 'Start of business hours',
 	'business_hours_end' 			=> 'End of business hours',
 	'save_general_settings' 		=> 'Save general settings',
@@ -68,7 +69,8 @@ $mod_strings = Array(
 	'placeholder_searchfields'		=> 'Enter comma separated search fields',
 	'placeholder_returnfields'		=> 'Enter comma separated return fields',
 	'placeholder_relationid'		=> 'Enter relation ID you want to include in the search',
-	'placeholder_relfilterfield'	=> 'Filter field for the included relation\'s CRM ID',	
+	'placeholder_relfilterfield'	=> 'Filter field for the included relation\'s CRM ID',
+	'placeholder_customfilters'		=> 'Include key=value pairs comma separated, e.g. \'sostatus=Delivered,duedate=1970-01-01\'',	
 
 	// Settings toasts
 	'toast_users_saved' 			=> 'Available users saved to database',

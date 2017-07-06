@@ -214,6 +214,11 @@ class Schedular extends CRMEntity {
 				$block->addField($statusField);		
 				$statusField->setPicklistValues( array('Planned', 'Completed', 'Cancelled') );	
 			}
+			if (version_compare($moduleInstance->version, '0.4.3') == -1) {
+				global $adb;
+				$adb->query("ALTER TABLE vtiger_schedular_relations ADD schedular_customfilters VARCHAR(255) DEFAULT NULL after schedular_filterrel_field");
+			}
+
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			if (version_compare($moduleInstance->version, '0.4.1') == -1) {

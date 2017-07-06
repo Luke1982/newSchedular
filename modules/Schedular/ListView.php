@@ -38,6 +38,7 @@ $relations = array();
 while ($relation = $adb->fetch_array($r)) {
 	$relation['filterfields'] = explode(',', $relation['schedular_relmodule_filterfields']);
 	$relation['returnfields'] = explode(',', $relation['schedular_relmodule_retfields']);
+	$relation['customfilters'] = explode(',', $relation['schedular_customfilters']);
 	$relation['json'] = json_encode($relation);
 	$relations[] = $relation;
 }
