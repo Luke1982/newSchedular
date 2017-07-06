@@ -148,7 +148,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 	}
 
 	// Implement custom filters
-	if (count($custom_filters) > 0) {
+	if (count($custom_filters) > 0 && $custom_filters[0] != '') {
 		$q .= " AND (";
 		for ($i=0; $i < count($custom_filters); $i++) { 
 			list($column, $value) = explode('=', $custom_filters[$i]);
