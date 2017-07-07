@@ -457,7 +457,7 @@ Schedular.UI.fill = function(){
 	this.fields.endDate.innerText 	= Schedular.CurrentEvent.end.format(window.userDateFormat.toUpperCase());
 	this.fields.endTime.innerText 	= Schedular.CurrentEvent.endTime;
 	this.fields.resource.innerText 	= Schedular.CurrentEvent.resource.title;
-	this.link.href 					= "index.php?module=Schedular&action=DetailView&record=" + Schedular.CurrentEvent.id;
+	this.setEventLink();
 	this.setCurrentEventType(Schedular.CurrentEvent.eventType);
 	this.setExistingRelations(Schedular.CurrentEvent.relations);
 }
@@ -563,6 +563,18 @@ Schedular.UI.validate = function() {
 		return false;
 	} else {
 		return true;
+	}
+}
+Schedular.UI.setEventLink = function () {
+	console.log(Schedular.CurrentEvent.id);
+	if (Schedular.CurrentEvent.id == undefined) {
+		this.link.href 		= "javascript:void(0)";
+		this.link.target 	= "_self";
+		document.getElementById("sch-visit-event-ui").setAttribute("disabled", "");
+	} else {
+		this.link.href 		= "index.php?module=Schedular&action=DetailView&record=" + Schedular.CurrentEvent.id;
+		this.link.target 	= "_blank";
+		document.getElementById("sch-visit-event-ui").removeAttribute("disabled");
 	}
 }
 
