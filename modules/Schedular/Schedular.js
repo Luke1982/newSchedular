@@ -878,6 +878,7 @@ function AutocompleteRelation(target, i) {
 		if (this.classList.contains("active")) {
 			this.style.opacity = 0;
 			this.classList.remove("active");
+			this.innerHTML = "";
 		}	
 	}
 	this.targetUL.style.transition = "opacity 100ms ease";
@@ -893,6 +894,7 @@ AutocompleteRelation.prototype.get = function(e) {
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
+	    		// console.log(r.response);
 	    		acInstance.set(JSON.parse(r.response));
 	    		// console.log(JSON.parse(r.response));
 		    }
