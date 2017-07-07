@@ -86,9 +86,9 @@ $mod_strings = Array(
 	'Service'						=> 'perform Service',
 
 	// Event statusses
-	'Planned'						=> 'Planned',
-	'Completed'						=> 'Completed',
-	'Cancelled'						=> 'Cancelled',
+	'sch_planned'					=> 'Planned',
+	'sch_completed'					=> 'Completed',
+	'sch_cancelled'					=> 'Cancelled',
 
 	// Event UI
 	'clicktodrag' 					=> 'Click and drag here',

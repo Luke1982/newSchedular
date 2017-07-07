@@ -84,10 +84,10 @@ $mod_strings = Array(
 	'Service'						=> 'Voer een dienst uit',
 
 	// Event statusses
-	'Planned'						=> 'Gepland',
-	'Completed'						=> 'Compleet',
-	'Cancelled'						=> 'Geannuleerd',
-
+	'sch_planned'					=> 'Gepland',
+	'sch_completed'					=> 'Compleet',
+	'sch_cancelled'					=> 'Geannuleerd',
+	
 	// Event UI
 	'clicktodrag' 					=> 'Klik en sleep hier',
 	'searchin'						=> 'Zoek in',

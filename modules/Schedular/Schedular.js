@@ -179,7 +179,7 @@ window.addEventListener("load", function(){
 						div.innerText = event.description;
 						contentDiv.appendChild(div);
 
-						if (event.eventStatus == "Completed") {
+						if (event.eventStatus == "sch_completed") {
 							var completedSign = document.createElement("span");
 							completedSign.className = "slds-icon_container slds-icon-utility-check event-completed-mark";
 							completedSign.innerHTML = "<svg class=\"slds-icon slds-icon_xx-small slds-icon-text-default\" aria-hidden=\"true\"><use xlink:href=\"include/LD/assets/icons/utility-sprite/svg/symbols.svg#check\"></use></svg>";
