@@ -141,13 +141,15 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 	$q .= " LEFT JOIN vtiger_crmentity ON " . $table_name . "." . $table_index . "=vtiger_crmentity.crmid";
 	$q .= " WHERE (vtiger_crmentity.deleted = 0)";
 
-	$q .= " AND (" . $table_name . "." . $searchfield . " LIKE '%" . $term . "%'";
+	$q .= " AND (" . $searchfield . " LIKE '%" . $term . "%'";
 
 	if (count($data['filterfields']) == 1) { $q .= ")"; } // close the condition group if only one filterfield is supplied
 
 	if (count($data['filterfields']) > 1) {
 		for ($i=0; $i < count($data['filterfields']); $i++) { 
-			if ($i != 0) {$q .= " OR " . $table_name . "." . $data['filterfields'][$i] . " LIKE '%" . $term . "%')";}
+			if ($i != 0) {$q .= " OR " . $data['filterfields'][$i] . " LIKE '%" . $term . "%'";}
+			// close the condition group on the last filter
+			if ($i == (count($data['filterfields']) - 1)) { $q .= ")"; }
 		}
 	}
 
