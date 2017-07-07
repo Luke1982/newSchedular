@@ -371,6 +371,7 @@ window.addEventListener("load", function(){
 
 
 var Schedular = {};
+
 Schedular.UI = {
 	el 			  	: (function(){
 							return document.getElementById("schedular-event-ui");
@@ -936,6 +937,13 @@ AutocompleteRelation.prototype.set = function(items) {
 		// Set the first result as selected
 		Schedular.AutoComplete.Current.selectedItem		= this.targetUL.firstChild;
 		Schedular.AutoComplete.Current.setFocus(this.targetUL.firstChild);
+	} else {
+		// Show a message when no records are found
+		Schedular.AutoComplete.Current.inputField 		= this.inputField; 	/* These two lines make sure the keybindings*/
+		Schedular.AutoComplete.Current.suggestionList 	= this.targetUL;	/* work when no records are found */
+		this.clearTargetUL();
+		this.targetUL.show();
+		this.targetUL.innerHTML = "<span style=\"display: inline-block; width: 100%; text-align: center;\" class=\"slds-icon_container slds-icon-standard-unmatched\" title=\"Description of icon when needed\"><svg class=\"slds-icon slds-icon-text-error\" aria-hidden=\"true\"><use xlink:href=\"include/LD/assets/icons/standard-sprite/svg/symbols.svg#unmatched\"></use></svg><span class=\"slds-assistive-text\">Description of icon</span></span>";
 	}
 }
 
@@ -1095,18 +1103,19 @@ function shadeColor(color, percent) {
     return "#"+RR+GG+BB;
 }
 
-function getTranslatedAjax(label, module) {
-	if (module == undefined) module = "Schedular";
-	var data = {
-		module : module,
-		label : label
-	};
-	var r = new XMLHttpRequest();
-	r.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    		return r.response;
-	    }
-	};
-	r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=translate&data="+encodeURIComponent(JSON.stringify(data)), true);
-	r.send();	
+function getTranslatedAjax(label, module, id) {
+		if (module == undefined) module = "Schedular";
+		var data = {
+			module : module,
+			label : label
+		};
+		var r = new XMLHttpRequest();
+		r.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    		window.Schedular.isTranslated[id] = r.response;
+	    		document.getElementById(id).innerText = r.response;
+		    }
+		};
+		r.open("GET", "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=translate&data="+encodeURIComponent(JSON.stringify(data)), true);
+		r.send();
 }

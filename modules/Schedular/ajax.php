@@ -183,7 +183,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 		}
 		echo json_encode($results);
 	} else {
-		echo "[]";
+		echo '[]';
 	}
 }
 
