@@ -195,6 +195,20 @@ class Schedular extends CRMEntity {
 			// TODO Handle actions when this module is enabled.
 		} else if($event_type == 'module.preuninstall') {
 			// TODO Handle actions when this module is about to be deleted.
+			global $adb;
+			// Delete event handler records
+			$adb->pquery("DELETE FROM vtiger_eventhandlers WHERE handler_class = ?", array('SchedularAfterLinkSave'));
+			$adb->pquery("DELETE FROM vtiger_eventhandlers WHERE handler_class = ?", array('SchedularBeforeRecordDelete'));
+			// Delete module tables
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedular");
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedularcf");
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedularsettings");
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedular_eventcolors");
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedular_relations");
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedular_eventstatus");
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedular_eventstatus_seq");
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedular_eventtype");
+			$adb->query("DROP TABLE IF EXISTS vtiger_schedular_eventtype_seq");
 		} else if($event_type == 'module.preupdate') {
 			// TODO Handle actions before this module is updated.
 			$moduleInstance = Vtiger_Module::getInstance($modulename);
