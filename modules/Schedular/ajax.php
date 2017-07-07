@@ -137,7 +137,11 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 		$q .= " INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid=vtiger_contactaddress.contactaddressid";
 	}
 
-	$q .= " WHERE (" . $table_name . "." . $searchfield . " LIKE '%" . $term . "%'";
+	// join the vtiger_crmentity table and exclude deleted records
+	$q .= " LEFT JOIN vtiger_crmentity ON " . $table_name . "." . $table_index . "=vtiger_crmentity.crmid";
+	$q .= " WHERE (vtiger_crmentity.deleted = 0)";
+
+	$q .= " AND (" . $table_name . "." . $searchfield . " LIKE '%" . $term . "%'";
 
 	if (count($data['filterfields']) == 1) { $q .= ")"; } // close the condition group if only one filterfield is supplied
 
@@ -159,6 +163,8 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 		}
 		$q .= ")";
 	}
+
+	// echo $q;
 
 	$r = $adb->query($q);
 	

@@ -669,7 +669,6 @@ Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
 }
 Schedular.CurrentEvent.update = function() {
-	Schedular.UI.setLoader();
 	if (this.id == undefined) {
 		throw new Error("No event set as current");
 	}
@@ -679,6 +678,7 @@ Schedular.CurrentEvent.update = function() {
 
 	if (Schedular.UI.state == true) {
 		if (Schedular.UI.validate() == true) {
+			Schedular.UI.setLoader();
 			this.ajax("updateEvent", callback);
 		}
 	} else {
@@ -692,17 +692,18 @@ Schedular.CurrentEvent.update = function() {
 	}
 }
 Schedular.CurrentEvent.create = function() {
-	Schedular.UI.setLoader();
 	this.setColumnFields();
 	this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
 	// console.log(this);
 
 	if (Schedular.UI.validate() == true) {
+		Schedular.UI.setLoader();
 		this.ajax("createEvent", callback);
 	}
 
 	function callback(response) {
+		// console.log(response);
 		Schedular.UI.removeLoader();
 		var result = JSON.parse(response);
 		if (Schedular.UI.state == true) Schedular.CurrentEvent.render(result);
