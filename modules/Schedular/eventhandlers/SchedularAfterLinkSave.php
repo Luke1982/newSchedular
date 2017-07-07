@@ -16,8 +16,8 @@ Class SchedularAfterLinkSave extends VTEventHandler {
 			$linked_focus->id = $entityData['destinationRecordId'];
 			$linked_focus->mode = 'edit';
 
-			if (file_exists('modules/Schedular/eventhandlers/for' . $entityData['destinationModule'] . '.php')) {
-				include('modules/Schedular/eventhandlers/for' . $entityData['destinationModule'] . '.php');
+			if (file_exists('modules/Schedular/eventhandlers/modules_afterlinksave/for' . $entityData['destinationModule'] . '.php')) {
+				include('modules/Schedular/eventhandlers/modules_afterlinksave/for' . $entityData['destinationModule'] . '.php');
 			}
 
 			$handler = vtws_getModuleHandlerFromName($entityData['destinationModule'], $current_user);

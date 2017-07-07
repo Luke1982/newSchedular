@@ -181,6 +181,13 @@ class Schedular extends CRMEntity {
 			$filePath 	= 'modules/Schedular/eventhandlers/SchedularAfterLinkSave.php';
 			$className 	= 'SchedularAfterLinkSave';
 			$em->registerHandler($eventName, $filePath, $className);
+
+			// Create event handlers for when a record is deleted
+			$em 		= new VTEventsManager($adb);
+			$eventName 	= 'vtiger.entity.beforedelete';
+			$filePath 	= 'modules/Schedular/eventhandlers/SchedularBeforeRecordDelete.php';
+			$className 	= 'SchedularBeforeRecordDelete';
+			$em->registerHandler($eventName, $filePath, $className);
 			
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
@@ -229,6 +236,16 @@ class Schedular extends CRMEntity {
 				$eventName 	= 'corebos.entity.link.after';
 				$filePath 	= 'modules/Schedular/eventhandlers/SchedularAfterLinkSave.php';
 				$className 	= 'SchedularAfterLinkSave';
+				$em->registerHandler($eventName, $filePath, $className);	
+			}
+			if (version_compare($moduleInstance->version, '0.4.4') == -1) {
+				// Create the event handlers for linked entities
+				global $adb;
+				require 'include/events/include.inc';
+				$em 		= new VTEventsManager($adb);
+				$eventName 	= 'vtiger.entity.beforedelete';
+				$filePath 	= 'modules/Schedular/eventhandlers/SchedularBeforeRecordDelete.php';
+				$className 	= 'SchedularBeforeRecordDelete';
 				$em->registerHandler($eventName, $filePath, $className);	
 			}
 		}
