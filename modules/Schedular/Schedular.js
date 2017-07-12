@@ -159,6 +159,7 @@ window.addEventListener("load", function(){
 					},
 					height: (screen.availHeight * .7),
 					weekends: false,
+					weekNumbers : true,
 
 					//// uncomment this line to hide the all-day slot
 					allDaySlot: false,
