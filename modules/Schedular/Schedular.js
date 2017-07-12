@@ -744,6 +744,7 @@ Schedular.CurrentEvent.reRender = function(cbResult) {
 	Schedular.CurrentEvent.event.backgroundColor	= cbResult.bgcolor;
 	Schedular.CurrentEvent.event.borderColor		= shadeColor(cbResult.bgcolor, -40);
 	Schedular.CurrentEvent.event.existingRelations	= cbResult.existingRelations;
+	Schedular.CurrentEvent.event.eventType			= cbResult.schedular_eventtype;
 	$('#schedular').fullCalendar('updateEvent', Schedular.CurrentEvent.event);
 
 	Schedular.UI.clear();
