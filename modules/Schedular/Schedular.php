@@ -239,7 +239,28 @@ class Schedular extends CRMEntity {
 				global $adb;
 				$adb->query("ALTER TABLE vtiger_schedular_relations ADD schedular_customfilters VARCHAR(255) DEFAULT NULL after schedular_filterrel_field");
 			}
+			if (version_compare($moduleInstance->version, '0.4.5') == -1) {
+				include_once 'include/utils/utils.php';
+				include_once('vtlib/Vtiger/Module.php');
 
+				$block						= 	Vtiger_Block::getInstance('LBL_SCHEDULAR_INFORMATION', $moduleInstance);
+				
+				// Setup the field
+				$locField					=	new Vtiger_Field();
+				$locField->name				=	'schedular_location';
+				$locField->label			=	'schedular_location';
+				$locField->table			=	'vtiger_schedular';
+				$locField->column			=	'schedular_location';
+				$locField->columntype		=	'VARCHAR(255)';
+				$locField->uitype			=	1;
+				$locField->typeofdata		=	'V~O';
+			
+				$block->addField($locField);		
+			}
+			if (version_compare($moduleInstance->version, '0.4.6') == -1) {
+				global $adb;
+				$adb->query("ALTER TABLE vtiger_schedular_relations ADD schedular_fillslocation VARCHAR(56) DEFAULT NULL after schedular_customfilters");
+			}
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			if (version_compare($moduleInstance->version, '0.4.1') == -1) {

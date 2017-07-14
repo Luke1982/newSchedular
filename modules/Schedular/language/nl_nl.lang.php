@@ -45,6 +45,7 @@ $mod_strings = Array(
 	'schedular_startdate'			=> 'Startdatum planning',
 	'schedular_enddate'				=> 'Eindtijd planning',
 	'schedular_eventstatus'			=> 'Status planning',
+	'schedular_location'			=> 'Lokatie',
 
 	// Settings
 	'av_users' 						=> 'Beschikbare gebruikers',
@@ -58,6 +59,7 @@ $mod_strings = Array(
 	'include_relation_id' 			=> 'Koppel relatie met dit ID',
 	'relation_filterfield' 			=> 'Filter dit veld op de gekoppelde relatie',
 	'relation_customfilters'		=> 'Eigen filters',
+	'relation_fillslocation'		=> 'Vul locatie met velden',
 	'business_hours_start' 			=> 'Begin van de werkdag',
 	'business_hours_end' 			=> 'Einde van de werkdag',
 	'save_general_settings' 		=> 'Bewaar algemene instellingen',
@@ -68,6 +70,8 @@ $mod_strings = Array(
 	'placeholder_relationid'		=> 'Voer het ID van de relatie in dat u in deze zoekopdracht wilt meenemen',
 	'placeholder_relfilterfield'	=> 'Filter dit veld op de ID(\'s) van de ingevoegde relatie',
 	'placeholder_customfilters'		=> 'Voeg kolom=waarde paren in door komma\'s gescheiden, zoals: \'sostatus=Delivered,duedate=1970-01-01\'',	
+	'placeholder_fillslocation'		=> 'Voer velden in die in de locatie gebruikt worden, deze MOETEN in de teruggave velden zitten',	
+
 
 
 	// Settings toasts

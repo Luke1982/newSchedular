@@ -152,6 +152,12 @@
 									<input id="" class="slds-input relation__customfilters" placeholder="{$MOD.placeholder_customfilters}" type="text" value="{$relation.schedular_customfilters}">
 								</div>
 							</div>
+							<div class="slds-form-element">
+								<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_fillslocation}</label>
+								<div class="slds-form-element__control">
+									<input id="" class="slds-input relation__fillslocation" placeholder="{$MOD.placeholder_fillslocation}" type="text" value="{$relation.schedular_fillslocation}">
+								</div>
+							</div>
 						</div>
 					</div>
 					<footer class="slds-card__footer"></footer>
@@ -241,6 +247,12 @@
 					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_customfilters}</label>
 					<div class="slds-form-element__control">
 						<input id="" class="slds-input relation__customfilters" placeholder="{$MOD.placeholder_customfilters}" type="text" value="{$relation.schedular_customfilters}">
+					</div>
+				</div>
+				<div class="slds-form-element">
+					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_fillslocation}</label>
+					<div class="slds-form-element__control">
+						<input id="" class="slds-input relation__fillslocation" placeholder="{$MOD.placeholder_fillslocation}" type="text" value="{$relation.schedular_fillslocation}">
 					</div>
 				</div>
 			</div>

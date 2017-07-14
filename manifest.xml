@@ -3,7 +3,7 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.4.4</version>
+	<version>0.4.6</version>
 	<short_description>A module that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
 		<vtiger_version>5.8.0</vtiger_version>
@@ -26,7 +26,7 @@
 			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 			*************************************************************************************************
 			*  Module       : Schedular
-			*  Version      : 0.4.4
+			*  Version      : 0.4.6
 			*************************************************************************************************/
 			]]></inline>
 		</license>
@@ -43,6 +43,7 @@
 					`schedular_endtime` VARCHAR(8) NOT NULL,
 					`schedular_eventtype` VARCHAR(255) NOT NULL,
 					`schedular_eventstatus` VARCHAR(255) NOT NULL,
+					`schedular_location` VARCHAR(255) NOT NULL,
 					PRIMARY KEY (`schedularid`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 				</table>
@@ -83,6 +84,7 @@
 						`schedular_filterrel_id` VARCHAR(255) DEFAULT NULL,
 						`schedular_filterrel_field` VARCHAR(255) DEFAULT NULL,
 						`schedular_customfilters` VARCHAR(255) DEFAULT NULL,
+						`schedular_fillslocation` VARCHAR(255) DEFAULT NULL,
 						PRIMARY KEY (`schedular_relid`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 					</table>
@@ -264,6 +266,26 @@
 									<picklistvalue>Completed</picklistvalue>
 									<picklistvalue>Cancelled</picklistvalue>
 								</picklistvalues>
+							</field>
+							<field>
+								<fieldname>schedular_location</fieldname>
+								<uitype>1</uitype>
+								<columnname>schedular_location</columnname>
+								<tablename>vtiger_schedular</tablename>
+								<generatedtype>1</generatedtype>
+								<fieldlabel>schedular_location</fieldlabel>
+								<readonly>1</readonly>
+								<presence>0</presence>
+								<selected>0</selected>
+								<sequence>9</sequence>
+								<maximumlength>255</maximumlength>
+								<typeofdata>V~O</typeofdata>
+								<quickcreate>0</quickcreate>
+								<quickcreatesequence>0</quickcreatesequence>
+								<displaytype>1</displaytype>
+								<info_type>BAS</info_type>
+								<helpinfo><![CDATA[]]></helpinfo>
+								<masseditable>1</masseditable>
 							</field>
 							<field>
 								<fieldname>assigned_user_id</fieldname>

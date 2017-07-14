@@ -187,6 +187,13 @@ window.addEventListener("load", function(){
 							contentDiv.appendChild(completedSign);
 						}
 
+						if (event.location != null) {
+							var div = document.createElement("div");
+							div.className = "fc-content__custom";
+							div.innerHTML = "<a href=\"https://www.google.nl/maps/place/" + encodeURIComponent(event.location) + "\" target=\"_blank\">" + event.location + "</a>";
+							contentDiv.appendChild(div); 
+						}
+
 						// console.log(event.existingRelations);
 						if (event.existingRelations != undefined && event.existingRelations.length > 0) {
 							for (var i = 0; i < event.existingRelations.length; i++) {
@@ -452,6 +459,7 @@ Schedular.UI.clear = function(){
 }
 Schedular.UI.fill = function(){
 	this.fields.name.value 			= Schedular.CurrentEvent.title;
+	this.fields.location.value 		= Schedular.CurrentEvent.location;
 	this.fields.description.value 	= Schedular.CurrentEvent.description;
 	this.fields.startDate.innerText	= Schedular.CurrentEvent.start.format(window.userDateFormat.toUpperCase());
 	this.fields.startTime.innerText	= Schedular.CurrentEvent.startTime;
@@ -546,7 +554,8 @@ Schedular.UI.fields = {
 	endDate		: document.getElementById("schedular-event-ui__enddate"),
 	endTime		: document.getElementById("schedular-event-ui__endtime"),
 	resource	: document.getElementById("schedular-event-ui__resourcename"),
-	eventTypes 	: document.getElementById("event-types").getElementsByTagName("option")
+	eventTypes 	: document.getElementById("event-types").getElementsByTagName("option"),
+	location 	: document.getElementById("schedular_loc")
 };
 Schedular.UI.validate = function() {
 	var inputs = this.el.getElementsByTagName("input");
@@ -598,7 +607,8 @@ Schedular.CurrentEvent = {
 	event 		: {},
 	newEvent 	: false,
 	relations	: [],
-	relToRemove : []
+	relToRemove : [],
+	location 	: undefined
 };
 Schedular.CurrentEvent.clear = function() {
 	this.id 			= undefined;
@@ -620,6 +630,7 @@ Schedular.CurrentEvent.clear = function() {
 	this.newEvent		= false;
 	this.relations		= [];
 	this.relToRemove 	= [];
+	this.location 		= undefined;
 }
 
 Schedular.CurrentEvent.setCurrent = function(event) {
@@ -638,6 +649,7 @@ Schedular.CurrentEvent.setCurrent = function(event) {
 	this.event 	 		= event;
 	this.newEvent 		= event.newEvent == true ? true : false;
 	this.relations 		= event.existingRelations;
+	this.location 		= event.location;
 	// console.log("Current Event: ");
 	// console.log(event);
 }
@@ -681,6 +693,7 @@ Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.description			= Schedular.UI.fields.description.value;
 	this.columnFields.schedular_eventtype	= Schedular.UI.getCurrentEventType();
 	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
+	this.columnFields.schedular_location	= Schedular.UI.fields.location.value;
 }
 Schedular.CurrentEvent.update = function() {
 	if (this.id == undefined) {
@@ -745,6 +758,7 @@ Schedular.CurrentEvent.reRender = function(cbResult) {
 	Schedular.CurrentEvent.event.borderColor		= shadeColor(cbResult.bgcolor, -40);
 	Schedular.CurrentEvent.event.existingRelations	= cbResult.existingRelations;
 	Schedular.CurrentEvent.event.eventType			= cbResult.schedular_eventtype;
+	Schedular.CurrentEvent.event.location			= cbResult.schedular_location;
 	$('#schedular').fullCalendar('updateEvent', Schedular.CurrentEvent.event);
 
 	Schedular.UI.clear();
@@ -858,7 +872,8 @@ Schedular.AutoComplete.HandleKeys = function(e) {
 			if (Schedular.AutoComplete.Current.instance != undefined) {
 				Schedular.AutoComplete.Current.instance.select({
 					label 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-label"),
-					value 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-crmid")
+					value 	: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-crmid"),
+					location: Schedular.AutoComplete.Current.selectedItem.getAttribute("data-location")
 				});
 			}
 		}
@@ -876,6 +891,7 @@ function AutocompleteRelation(target, i) {
 	this.relationCont 	= document.getElementsByClassName("existing-relations__" + target.getAttribute("data-module"))[0];
 	this.relationId 	= this.relationCont.getAttribute("data-relid");
 	this.filterRelId 	= this.inputField.getAttribute("data-filterrel-id");
+	this.locFields 		= this.data.schedular_fillslocation != "" ? this.data.schedular_fillslocation.split(",") : undefined;
 
 	this.targetUL.show 	= function() {
 		if (!this.classList.contains("active")) {
@@ -937,7 +953,8 @@ AutocompleteRelation.prototype.set = function(items) {
 			li.addEventListener("click", function(e){
 				acInstance.select({
 					label 		: this.getAttribute("data-label"),
-					value 		: this.getAttribute("data-crmid")
+					value 		: this.getAttribute("data-crmid"),
+					location 	: this.getAttribute("data-location")
 				});
 			});
 
@@ -977,6 +994,8 @@ AutocompleteRelation.prototype.select = function(params) {
 	});
 	newRelation.setAttribute("relation-id", this.relationId);
 	this.relationCont.appendChild(newRelation);
+
+	if (params.location != "" && params.location != undefined) { document.getElementById("schedular_loc").value = params.location; }
 
 	// Housekeeping after selection
 	this.clearTargetUL();
@@ -1053,6 +1072,15 @@ AutocompleteRelation.prototype.buildListItem = function(item) {
 	span.innerText = this.buildSecondaryReturnFields(item);
 
 	li.children[0].children[1].appendChild(span);
+
+	// Add the location to a data attribute if set
+	if (this.locFields != undefined) {
+		var locDataAttr = "";
+		for (var i = 0; i < this.locFields.length; i++) {
+			locDataAttr += item[this.locFields[i]] + " ";
+		}
+		li.setAttribute("data-location", locDataAttr);
+	}
 
 	return li;
 }

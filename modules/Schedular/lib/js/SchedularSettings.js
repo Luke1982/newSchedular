@@ -182,7 +182,8 @@ SchedularSettings.prototype.updateRelation = function() {
 					"returnFields"		: el.getElementsByClassName("relation__retfields")[0].value,
 					"inclRelId"			: el.getElementsByClassName("relation__include-id")[0].value,
 					"incRelFiltField"	: el.getElementsByClassName("relation__included-rel-filterfield")[0].value,
-					"customFilters"		: el.getElementsByClassName("relation__customfilters")[0].value
+					"customFilters"		: el.getElementsByClassName("relation__customfilters")[0].value,
+					"fillslocation"		: el.getElementsByClassName("slds-input relation__fillslocation")[0].value
 				},
 				"callback"	: function(response) {
 					console.log(response);

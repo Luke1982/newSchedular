@@ -79,6 +79,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event['description'] = $event['description'];
 		$prepared_event['eventType'] = $event['schedular_eventtype'];
 		$prepared_event['eventStatus'] = $event['schedular_eventstatus'];
+		$prepared_event['location'] = $event['schedular_location'];
 		$prepared_event['existingRelations'] = getRelatedRecords($event['crmid']);
 		$events[] = $prepared_event;
 	}
@@ -323,13 +324,14 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 	global $adb;
 	$data = json_decode($_REQUEST['data'], true);
 
-	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET schedular_relmodule_filterfields = ?, schedular_relmodule_retfields = ?, schedular_filterrel_id = ?, schedular_filterrel_field = ?, schedular_customfilters = ? WHERE schedular_relid = ?",
+	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET schedular_relmodule_filterfields = ?, schedular_relmodule_retfields = ?, schedular_filterrel_id = ?, schedular_filterrel_field = ?, schedular_customfilters = ?, schedular_fillslocation = ? WHERE schedular_relid = ?",
 			array(
 				$data['filterFields'],
 				$data['returnFields'],
 				$data['inclRelId'],
 				$data['incRelFiltField'],
 				$data['customFilters'],
+				$data['fillslocation'],
 				$data['relationId']
 				)
 		);

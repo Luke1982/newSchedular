@@ -62,6 +62,12 @@
 			</div>
 		</div>
 		<div class="slds-form-element">
+			<label class="slds-form-element__label" for="schedular_loc">{$MOD.schedular_location}</label>
+			<div class="slds-form-element__control">
+				<input id="schedular_loc" name="schedular_loc" class="slds-input" placeholder="Location" type="text">
+			</div>
+		</div>
+		<div class="slds-form-element">
 			<label class="slds-form-element__label" for="schedular_description">{$MOD.description}</label>
 			<div class="slds-form-element__control">
 				<textarea id="schedular_description" class="slds-textarea" placeholder="Description"></textarea>
@@ -159,6 +165,7 @@
 		<input type="hidden" id="sch-eventtype" data-columnfield="schedular_eventtype" value="" />
 		<input type="hidden" id="sch-id" data-columnfield="schedularid" value="" />
 		<input type="hidden" id="sch-name" data-columnfield="schedular_name" value="" />
+		<input type="hidden" id="sch-loc" data-columnfield="schedular_location" value="" />
 	</div>
 	<!-- // Hidden div that holds all the data to save -->
 </div>
