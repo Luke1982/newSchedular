@@ -459,7 +459,7 @@ Schedular.UI.clear = function(){
 }
 Schedular.UI.fill = function(){
 	this.fields.name.value 			= Schedular.CurrentEvent.title;
-	this.fields.location.value 		= Schedular.CurrentEvent.location;
+	this.fields.location.value 		= Schedular.CurrentEvent.location != undefined ? Schedular.CurrentEvent.location : "";
 	this.fields.description.value 	= Schedular.CurrentEvent.description;
 	this.fields.startDate.innerText	= Schedular.CurrentEvent.start.format(window.userDateFormat.toUpperCase());
 	this.fields.startTime.innerText	= Schedular.CurrentEvent.startTime;
