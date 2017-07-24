@@ -55,6 +55,8 @@ window.addEventListener("load", function(){
 					editable: true,
 					selectable: true,
 					eventLimit: true, // allow "more" link when too many events
+					firstDay: 1,
+					columnFormat: "ddd D-M",
 					customButtons: {
 						legend: {
 							text: document.getElementById("legend-label").value,
@@ -115,6 +117,17 @@ window.addEventListener("load", function(){
 						agendaFiveDay: {
 							type: 'agenda',
 							duration: { days: 5 },
+
+							// views that are more than a day will NOT do this behavior by default
+							// so, we need to explicitly enable it
+							groupByResource: true,
+
+							//// uncomment this line to group by day FIRST with resources underneath
+							groupByDateAndResource: true
+						},
+						agendaWeek: {
+							type: 'agenda',
+							duration: { weeks: 1 },
 
 							// views that are more than a day will NOT do this behavior by default
 							// so, we need to explicitly enable it
