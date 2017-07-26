@@ -203,6 +203,15 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 		$rec->column_fields[$cf] = $value;
 	}
 
+	foreach ($data['relToRemove'] as $rel_to_remove) {
+		$r = $adb->pquery("DELETE FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", array(
+				$data['id'],
+				'Schedular',
+				$rel_to_remove['relcrmid'],
+				$rel_to_remove['modulename']				
+			));
+	}
+
 	foreach ($data['relations'] as $new_relation) {
 		if ($new_relation != '') {
 			$r = $adb->pquery("SELECT * FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", array(
@@ -220,15 +229,6 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 					));
 			}
 		}
-	}
-
-	foreach ($data['relToRemove'] as $rel_to_remove) {
-		$r = $adb->pquery("DELETE FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?", array(
-				$data['id'],
-				'Schedular',
-				$rel_to_remove['relcrmid'],
-				$rel_to_remove['modulename']				
-			));
 	}
 
 	$handler = vtws_getModuleHandlerFromName('Schedular', $current_user);
@@ -324,7 +324,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 	global $adb;
 	$data = json_decode($_REQUEST['data'], true);
 
-	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET schedular_relmodule_filterfields = ?, schedular_relmodule_retfields = ?, schedular_filterrel_id = ?, schedular_filterrel_field = ?, schedular_customfilters = ?, schedular_fillslocation = ? WHERE schedular_relid = ?",
+	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET schedular_relmodule_filterfields = ?, schedular_relmodule_retfields = ?, schedular_filterrel_id = ?, schedular_filterrel_field = ?, schedular_customfilters = ?, schedular_fillslocation = ?, schedular_mandatory = ? WHERE schedular_relid = ?",
 			array(
 				$data['filterFields'],
 				$data['returnFields'],
@@ -332,6 +332,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 				$data['incRelFiltField'],
 				$data['customFilters'],
 				$data['fillslocation'],
+				$data['isMandatory'],
 				$data['relationId']
 				)
 		);
@@ -341,7 +342,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 	}  else {
 		// echo 'false';
 		echo '<pre>';
-		var_dump($r);
+		var_dump($data);
 		echo '</pre>';
 	}
 }

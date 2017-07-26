@@ -261,6 +261,10 @@ class Schedular extends CRMEntity {
 				global $adb;
 				$adb->query("ALTER TABLE vtiger_schedular_relations ADD schedular_fillslocation VARCHAR(56) DEFAULT NULL after schedular_customfilters");
 			}
+			if (version_compare($moduleInstance->version, '0.4.7') == -1) {
+				global $adb;
+				$adb->query("ALTER TABLE vtiger_schedular_relations ADD schedular_mandatory VARCHAR(10) DEFAULT NULL after schedular_fillslocation");
+			}
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			if (version_compare($moduleInstance->version, '0.4.1') == -1) {

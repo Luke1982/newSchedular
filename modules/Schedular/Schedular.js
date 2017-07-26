@@ -578,6 +578,19 @@ Schedular.UI.validate = function() {
 		if (inputs[i].getAttribute("data-required") == "true" && inputs[i].value == "") {
 			hasError.push(inputs[i]);
 		}
+		// Check relations that need at least one entity
+		if (inputs[i].getAttribute("data-is-mandatory-rel") == "true") {
+			var relatedModule = inputs[i].getAttribute("data-module");
+			var relatedEntityCount = 0;
+			for (var r = 0; r < Schedular.CurrentEvent.relations.length; r++) {
+				if (Schedular.CurrentEvent.relations[r].modulename == relatedModule) {
+					relatedEntityCount = 1;
+				}
+			}
+			if (relatedEntityCount == 0) {
+				hasError.push(inputs[i]);
+			}
+		}
 	}
 	if (hasError.length > 0) {
 		for (var i = 0; i < hasError.length; i++) {
@@ -809,6 +822,13 @@ Schedular.CurrentEvent.removeExistingRelation = function() {
 		"relcrmid" 		: parent.getAttribute("relation-relcrmid")
 	};
 	Schedular.CurrentEvent.relToRemove.push(relationToRemove);
+	// Remove from current event JS object relations
+	for (var i = 0; i < Schedular.CurrentEvent.relations.length; i++) {
+		if (Schedular.CurrentEvent.relations[i].relcrmid == relationToRemove.relcrmid) {
+			Schedular.CurrentEvent.relations.splice(i);
+		}
+	}
+	// Remove from DOM
 	parent.parentElement.removeChild(parent);
 }
 

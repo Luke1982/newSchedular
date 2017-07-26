@@ -60,6 +60,7 @@ $mod_strings = Array(
 	'relation_filterfield' 			=> 'Filter dit veld op de gekoppelde relatie',
 	'relation_customfilters'		=> 'Eigen filters',
 	'relation_fillslocation'		=> 'Vul locatie met velden',
+	'relation_mandatory'			=> 'Minstens één record verplicht?',
 	'business_hours_start' 			=> 'Begin van de werkdag',
 	'business_hours_end' 			=> 'Einde van de werkdag',
 	'save_general_settings' 		=> 'Bewaar algemene instellingen',

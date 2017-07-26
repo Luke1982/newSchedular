@@ -63,6 +63,7 @@ $mod_strings = Array(
 	'relation_filterfield' 			=> 'Filter on field from included relation',
 	'relation_customfilters'		=> 'Custom filters',
 	'relation_fillslocation'		=> 'Fill location with fields',
+	'relation_mandatory'			=> 'At least one mandatory record?',
 	'business_hours_start' 			=> 'Start of business hours',
 	'business_hours_end' 			=> 'End of business hours',
 	'save_general_settings' 		=> 'Save general settings',

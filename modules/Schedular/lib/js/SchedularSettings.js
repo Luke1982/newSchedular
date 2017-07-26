@@ -183,7 +183,8 @@ SchedularSettings.prototype.updateRelation = function() {
 					"inclRelId"			: el.getElementsByClassName("relation__include-id")[0].value,
 					"incRelFiltField"	: el.getElementsByClassName("relation__included-rel-filterfield")[0].value,
 					"customFilters"		: el.getElementsByClassName("relation__customfilters")[0].value,
-					"fillslocation"		: el.getElementsByClassName("slds-input relation__fillslocation")[0].value
+					"fillslocation"		: el.getElementsByClassName("slds-input relation__fillslocation")[0].value,
+					"isMandatory"		: el.getElementsByClassName("relation-mandatory__checkbox")[0].checked
 				},
 				"callback"	: function(response) {
 					console.log(response);

@@ -3,7 +3,7 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.4.6</version>
+	<version>0.4.7</version>
 	<short_description>A module that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
 		<vtiger_version>5.8.0</vtiger_version>
@@ -26,7 +26,7 @@
 			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 			*************************************************************************************************
 			*  Module       : Schedular
-			*  Version      : 0.4.6
+			*  Version      : 0.4.7
 			*************************************************************************************************/
 			]]></inline>
 		</license>
@@ -85,6 +85,7 @@
 						`schedular_filterrel_field` VARCHAR(255) DEFAULT NULL,
 						`schedular_customfilters` VARCHAR(255) DEFAULT NULL,
 						`schedular_fillslocation` VARCHAR(255) DEFAULT NULL,
+						`schedular_mandatory` VARCHAR(10) DEFAULT NULL,
 						PRIMARY KEY (`schedular_relid`)
 						) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 					</table>
