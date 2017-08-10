@@ -63,10 +63,34 @@ window.addEventListener("load", function(){
 							click: function() {
 								document.getElementById("schedular-eventtypes-legends").classList.toggle("active");
 							}
+						},
+						onlyMine: {
+							text: document.getElementById("only-mine-label").value,
+							click: function() {
+								saveUserPrefs({
+									"show" : "onlyMine"
+								});
+								setTimeout(function(){
+									$('#schedular').fullCalendar('rerenderEvents');
+									$('#schedular').fullCalendar('refetchResources');
+								}, 500);
+							}
+						},
+						everyOne: {
+							text: document.getElementById("everyone-label").value,
+							click: function() {
+								saveUserPrefs({
+									"show" : "everyOne"
+								});
+								setTimeout(function(){
+									$('#schedular').fullCalendar('rerenderEvents');
+									$('#schedular').fullCalendar('refetchResources');
+								}, 500);
+							}
 						}
 					},
 					header: {
-						left: 'prev,next today legend',
+						left: 'prev,next today legend onlyMine,everyOne',
 						center: 'title',
 						right: 'agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaFiveDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
 					},
@@ -177,14 +201,24 @@ window.addEventListener("load", function(){
 					//// uncomment this line to hide the all-day slot
 					allDaySlot: false,
 
-					resources: getResources(),
-					events: [
-						{ id: '1', resourceId: '1', start: '2017-05-27', end: '2017-05-08', title: 'event 1', backgroundColor : 'black'},
-						{ id: '2', resourceId: '1', start: '2017-05-27T09:00:00', end: '2017-05-07T14:00:00', title: 'event 2' },
-						{ id: '3', resourceId: 'b', start: '2017-05-07T12:00:00', end: '2017-05-08T06:00:00', title: 'event 3' },
-						{ id: '4', resourceId: 'c', start: '2017-05-07T07:30:00', end: '2017-05-07T09:30:00', title: 'event 4' },
-						{ id: '5', resourceId: 'd', start: '2017-05-07T10:00:00', end: '2017-05-07T15:00:00', title: 'event 5' }
-					],
+					resources: function(callback){
+						$.ajax({
+							url : "index.php?module=Schedular&action=SchedularAjax&file=ajax&function=getResources",
+							success : function(data) {
+								var data = JSON.parse(data);
+								window.Schedular.resources = {};
+								for (var i = 0; i < data.length; i++) {
+									window.Schedular.resources[data[i].id] = {
+									id 		: data[i].id,
+									title 	: data[i].title
+									};
+								}
+								callback(data);
+							}
+						});
+					},
+					// resources: getResources(),
+					events: [],
 					eventAfterRender : function(event, element, view) {
 						// console.log(event);
 						var contentDiv = element[0].firstChild;
@@ -233,7 +267,9 @@ window.addEventListener("load", function(){
 							start : view.activeRange.start._d,
 							end : view.activeRange.end._d
 						});
-						saveUserPrefs(view);
+						saveUserPrefs({
+							"view" : view
+						});
 					},
 					eventResize: function( event, delta, revertFunc, jsEvent, ui, view ) {
 						Schedular.CurrentEvent.setCurrent(event);
@@ -334,23 +370,6 @@ window.addEventListener("load", function(){
 		}, 400);
 	}
 
-	function getResources() {
-		var resources = document.getElementsByClassName("resource");
-		var ret = [];
-		window.Schedular.resources = {};
-		for (var i = 0; i < resources.length; i++) {
-			var r = {};
-			r.id = resources[i].getElementsByClassName("resource__id")[0].innerText;
-			r.title = resources[i].getElementsByClassName("resource__name")[0].innerText;
-			window.Schedular.resources[r.id] = {
-				id 		: r.id,
-				title 	: r.title
-			};
-			ret.push(r);
-		}
-		return ret;
-	}
-
 	function getEvents(dates) {
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
@@ -364,10 +383,10 @@ window.addEventListener("load", function(){
 		r.send();
 	}
 
-	function saveUserPrefs(view) {
-		var data = {
-			currentView : view.type,
-		};
+	function saveUserPrefs(params) {
+		var data = {};
+		data.currentView = params.view == undefined ? "" : params.view.type;
+		data.show = params.show == undefined ? "" : params.show;
 
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {

@@ -37,6 +37,8 @@ $mod_strings = Array(
 	'legend'						=> 'Legend',
 	'enabled'						=> 'Enabled',
 	'disabled'						=> 'Disabled',
+	'onlymine'						=> 'Only my appointments',
+	'everyone'						=> 'Everyone',
 
 	// Field labels
 	'schedular_eventtype'			=> 'Event Type',

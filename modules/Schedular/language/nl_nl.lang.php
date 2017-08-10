@@ -35,6 +35,8 @@ $mod_strings = Array(
 	'legend'						=> 'Legenda',
 	'enabled'						=> 'Ingeschakeld',
 	'disabled'						=> 'Uitgeschakeld',
+	'onlymine'						=> 'Alleen mijn afspraken',
+	'everyone'						=> 'Iedereen',
 
 	// Field labels
 	'schedular_eventtype'			=> 'Type afspraak',

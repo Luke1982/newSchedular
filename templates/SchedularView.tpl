@@ -11,16 +11,6 @@
 {/literal}
 </style>
 <div id="schedular"></div>
-<!-- Data DIV's -->
-<div style="display: none;">
-	{foreach from=$resource_users item=user key=key}
-	<div class="resource resource__user">
-		<div class="resource__id">{$user.id}</div>
-		<div class="resource__name">{$user.first_name} {$user.last_name}</div>
-	</div>
-	{/foreach}
-</div>
-<!-- // Data DIV's -->
 <!-- Add / Edit Event UI -->
 <div id="schedular-event-ui">
 	<div id="schedular-event-ui__draghandle">{$MOD.clicktodrag}</div>
@@ -153,6 +143,8 @@
 	<div id="schedular-lang-strings">
 		<input type="hidden" name="resource-label" id="resource-label" value="{$MOD.resources}" />
 		<input type="hidden" name="legend-label" id="legend-label" value="{$MOD.legend}" />
+		<input type="hidden" name="only-mine-label" id="only-mine-label" value="{$MOD.onlymine}" />
+		<input type="hidden" name="everyone-label" id="everyone-label" value="{$MOD.everyone}" />
 	</div>
 	<!-- Hidden div that holds all the data to save -->
 	<div id="schedular-savedata">

@@ -86,6 +86,32 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 	echo json_encode($events);
 }
 
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getResources') {
+// error_reporting(E_ALL);
+// ini_set("display_errors", "on"); 
+	global $adb, $current_user;
+	$user_prefs = json_decode(file_get_contents('modules/Schedular/schedular_userprefs.json'), true);
+
+	if ($user_prefs[$current_user->id]['show'] == 'onlyMine') {
+		$r = $adb->pquery("SELECT id, CONCAT(first_name, ' ', last_name) AS title FROM vtiger_users WHERE id = ?", array($current_user->id));
+		echo '[' . json_encode($adb->fetch_array($r)) . ']';
+	} else {
+		// Get the selected users
+		$r = $adb->pquery("SELECT * FROM vtiger_schedularsettings WHERE schedular_settingsid = ?", array(1));
+		$sel_users = explode(',', $adb->query_result($r, 0, 'schedular_available_users'));
+
+		// Get the users
+		$r = $adb->pquery("SELECT id, CONCAT(first_name, ' ', last_name) AS title FROM vtiger_users", array());
+		$users = array();
+		while ($user = $adb->fetch_array($r)) {
+			if (in_array($user['id'], $sel_users)) {
+				$users[] = $user;
+			}
+		}
+		echo json_encode($users);
+	}
+}
+
 if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'acRelation') {
 	global $adb;
 	$data = json_decode($_REQUEST['data'], true);
@@ -435,6 +461,12 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveUserPrefs') {
 	$data = json_decode($_REQUEST['data'], true);
 
 	$user_prefs = json_decode(file_get_contents('modules/Schedular/schedular_userprefs.json'), true);
-	$user_prefs[$current_user->id]['preferredView'] = $data['currentView'];
+
+	if ($data['currentView'] != '') {
+		$user_prefs[$current_user->id]['preferredView'] = $data['currentView'];
+	}
+	if ($data['show'] != '') {
+		$user_prefs[$current_user->id]['show'] = $data['show'];
+	}
 	file_put_contents('modules/Schedular/schedular_userprefs.json', json_encode($user_prefs));
 }

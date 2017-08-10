@@ -16,15 +16,6 @@ $r = $adb->pquery("SELECT * FROM vtiger_schedularsettings WHERE schedular_settin
 $general_settings = $adb->fetch_array($r);
 $sel_users = explode(',', $adb->query_result($r, 0, 'schedular_available_users'));
 
-// Get the users
-$r = $adb->pquery("SELECT id, first_name, last_name FROM vtiger_users", array());
-$users = array();
-while ($user = $adb->fetch_array($r)) {
-	if (in_array($user['id'], $sel_users)) {
-		$users[] = $user;
-	}
-}
-
 // Get the event types
 $r = $adb->pquery("SELECT * FROM vtiger_schedular_eventtype LEFT JOIN vtiger_schedular_eventcolors ON vtiger_schedular_eventtype.schedular_eventtypeid=vtiger_schedular_eventcolors.eventtype_id", array());
 $event_types = array();
@@ -46,7 +37,6 @@ while ($relation = $adb->fetch_array($r)) {
 
 // Get some specific user preferences
 $user_prefs = json_decode(file_get_contents('modules/Schedular/schedular_userprefs.json'), true)[$current_user->id];
-
 
 $smarty->assign('MOD', $mod_strings);
 $smarty->assign('APP', $app_strings);
