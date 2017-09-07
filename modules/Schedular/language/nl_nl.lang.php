@@ -16,6 +16,7 @@ $mod_strings = Array(
 	'LBL_CUSTOM_INFORMATION' 		=> 'Aangepaste informatie',
 	'LBL_SCHEDULAR_INFORMATION' 	=> 'Planningsinformatie',
 	'LBL_DESCRIPTION_INFORMATION'	=> 'Beschrijving',
+	'Created By'					=> 'Gemaakt door',
 
 	// General strings
 	'resources' 					=> 'Bronnen',
@@ -91,9 +92,9 @@ $mod_strings = Array(
 	'Service'						=> 'Voer een dienst uit',
 
 	// Event statusses
-	'sch_planned'					=> 'Gepland',
-	'sch_completed'					=> 'Compleet',
-	'sch_cancelled'					=> 'Geannuleerd',
+	'Planned'						=> 'Gepland',
+	'Completed'						=> 'Compleet',
+	'Cancelled'						=> 'Geannuleerd',
 	
 	// Event UI
 	'clicktodrag' 					=> 'Klik en sleep hier',
