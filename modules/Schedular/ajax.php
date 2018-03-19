@@ -81,7 +81,9 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event['eventStatus'] = $event['schedular_eventstatus'];
 		$prepared_event['location'] = $event['schedular_location'];
 		$prepared_event['existingRelations'] = getRelatedRecords($event['crmid']);
-		$events[] = $prepared_event;
+
+		if (isPermitted('Schedular', 'DetailView', $event['crmid']) == 'yes')
+			$events[] = $prepared_event;
 	}
 	echo json_encode($events);
 }
