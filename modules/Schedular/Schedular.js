@@ -857,10 +857,10 @@ Schedular.CurrentEvent.removeExistingRelation = function() {
 }
 
 /* ======= Auto complete part relations ====== */
-var acInputs = document.getElementsByClassName("relation-autocomplete-input");
+var acInputs = document.getElementsByClassName("sch-relation-autocomplete-input");
 for (var i = 0; i < acInputs.length; i++) {
 	(function(_i){
-		var ac = new AutocompleteRelation(acInputs[_i], _i);
+		var ac = new Sch_AutocompleteRelation(acInputs[_i], _i);
 		acInputs[_i].addEventListener("input", function(e){
 			throttle(ac.get(e), 500);
 		});
@@ -937,11 +937,11 @@ Schedular.AutoComplete.HandleKeys = function(e) {
 	}
 }
 
-function AutocompleteRelation(target, i) {
+function Sch_AutocompleteRelation(target, i) {
 	this.inputField 	= target;
 	this.data 			= JSON.parse(target.getAttribute("data-ac"));
-	this.targetUL 		= document.getElementsByClassName("relation-autocomplete__target")[i];
-	// this.hiddenInput	= document.getElementsByClassName("relation-autocomplete__hidden")[i];
+	this.targetUL 		= document.getElementsByClassName("sch-relation-autocomplete__target")[i];
+	// this.hiddenInput	= document.getElementsByClassName("sch-relation-autocomplete__hidden")[i];
 	this.displayFields 	= this.data.schedular_relmodule_retfields.split(",");
 	this.moduleName 	= this.data.schedular_relmodule_name;
 	this.maxResults 	= 5;
@@ -953,7 +953,7 @@ function AutocompleteRelation(target, i) {
 	this.targetUL.show 	= function() {
 		if (!this.classList.contains("active")) {
 			(function(){
-				var allAcLists = document.getElementsByClassName("relation-autocomplete__target");
+				var allAcLists = document.getElementsByClassName("sch-relation-autocomplete__target");
 				for (var i = 0; i < allAcLists.length; i++) {
 					allAcLists[i].hide();
 				}
@@ -972,7 +972,7 @@ function AutocompleteRelation(target, i) {
 	this.targetUL.style.transition = "opacity 100ms ease";
 }
 
-AutocompleteRelation.prototype.get = function(e) {
+Sch_AutocompleteRelation.prototype.get = function(e) {
 	var term = e.target.value;
 	if (term.length > 3) {
 		this.data.term = term;
@@ -995,7 +995,7 @@ AutocompleteRelation.prototype.get = function(e) {
 	}
 }
 
-AutocompleteRelation.prototype.set = function(items) {
+Sch_AutocompleteRelation.prototype.set = function(items) {
 	if (items.length > 0) {
 		this.clearTargetUL();
 		this.targetUL.show();
@@ -1035,7 +1035,7 @@ AutocompleteRelation.prototype.set = function(items) {
 	}
 }
 
-AutocompleteRelation.prototype.select = function(params) {
+Sch_AutocompleteRelation.prototype.select = function(params) {
 	var label = params.label;
 	var value = params.value;
 
@@ -1060,7 +1060,7 @@ AutocompleteRelation.prototype.select = function(params) {
 	Schedular.AutoComplete.Current.clear();
 }
 
-AutocompleteRelation.prototype.getRelatedRecords = function() {
+Sch_AutocompleteRelation.prototype.getRelatedRecords = function() {
 	var AllExistingRelations 	= document.getElementsByClassName("existing-relation");
 	var relationsToFilterOn 	= [];
 	for (var i = 0; i < AllExistingRelations.length; i++) {
@@ -1071,7 +1071,7 @@ AutocompleteRelation.prototype.getRelatedRecords = function() {
 	return relationsToFilterOn;
 }
 
-AutocompleteRelation.prototype.buildListItem = function(item) {
+Sch_AutocompleteRelation.prototype.buildListItem = function(item) {
 
 	var li = document.createElement("li");
 	li.className = "slds-listbox__item";
@@ -1142,7 +1142,7 @@ AutocompleteRelation.prototype.buildListItem = function(item) {
 	return li;
 }
 
-AutocompleteRelation.prototype.buildSecondaryReturnFields = function(item) {
+Sch_AutocompleteRelation.prototype.buildSecondaryReturnFields = function(item) {
 	var returnString = "";
 	for (var i = 0; i < this.displayFields.length; i++) {
 		if (i != 0) {
@@ -1155,7 +1155,7 @@ AutocompleteRelation.prototype.buildSecondaryReturnFields = function(item) {
 	return returnString;
 }
 
-AutocompleteRelation.prototype.clearTargetUL = function () {
+Sch_AutocompleteRelation.prototype.clearTargetUL = function () {
 	while (this.targetUL.firstChild) {
 	    this.targetUL.removeChild(this.targetUL.firstChild);
 	}

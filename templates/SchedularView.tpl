@@ -84,8 +84,8 @@
 					<div class="slds-combobox_container">
 						<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
 							<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
-								{* <input type="hidden" class="relation-autocomplete__hidden" name="" value=""> *}
-								<input class="slds-input slds-combobox__input relation-autocomplete-input" data-filterrel-id="{$relation.schedular_filterrel_id}" data-module="{$relation.schedular_relmodule_name}" id="search-{$relation.schedular_relmodule_name|strtolower}" aria-activedescendant="schedular-relation-{$relation.schedular_relid}" aria-autocomplete="list" aria-controls="schedular-relation-{$relation.schedular_relid}" autocomplete="off" role="textbox" placeholder="{$MOD.searchin} {$relation.schedular_relmodule_name|@getTranslatedString:$relation.schedular_relmodule_name}" type="text" data-ac='{$relation.json}' data-relid="{$relation.schedular_relid}" data-is-mandatory-rel="{$relation.is_mandatory}">
+								{* <input type="hidden" class="sch-relation-autocomplete__hidden" name="" value=""> *}
+								<input class="slds-input slds-combobox__input sch-relation-autocomplete-input" data-filterrel-id="{$relation.schedular_filterrel_id}" data-module="{$relation.schedular_relmodule_name}" id="search-{$relation.schedular_relmodule_name|strtolower}" aria-activedescendant="schedular-relation-{$relation.schedular_relid}" aria-autocomplete="list" aria-controls="schedular-relation-{$relation.schedular_relid}" autocomplete="off" role="textbox" placeholder="{$MOD.searchin} {$relation.schedular_relmodule_name|@getTranslatedString:$relation.schedular_relmodule_name}" type="text" data-ac='{$relation.json}' data-relid="{$relation.schedular_relid}" data-is-mandatory-rel="{$relation.is_mandatory}">
 								<span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" title="Description of icon when needed">
 									<svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
 										<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
@@ -94,7 +94,7 @@
 								</span>
 							</div>
 							<div id="listbox-unique-id" role="listbox" class="">
-								<ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid relation-autocomplete__target" style="opacity : 0;" role="presentation">
+								<ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid sch-relation-autocomplete__target" style="opacity : 0;" role="presentation">
 								</ul>
 							</div>
 						</div>
