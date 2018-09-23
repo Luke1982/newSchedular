@@ -502,7 +502,6 @@ Schedular.UI.clear = function(){
 	this.link.href = "";
 }
 Schedular.UI.fill = function(){
-	console.log(Schedular.CurrentEvent.provisional);
 	this.fields.name.value 			= Schedular.CurrentEvent.title;
 	this.fields.location.value 		= Schedular.CurrentEvent.location != undefined ? Schedular.CurrentEvent.location : "";
 	this.fields.description.value 	= Schedular.CurrentEvent.description;
@@ -636,7 +635,6 @@ Schedular.UI.validate = function() {
 	}
 }
 Schedular.UI.setEventLink = function () {
-	console.log(Schedular.CurrentEvent.id);
 	if (Schedular.CurrentEvent.id == undefined) {
 		this.link.href 		= "javascript:void(0)";
 		this.link.target 	= "_self";
@@ -841,7 +839,8 @@ Schedular.CurrentEvent.render = function(cbResult) {
 		textColor 			: "#000000",
 		borderColor 		: shadeColor(cbResult.event.bgcolor, -40),
 		existingRelations	: cbResult.event.existingRelations,
-		eventType 			: cbResult.event.schedular_eventtype
+		eventType 			: cbResult.event.schedular_eventtype,
+		provisional 		: cbResult.event.schedular_provisional
 	};
 	$('#schedular').fullCalendar('renderEvent', event);
 

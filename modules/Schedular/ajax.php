@@ -386,6 +386,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 	$s->column_fields['createdtime'] = date('Y-m-d H:i:s');
 	$s->column_fields['modifiedtime'] = date('Y-m-d H:i:s');
 	$s->column_fields['schedular_eventstatus'] = 'Planned';
+	$s->column_fields['schedular_provisional'] = $data['provisional'] == true ? 1 : 0;
 
 	foreach ($data['columnFields'] as $cf => $value) {
 		$s->column_fields[$cf] = $value;
@@ -405,6 +406,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 
 	$s->column_fields['id'] = $s->id;
 	$s->column_fields['bgcolor'] = $bgColor;
+	$s->column_fields['schedular_provisional'] = $s->column_fields['schedular_provisional'] == 1 ? true : false;
 
 	$new_event = array(
 			'creation' => 'success',
