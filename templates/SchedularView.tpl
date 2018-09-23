@@ -64,12 +64,6 @@
 			</div>
 		</div>
 		<div class="slds-form-element">
-			<label class="slds-form-element__label" for="schedular_description">{$MOD.description}</label>
-			<div class="slds-form-element__control">
-				<textarea id="schedular_description" class="slds-textarea" placeholder="Description"></textarea>
-			</div>
-		</div>
-		<div class="slds-form-element">
 			<label class="slds-form-element__label" for="select-01">{$MOD.schedular_provisional}</label>
 			<div class="slds-form-element__control">
 				<input name="schedular_provisional" id="schedular_provisional" value="schedular_provisional" type="checkbox" />
