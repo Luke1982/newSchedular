@@ -3,11 +3,11 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.5.1</version>
+	<version>0.6.2</version>
 	<short_description>A module that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
-		<vtiger_version>5.8.0</vtiger_version>
-		<vtiger_max_version>5.*</vtiger_max_version>
+		<vtiger_version>7.0.0</vtiger_version>
+		<vtiger_max_version>7.*</vtiger_max_version>
 	</dependencies>
 	<license>
 		<inline><![CDATA[
@@ -26,7 +26,7 @@
 			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 			*************************************************************************************************
 			*  Module       : Schedular
-			*  Version      : 0.5.0
+			*  Version      : 0.6.0
 			*************************************************************************************************/
 			]]></inline>
 		</license>

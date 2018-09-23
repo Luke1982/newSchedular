@@ -265,6 +265,8 @@ class Schedular extends CRMEntity {
 				global $adb;
 				$adb->query("ALTER TABLE vtiger_schedular_relations ADD schedular_mandatory VARCHAR(10) DEFAULT NULL after schedular_fillslocation");
 			}
+			// Add functionality to create provisional records
+			self::addProvisional();
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			if (version_compare($moduleInstance->version, '0.4.1') == -1) {
@@ -317,5 +319,29 @@ class Schedular extends CRMEntity {
 	 * You can override the behavior by re-defining it here.
 	 */
 	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
+
+	private static function addProvisional() {
+		global $adb;
+		require_once 'include/utils/utils.php';
+		require_once 'vtlib/Vtiger/Module.php';
+
+		$prov_column_res = $adb->query("SHOW COLUMNS FROM vtiger_schedular LIKE 'schedular_provisional'");
+		if ($adb->num_rows($prov_column_res) == 0) {
+			$moduleInstance = Vtiger_Module::getInstance('Schedular');
+			$block = Vtiger_Block::getInstance('LBL_SCHEDULAR_INFORMATION', $moduleInstance);
+			
+			// Setup the field
+			$provisional_field = new Vtiger_Field();
+			$provisional_field->name = 'schedular_provisional';
+			$provisional_field->label = 'schedular_provisional';
+			$provisional_field->table =	'vtiger_schedular';
+			$provisional_field->column = 'schedular_provisional';
+			$provisional_field->columntype = 'INT(11)';
+			$provisional_field->uitype = 56;
+			$provisional_field->typeofdata = 'I~O';
+		
+			$block->addField($provisional_field);
+		}
+	}
 }
 ?>

@@ -49,6 +49,7 @@ $mod_strings = Array(
 	'schedular_enddate'				=> 'Eindtijd planning',
 	'schedular_eventstatus'			=> 'Status planning',
 	'schedular_location'			=> 'Lokatie',
+	'schedular_provisional'			=> 'Voorlopig',
 
 	// Settings
 	'av_users' 						=> 'Beschikbare gebruikers',

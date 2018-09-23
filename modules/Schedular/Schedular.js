@@ -220,7 +220,6 @@ window.addEventListener("load", function(){
 					// resources: getResources(),
 					events: [],
 					eventAfterRender : function(event, element, view) {
-						// console.log(event);
 						var contentDiv = element[0].firstChild;
 						var div = document.createElement("div");
 						div.className = "fc-content__custom";
@@ -265,6 +264,14 @@ window.addEventListener("load", function(){
 
 								contentDiv.appendChild(div);								
 							}
+						}
+
+						// Set extra css class when event is marked provisional
+						if (event.provisional) {
+							// element[0].style.opacity = 0.6;
+							var bgCol = element[0].style.backgroundColor;
+							element[0].style.backgroundColor = "rgba(" + bgCol.substring(4, bgCol.length -1) + ", 0.3)";
+							element[0].style.opacity = 0.8;
 						}
 					},
 					viewRender : function(view, element) {
@@ -495,6 +502,7 @@ Schedular.UI.clear = function(){
 	this.link.href = "";
 }
 Schedular.UI.fill = function(){
+	console.log(Schedular.CurrentEvent.provisional);
 	this.fields.name.value 			= Schedular.CurrentEvent.title;
 	this.fields.location.value 		= Schedular.CurrentEvent.location != undefined ? Schedular.CurrentEvent.location : "";
 	this.fields.description.value 	= Schedular.CurrentEvent.description;
@@ -503,6 +511,7 @@ Schedular.UI.fill = function(){
 	this.fields.endDate.innerText 	= Schedular.CurrentEvent.end.format(window.userDateFormat.toUpperCase());
 	this.fields.endTime.innerText 	= Schedular.CurrentEvent.endTime;
 	this.fields.resource.innerText 	= Schedular.CurrentEvent.resource.title;
+	this.fields.provisional.checked = Schedular.CurrentEvent.provisional;
 	this.setEventLink();
 	this.setCurrentEventType(Schedular.CurrentEvent.eventType);
 	this.setExistingRelations(Schedular.CurrentEvent.relations);
@@ -592,7 +601,8 @@ Schedular.UI.fields = {
 	endTime		: document.getElementById("schedular-event-ui__endtime"),
 	resource	: document.getElementById("schedular-event-ui__resourcename"),
 	eventTypes 	: document.getElementById("event-types").getElementsByTagName("option"),
-	location 	: document.getElementById("schedular_loc")
+	location 	: document.getElementById("schedular_loc"),
+	provisional : document.getElementById("schedular_provisional")
 };
 Schedular.UI.validate = function() {
 	var inputs = this.el.getElementsByTagName("input");
@@ -658,7 +668,8 @@ Schedular.CurrentEvent = {
 	newEvent 	: false,
 	relations	: [],
 	relToRemove : [],
-	location 	: undefined
+	location 	: undefined,
+	provisional : false
 };
 Schedular.CurrentEvent.clear = function() {
 	this.id 			= undefined;
@@ -681,6 +692,7 @@ Schedular.CurrentEvent.clear = function() {
 	this.relations		= [];
 	this.relToRemove 	= [];
 	this.location 		= undefined;
+	this.provisional 	= false;
 }
 
 Schedular.CurrentEvent.setCurrent = function(event) {
@@ -700,6 +712,7 @@ Schedular.CurrentEvent.setCurrent = function(event) {
 	this.newEvent 		= event.newEvent == true ? true : false;
 	this.relations 		= event.existingRelations;
 	this.location 		= event.location;
+	this.provisional 	= event.provisional;
 	// console.log("Current Event: ");
 	// console.log(event);
 }
@@ -744,6 +757,7 @@ Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.schedular_eventtype	= Schedular.UI.getCurrentEventType();
 	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
 	this.columnFields.schedular_location	= Schedular.UI.fields.location.value;
+	this.columnFields.schedular_provisional	= Schedular.UI.fields.provisional.checked ? 1 : 0;
 }
 Schedular.CurrentEvent.update = function() {
 	if (this.id == undefined) {
@@ -809,6 +823,7 @@ Schedular.CurrentEvent.reRender = function(cbResult) {
 	Schedular.CurrentEvent.event.existingRelations	= cbResult.existingRelations;
 	Schedular.CurrentEvent.event.eventType			= cbResult.schedular_eventtype;
 	Schedular.CurrentEvent.event.location			= cbResult.schedular_location;
+	Schedular.CurrentEvent.event.provisional		= cbResult.schedular_provisional;
 	$('#schedular').fullCalendar('updateEvent', Schedular.CurrentEvent.event);
 
 	Schedular.UI.clear();
