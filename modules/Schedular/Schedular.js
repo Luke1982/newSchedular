@@ -476,7 +476,7 @@ Schedular.UI.clear = function(){
 		if (inputs[i].type == "text" || inputs[i].type == "number" || inputs[i].type == "hidden") {
 			inputs[i].value = "";
 		} else if (inputs[i].type == "radio" || inputs[i].type == "checkbox") {
-			inputs[i].checked == false;
+			inputs[i].checked = false;
 		}
 		inputs[i].classList.remove("sch-has-error");
 	}
