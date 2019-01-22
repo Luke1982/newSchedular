@@ -1,8 +1,3 @@
-{* {include file="modules/Schedular/SchedularComponents.tpl"} *}
-{* <link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-button.css">
-<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-icon.css">
-<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/slds-combobox.css"> *}
-<link rel="stylesheet" type="text/css" href="modules/Schedular/lib/css/salesforce-lightning-design-system.min.css">
 <style type="text/css">
 {literal}
 	div.fc-rows > table > tbody > tr > td > div {
