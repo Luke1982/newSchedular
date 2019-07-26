@@ -311,7 +311,9 @@ window.addEventListener("load", function(){
 					eventClick: function(calEvent, jsEvent, view) {
 						if (jsEvent.originalEvent.target.href == undefined) {
 							// Only open the UI if it wasn't a link
+							Schedular.CurrentEvent.clear();
 							Schedular.CurrentEvent.setCurrent(calEvent);
+							Schedular.UI.clear();
 							Schedular.UI.show();
 							Schedular.UI.fill();
 						}				
