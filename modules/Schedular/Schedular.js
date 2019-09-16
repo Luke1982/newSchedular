@@ -807,11 +807,17 @@ Schedular.CurrentEvent.delete = function() {
 
 	function callback(response) {
 		Schedular.UI.removeLoader();
-		if (response == "true") {
+		response = JSON.parse(response);
+		if (response.deleteResult == true) {
 			$('#schedular').fullCalendar('removeEvents', currentEvent.id);
 			currentEvent.clear();
 			Schedular.UI.clear();
 			Schedular.UI.hide();
+			if (response.remainingCount > 0) {
+				var msg = 'Er zijn nog ' + response.remainingCount + ' afspraken over voor de order waar deze aan gekoppeld was.';
+				msg += ' De order is dus nog niet terug op \'gemaakt\' gezet.';
+				alert(msg);
+			}
 		}
 	}
 }

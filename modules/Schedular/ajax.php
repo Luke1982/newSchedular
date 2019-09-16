@@ -443,7 +443,11 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'deleteEvent') {
 	$s->trash('Schedular', $data['id']);
 
 	if ($s->id == NULL) {
-		echo "true";
+		$result = array(
+			'deleteResult' => true,
+			'remainingCount' => $_REQUEST['remaining_schedular_count'],
+		);
+		echo json_encode($result);
 	} else {
 		echo "false";
 	}
