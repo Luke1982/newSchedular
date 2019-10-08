@@ -156,20 +156,20 @@
 	cursor: pointer;
 }
 th.fc-mon {
-	background-color: #9bbfe8;
-}
-th.fc-tue {
-	background-color: #c49be8;
+	background-color: #1480a0;
+	color: #ffffff;
 }
 th.fc-wed {
-	background-color: #e8c49b;
-}
-th.fc-thu {
-	background-color: #bfe89b;
+	background-color: #1480a0;
+	color: #ffffff;
 }
 th.fc-fri {
-	background-color: #9be8dc;
+	background-color: #1480a0;
+	color: #ffffff;
 }
-.last-of-day {
-	border-right: 2px solid #3f3f3f !important;
+div.fc-bg > table > tbody > tr > td.fc-mon,
+div.fc-bg > table > tbody > tr > td.fc-wed,
+div.fc-bg > table > tbody > tr > td.fc-fri {
+	background-color: #dee9ed;
+	border-color: #c7d2d6 !important;
 }
