@@ -6,6 +6,15 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
+var showWeekends = false;
+GlobalVariable_getVariable('Schedular_Show_Weekends', 0, '', gVTUserID).then(function (response) {
+	var obj = JSON.parse(response);
+	console.log(obj);
+	showWeekends = obj.Schedular_Show_Weekends == '1' ? true : false;
+}, function (error) {
+	showWeekends = false; // no weekends (default)
+});
+
 window.addEventListener("load", function(){
 	insertStylesheet("modules/Schedular/lib/css/fullcalendar.min.css");
 	insertStylesheet("modules/Schedular/lib/css/scheduler.min.css");
@@ -195,7 +204,7 @@ window.addEventListener("load", function(){
 						}
 					},
 					height: (screen.availHeight * .7),
-					weekends: false,
+					weekends: showWeekends,
 					weekNumbers : true,
 
 					//// uncomment this line to hide the all-day slot
