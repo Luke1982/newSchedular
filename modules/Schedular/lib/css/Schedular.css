@@ -170,3 +170,6 @@ th.fc-thu {
 th.fc-fri {
 	background-color: #9be8dc;
 }
+.last-of-day {
+	border-right: 2px solid #3f3f3f !important;
+}

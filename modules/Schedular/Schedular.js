@@ -9,7 +9,7 @@
 window.addEventListener("load", function(){
 	insertStylesheet("modules/Schedular/lib/css/fullcalendar.min.css");
 	insertStylesheet("modules/Schedular/lib/css/scheduler.min.css");
-	insertStylesheet("modules/Schedular/lib/css/Schedular.css?v=0.6.6");
+	insertStylesheet("modules/Schedular/lib/css/Schedular.css?v=0.6.7");
 
 	var scripts = [
 		"modules/Schedular/lib/js/jquery.min.js",
@@ -378,6 +378,22 @@ window.addEventListener("load", function(){
 				document.getElementById("close-schedular-eventtypes-legend").addEventListener("click", function(){
 					document.getElementById("schedular-eventtypes-legends").classList.toggle("active");
 				});
+
+				// Add border classes to background cells that separate days
+				window.setTimeout(function(){
+					var bgTable = document.getElementsByClassName('fc-bg')[0],
+						monCells = bgTable.getElementsByClassName('fc-mon'),
+						tueCells = bgTable.getElementsByClassName('fc-tue'),
+						wedCells = bgTable.getElementsByClassName('fc-wed'),
+						thuCells = bgTable.getElementsByClassName('fc-thu'),
+						friCells = bgTable.getElementsByClassName('fc-fri');
+
+					if(monCells.length !== 0) {monCells[monCells.length - 1].classList.add('last-of-day');}
+					if(tueCells.length !== 0) {tueCells[tueCells.length - 1].classList.add('last-of-day');}
+					if(wedCells.length !== 0) {wedCells[wedCells.length - 1].classList.add('last-of-day');}
+					if(thuCells.length !== 0) {thuCells[thuCells.length - 1].classList.add('last-of-day');}
+					if(friCells.length !== 0) {friCells[friCells.length - 1].classList.add('last-of-day');}
+				},700);
 
 				clearInterval(int); // Schedular is launched, stop the interval
 			}
