@@ -864,7 +864,8 @@ Schedular.CurrentEvent.render = function(cbResult) {
 		borderColor 		: shadeColor(cbResult.event.bgcolor, -40),
 		existingRelations	: cbResult.event.existingRelations,
 		eventType 			: cbResult.event.schedular_eventtype,
-		provisional 		: cbResult.event.schedular_provisional
+		provisional 		: cbResult.event.schedular_provisional,
+		notify				: cbResult.event.schedular_notify
 	};
 	$('#schedular').fullCalendar('renderEvent', event);
 
