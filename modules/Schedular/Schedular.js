@@ -772,7 +772,7 @@ Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
 	this.columnFields.schedular_location	= Schedular.UI.fields.location.value;
 	this.columnFields.schedular_provisional	= Schedular.UI.fields.provisional.checked ? 1 : 0;
-	this.columnFields.schedular_notify		= Schedular.UI.fields.provisional.notify ? 1 : 0;
+	this.columnFields.schedular_notify		= Schedular.UI.fields.notify.checked ? 1 : 0;
 }
 Schedular.CurrentEvent.update = function() {
 	if (this.id == undefined) {
