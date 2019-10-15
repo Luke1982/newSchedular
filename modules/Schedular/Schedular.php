@@ -267,6 +267,8 @@ class Schedular extends CRMEntity {
 			}
 			// Add functionality to create provisional records
 			self::addProvisional();
+			// Add 'notify' field
+			self::addNotifyField();
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			if (version_compare($moduleInstance->version, '0.4.1') == -1) {
@@ -341,6 +343,30 @@ class Schedular extends CRMEntity {
 			$provisional_field->typeofdata = 'I~O';
 		
 			$block->addField($provisional_field);
+		}
+	}
+
+	private static function addNotifyField() {
+		global $adb;
+		require_once 'include/utils/utils.php';
+		require_once 'vtlib/Vtiger/Module.php';
+
+		$not_column_res = $adb->query("SHOW COLUMNS FROM vtiger_schedular LIKE 'schedular_notify'");
+		if ($adb->num_rows($not_column_res) == 0) {
+			$moduleInstance = Vtiger_Module::getInstance('Schedular');
+			$block = Vtiger_Block::getInstance('LBL_SCHEDULAR_INFORMATION', $moduleInstance);
+
+			// Setup the field
+			$notify_field = new Vtiger_Field();
+			$notify_field->name = 'schedular_notify';
+			$notify_field->label = 'schedular_notify';
+			$notify_field->table =	'vtiger_schedular';
+			$notify_field->column = 'schedular_notify';
+			$notify_field->columntype = 'INT(11)';
+			$notify_field->uitype = 56;
+			$notify_field->typeofdata = 'I~O';
+
+			$block->addField($notify_field);
 		}
 	}
 }

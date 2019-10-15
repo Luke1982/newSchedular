@@ -64,6 +64,12 @@
 				<input name="schedular_provisional" id="schedular_provisional" value="schedular_provisional" type="checkbox" />
 			</div>
 		</div>
+		<div class="slds-form-element">
+			<label class="slds-form-element__label" for="select-01">{$MOD.schedular_notify}</label>
+			<div class="slds-form-element__control">
+				<input name="schedular_notify" id="schedular_notify" value="schedular_notify" type="checkbox" />
+			</div>
+		</div>
 		<fieldset class="slds-form-element">
 			<label class="slds-form-element__label" for="select-01">{$MOD.schedular_eventtype}</label>
 			<div class="slds-form-element__control">

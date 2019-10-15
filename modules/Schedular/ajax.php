@@ -81,6 +81,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event['eventStatus'] = $event['schedular_eventstatus'];
 		$prepared_event['location'] = $event['schedular_location'];
 		$prepared_event['provisional'] = $event['schedular_provisional'] == 1 ? true : false;
+		$prepared_event['notify'] = $event['schedular_notify'] == 1 ? true : false;
 		$prepared_event['existingRelations'] = getRelatedRecords($event['crmid']);
 
 		if (isPermitted('Schedular', 'DetailView', $event['crmid']) == 'yes')

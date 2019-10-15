@@ -50,6 +50,7 @@ $mod_strings = Array(
 	'schedular_eventstatus'			=> 'Status planning',
 	'schedular_location'			=> 'Lokatie',
 	'schedular_provisional'			=> 'Voorlopig',
+	'schedular_notify'				=> 'E-mail bevestiging',
 
 	// Settings
 	'av_users' 						=> 'Beschikbare gebruikers',
