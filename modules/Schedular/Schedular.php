@@ -388,7 +388,7 @@ class Schedular extends CRMEntity {
 			$notifyads_field->label = 'schedular_notifyads';
 			$notifyads_field->table = 'vtiger_schedular';
 			$notifyads_field->column = 'schedular_notifyads';
-			$notifyads_field->columntype = 'VARCHAR(255)';
+			$notifyads_field->columntype = 'VARCHAR(100)';
 			$notifyads_field->uitype = 13;
 			$notifyads_field->typeofdata = 'E~O';
 
