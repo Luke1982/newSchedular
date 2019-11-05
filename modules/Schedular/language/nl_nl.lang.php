@@ -66,6 +66,7 @@ $mod_strings = Array(
 	'relation_filterfield' 			=> 'Filter dit veld op de gekoppelde relatie',
 	'relation_customfilters'		=> 'Eigen filters',
 	'relation_fillslocation'		=> 'Vul locatie met velden',
+	'relation_fillsnotifyads'		=> 'Vul notificatie e-mail adres met veld',
 	'relation_mandatory'			=> 'Minstens één record verplicht?',
 	'business_hours_start' 			=> 'Begin van de werkdag',
 	'business_hours_end' 			=> 'Einde van de werkdag',
@@ -78,6 +79,7 @@ $mod_strings = Array(
 	'placeholder_relfilterfield'	=> 'Filter dit veld op de ID(\'s) van de ingevoegde relatie',
 	'placeholder_customfilters'		=> 'Voeg kolom=waarde paren in door komma\'s gescheiden, zoals: \'sostatus=Delivered,duedate=1970-01-01\'',	
 	'placeholder_fillslocation'		=> 'Voer velden in die in de locatie gebruikt worden, deze MOETEN in de teruggave velden zitten',	
+	'placeholder_fillsnotifyads'	=> 'Voer veld in dat in notificatie e-mail adres gebruikt wordt, deze MOETEN in de teruggave velden zitten',
 
 
 

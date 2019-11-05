@@ -379,6 +379,10 @@ class Schedular extends CRMEntity {
 
 		$column_res = $adb->query("SHOW COLUMNS FROM vtiger_schedular LIKE 'schedular_notifyads'");
 		if ($adb->num_rows($column_res) == 0) {
+			$column_res = $adb->query("ALTER TABLE `vtiger_schedular_relations`
+							ADD schedular_fillsnotifyads VARCHAR(255) DEFAULT
+							NULL AFTER schedular_mandatory");
+
 			$moduleInstance = Vtiger_Module::getInstance('Schedular');
 			$block = Vtiger_Block::getInstance('LBL_SCHEDULAR_INFORMATION', $moduleInstance);
 

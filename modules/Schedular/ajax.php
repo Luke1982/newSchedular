@@ -353,7 +353,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 	global $adb;
 	$data = json_decode($_REQUEST['data'], true);
 
-	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET schedular_relmodule_filterfields = ?, schedular_relmodule_retfields = ?, schedular_filterrel_id = ?, schedular_filterrel_field = ?, schedular_customfilters = ?, schedular_fillslocation = ?, schedular_mandatory = ? WHERE schedular_relid = ?",
+	$r = $adb->pquery("UPDATE vtiger_schedular_relations SET schedular_relmodule_filterfields = ?, schedular_relmodule_retfields = ?, schedular_filterrel_id = ?, schedular_filterrel_field = ?, schedular_customfilters = ?, schedular_fillslocation = ?, schedular_fillsnotifyads = ?, schedular_mandatory = ? WHERE schedular_relid = ?",
 			array(
 				$data['filterFields'],
 				$data['returnFields'],
@@ -361,6 +361,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateRelation') {
 				$data['incRelFiltField'],
 				$data['customFilters'],
 				$data['fillslocation'],
+				$data['fillsnotifyads'],
 				$data['isMandatory'],
 				$data['relationId']
 				)

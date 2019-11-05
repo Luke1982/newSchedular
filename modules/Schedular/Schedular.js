@@ -523,7 +523,7 @@ Schedular.UI.fill = function(){
 	this.fields.resource.innerText 	= Schedular.CurrentEvent.resource.title;
 	this.fields.provisional.checked = Schedular.CurrentEvent.provisional;
 	this.fields.notify.checked 		= Schedular.CurrentEvent.notify;
-	this.fields.notifyads.value		= Schedular.CurrentEvent.notifyads;
+	this.fields.notifyads.value		= Schedular.CurrentEvent.notifyads || '';
 	this.setEventLink();
 	this.setCurrentEventType(Schedular.CurrentEvent.eventType);
 	this.setExistingRelations(Schedular.CurrentEvent.relations);
@@ -996,6 +996,7 @@ function Sch_AutocompleteRelation(target, i) {
 	this.relationId 	= this.relationCont.getAttribute("data-relid");
 	this.filterRelId 	= this.inputField.getAttribute("data-filterrel-id");
 	this.locFields 		= this.data.schedular_fillslocation != "" ? this.data.schedular_fillslocation.split(",") : undefined;
+	this.notifyadsFields= this.data.schedular_fillsnotifyads != "" ? this.data.schedular_fillsnotifyads.split(",") : undefined;
 
 	this.targetUL.show 	= function() {
 		if (!this.classList.contains("active")) {
@@ -1058,7 +1059,8 @@ Sch_AutocompleteRelation.prototype.set = function(items) {
 				acInstance.select({
 					label 		: this.getAttribute("data-label"),
 					value 		: this.getAttribute("data-crmid"),
-					location 	: this.getAttribute("data-location")
+					location 	: this.getAttribute("data-location"),
+					notifyads	: this.getAttribute("data-notifyads")
 				});
 			});
 
@@ -1100,6 +1102,7 @@ Sch_AutocompleteRelation.prototype.select = function(params) {
 	this.relationCont.appendChild(newRelation);
 
 	if (params.location != "" && params.location != undefined) { document.getElementById("schedular_loc").value = params.location; }
+	if (params.notifyads != "" && params.notifyads != undefined) { document.getElementById("schedular_notifyads").value = params.notifyads; }
 
 	// Housekeeping after selection
 	this.clearTargetUL();
@@ -1119,7 +1122,6 @@ Sch_AutocompleteRelation.prototype.getRelatedRecords = function() {
 }
 
 Sch_AutocompleteRelation.prototype.buildListItem = function(item) {
-
 	var li = document.createElement("li");
 	li.className = "slds-listbox__item";
 	li.setAttribute("role", "presentation");
@@ -1184,6 +1186,10 @@ Sch_AutocompleteRelation.prototype.buildListItem = function(item) {
 			locDataAttr += item[this.locFields[i]] + " ";
 		}
 		li.setAttribute("data-location", locDataAttr);
+	}
+	// Add the notify e-mail address fields
+	if (this.notifyadsFields != undefined && item.hasOwnProperty(this.notifyadsFields[0])) {
+		li.setAttribute("data-notifyads", item[this.notifyadsFields[0]]);
 	}
 
 	return li;

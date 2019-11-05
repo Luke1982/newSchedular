@@ -159,6 +159,12 @@
 								</div>
 							</div>
 							<div class="slds-form-element">
+								<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_fillsnotifyads}</label>
+								<div class="slds-form-element__control">
+									<input id="" class="slds-input relation__fillsnotifyads" placeholder="{$MOD.placeholder_fillsnotifyads}" type="text" value="{$relation.schedular_fillsnotifyads}">
+								</div>
+							</div>
+							<div class="slds-form-element">
 								<label class="slds-checkbox_toggle slds-grid">
 									<span class="slds-form-element__label slds-m-bottom_none">{$MOD.relation_mandatory}</span>
 									<input name="checkbox" aria-describedby="Toggle relation mandatory" value="on" type="checkbox" class="relation-mandatory__checkbox"{if $relation.schedular_mandatory == '1'} checked="checked"{/if}>
@@ -264,6 +270,12 @@
 					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_fillslocation}</label>
 					<div class="slds-form-element__control">
 						<input id="" class="slds-input relation__fillslocation" placeholder="{$MOD.placeholder_fillslocation}" type="text" value="{$relation.schedular_fillslocation}">
+					</div>
+				</div>
+				<div class="slds-form-element">
+					<label class="slds-form-element__label" for="text-input-id-1">{$MOD.relation_fillsnotifyads}</label>
+					<div class="slds-form-element__control">
+						<input id="" class="slds-input relation__fillsnotifyads" placeholder="{$MOD.placeholder_fillsnotifyads}" type="text" value="{$relation.schedular_fillsnotifyads}">
 					</div>
 				</div>
 				<div class="slds-form-element">
