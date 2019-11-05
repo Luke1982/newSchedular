@@ -51,6 +51,7 @@ $mod_strings = Array(
 	'schedular_location'			=> 'Lokatie',
 	'schedular_provisional'			=> 'Voorlopig',
 	'schedular_notify'				=> 'E-mail bevestiging',
+	'schedular_notifyads'			=> 'E-mail adres bevestiging',
 
 	// Settings
 	'av_users' 						=> 'Beschikbare gebruikers',

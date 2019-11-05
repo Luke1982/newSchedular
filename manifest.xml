@@ -3,7 +3,7 @@
 	<name>Schedular</name>
 	<label>Schedular</label>
 	<parent>Tools</parent>
-	<version>0.7.1</version>
+	<version>0.7.3</version>
 	<short_description>A module that creates entries based on resources and has a calendar GUI.</short_description>
 	<dependencies>
 		<vtiger_version>7.0.0</vtiger_version>
@@ -26,7 +26,7 @@
 			* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 			*************************************************************************************************
 			*  Module       : Schedular
-			*  Version      : 0.7.1
+			*  Version      : 0.7.3
 			*************************************************************************************************/
 			]]></inline>
 		</license>

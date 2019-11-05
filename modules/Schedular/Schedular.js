@@ -523,6 +523,7 @@ Schedular.UI.fill = function(){
 	this.fields.resource.innerText 	= Schedular.CurrentEvent.resource.title;
 	this.fields.provisional.checked = Schedular.CurrentEvent.provisional;
 	this.fields.notify.checked 		= Schedular.CurrentEvent.notify;
+	this.fields.notifyads.value		= Schedular.CurrentEvent.notifyads;
 	this.setEventLink();
 	this.setCurrentEventType(Schedular.CurrentEvent.eventType);
 	this.setExistingRelations(Schedular.CurrentEvent.relations);
@@ -614,7 +615,8 @@ Schedular.UI.fields = {
 	eventTypes 	: document.getElementById("event-types").getElementsByTagName("option"),
 	location 	: document.getElementById("schedular_loc"),
 	provisional : document.getElementById("schedular_provisional"),
-	notify		: document.getElementById("schedular_notify")
+	notify		: document.getElementById("schedular_notify"),
+	notifyads	: document.getElementById("schedular_notifyads")
 };
 Schedular.UI.validate = function() {
 	var inputs = this.el.getElementsByTagName("input");
@@ -681,7 +683,8 @@ Schedular.CurrentEvent = {
 	relToRemove : [],
 	location 	: undefined,
 	provisional : false,
-	notify 		: false
+	notify 		: false,
+	notifyads	: ''
 };
 Schedular.CurrentEvent.clear = function() {
 	this.id 			= undefined;
@@ -706,6 +709,7 @@ Schedular.CurrentEvent.clear = function() {
 	this.location 		= undefined;
 	this.provisional 	= false;
 	this.notify		 	= false;
+	this.notifyads	 	= '';
 }
 
 Schedular.CurrentEvent.setCurrent = function(event) {
@@ -727,6 +731,7 @@ Schedular.CurrentEvent.setCurrent = function(event) {
 	this.location 		= event.location;
 	this.provisional 	= event.provisional;
 	this.notify		 	= event.notify;
+	this.notifyads	 	= event.notifyads;
 	// console.log("Current Event: ");
 	// console.log(event);
 }
@@ -773,6 +778,7 @@ Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.schedular_location	= Schedular.UI.fields.location.value;
 	this.columnFields.schedular_provisional	= Schedular.UI.fields.provisional.checked ? 1 : 0;
 	this.columnFields.schedular_notify		= Schedular.UI.fields.notify.checked ? 1 : 0;
+	this.columnFields.schedular_notifyads	= Schedular.UI.fields.notifyads.value;
 }
 Schedular.CurrentEvent.update = function() {
 	if (this.id == undefined) {
@@ -846,6 +852,7 @@ Schedular.CurrentEvent.reRender = function(cbResult) {
 	Schedular.CurrentEvent.event.location			= cbResult.schedular_location;
 	Schedular.CurrentEvent.event.provisional		= cbResult.schedular_provisional;
 	Schedular.CurrentEvent.event.notify				= cbResult.schedular_notify;
+	Schedular.CurrentEvent.event.notifyads			= cbResult.schedular_notifyads;
 	$('#schedular').fullCalendar('updateEvent', Schedular.CurrentEvent.event);
 
 	Schedular.UI.clear();
@@ -865,7 +872,8 @@ Schedular.CurrentEvent.render = function(cbResult) {
 		existingRelations	: cbResult.event.existingRelations,
 		eventType 			: cbResult.event.schedular_eventtype,
 		provisional 		: cbResult.event.schedular_provisional,
-		notify				: cbResult.event.schedular_notify
+		notify				: cbResult.event.schedular_notify,
+		notifyads			: cbResult.event.schedular_notifyads
 	};
 	$('#schedular').fullCalendar('renderEvent', event);
 

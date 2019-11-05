@@ -269,6 +269,8 @@ class Schedular extends CRMEntity {
 			self::addProvisional();
 			// Add 'notify' field
 			self::addNotifyField();
+			// Add 'notifyaddress' field
+			self::addNotifyAddressField();
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			if (version_compare($moduleInstance->version, '0.4.1') == -1) {
@@ -367,6 +369,30 @@ class Schedular extends CRMEntity {
 			$notify_field->typeofdata = 'I~O';
 
 			$block->addField($notify_field);
+		}
+	}
+
+	private static function addNotifyAddressField() {
+		global $adb;
+		require_once 'include/utils/utils.php';
+		require_once 'vtlib/Vtiger/Module.php';
+
+		$column_res = $adb->query("SHOW COLUMNS FROM vtiger_schedular LIKE 'schedular_notifyads'");
+		if ($adb->num_rows($column_res) == 0) {
+			$moduleInstance = Vtiger_Module::getInstance('Schedular');
+			$block = Vtiger_Block::getInstance('LBL_SCHEDULAR_INFORMATION', $moduleInstance);
+
+			// Setup the field
+			$notifyads_field = new Vtiger_Field();
+			$notifyads_field->name = 'schedular_notifyads';
+			$notifyads_field->label = 'schedular_notifyads';
+			$notifyads_field->table = 'vtiger_schedular';
+			$notifyads_field->column = 'schedular_notifyads';
+			$notifyads_field->columntype = 'VARCHAR(255)';
+			$notifyads_field->uitype = 13;
+			$notifyads_field->typeofdata = 'E~O';
+
+			$block->addField($notifyads_field);
 		}
 	}
 }
