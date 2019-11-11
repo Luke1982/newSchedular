@@ -366,7 +366,7 @@ class Schedular extends CRMEntity {
 			$notify_field->column = 'schedular_notify';
 			$notify_field->columntype = 'INT(11)';
 			$notify_field->uitype = 56;
-			$notify_field->typeofdata = 'I~O';
+			$notify_field->typeofdata = 'C~O';
 
 			$block->addField($notify_field);
 		}
