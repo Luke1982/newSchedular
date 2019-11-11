@@ -188,7 +188,13 @@ class Schedular extends CRMEntity {
 			$filePath 	= 'modules/Schedular/eventhandlers/SchedularBeforeRecordDelete.php';
 			$className 	= 'SchedularBeforeRecordDelete';
 			$em->registerHandler($eventName, $filePath, $className);
-			
+
+			// Add functionality to create provisional records
+			self::addProvisional();
+			// Add 'notify' field
+			self::addNotifyField();
+			// Add 'notifyaddress' field
+			self::addNotifyAddressField();
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
 		} else if($event_type == 'module.enabled') {
@@ -244,7 +250,7 @@ class Schedular extends CRMEntity {
 				include_once('vtlib/Vtiger/Module.php');
 
 				$block						= 	Vtiger_Block::getInstance('LBL_SCHEDULAR_INFORMATION', $moduleInstance);
-				
+
 				// Setup the field
 				$locField					=	new Vtiger_Field();
 				$locField->name				=	'schedular_location';
@@ -254,7 +260,7 @@ class Schedular extends CRMEntity {
 				$locField->columntype		=	'VARCHAR(255)';
 				$locField->uitype			=	1;
 				$locField->typeofdata		=	'V~O';
-			
+
 				$block->addField($locField);		
 			}
 			if (version_compare($moduleInstance->version, '0.4.6') == -1) {
