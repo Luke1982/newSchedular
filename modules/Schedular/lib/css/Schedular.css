@@ -173,3 +173,10 @@ div.fc-bg > table > tbody > tr > td.fc-fri {
 	background-color: #dee9ed;
 	border-color: #c7d2d6 !important;
 }
+
+div.fc-bg > table > tbody > tr > td.fc-mon-last,
+div.fc-bg > table > tbody > tr > td.fc-tue-last,
+div.fc-bg > table > tbody > tr > td.fc-wed-last,
+div.fc-bg > table > tbody > tr > td.fc-thu-last {
+	border-right: 2px solid #000000 !important;
+}

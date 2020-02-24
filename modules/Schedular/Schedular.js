@@ -18,7 +18,7 @@ GlobalVariable_getVariable('Schedular_Show_Weekends', 0, '', gVTUserID).then(fun
 window.addEventListener("load", function(){
 	insertStylesheet("modules/Schedular/lib/css/fullcalendar.min.css");
 	insertStylesheet("modules/Schedular/lib/css/scheduler.min.css");
-	insertStylesheet("modules/Schedular/lib/css/Schedular.css?v=0.6.8");
+	insertStylesheet("modules/Schedular/lib/css/Schedular.css?v=0.7.5");
 
 	var scripts = [
 		"modules/Schedular/lib/js/jquery.min.js",
@@ -387,6 +387,17 @@ window.addEventListener("load", function(){
 				document.getElementById("close-schedular-eventtypes-legend").addEventListener("click", function(){
 					document.getElementById("schedular-eventtypes-legends").classList.toggle("active");
 				});
+
+				window.setTimeout(function(){
+					const mondayCells = document.getElementsByClassName('fc-mon');
+					mondayCells[mondayCells.length - 1].classList.add('fc-mon-last');
+					const tueCells = document.getElementsByClassName('fc-tue');
+					tueCells[tueCells.length - 1].classList.add('fc-tue-last');
+					const wedCells = document.getElementsByClassName('fc-wed');
+					wedCells[wedCells.length - 1].classList.add('fc-wed-last');
+					const thuCells = document.getElementsByClassName('fc-thu');
+					thuCells[thuCells.length - 1].classList.add('fc-thu-last');
+				},1000);
 
 				clearInterval(int); // Schedular is launched, stop the interval
 			}
