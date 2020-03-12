@@ -5,7 +5,7 @@
 	}
 {/literal}
 </style>
-<div id="schedular"></div>
+<div id="schedular" style="background-color: #ffffff;" class="slds-box slds-m-around_x-small"></div>
 <!-- Add / Edit Event UI -->
 <div id="schedular-event-ui">
 	<div id="schedular-event-ui__draghandle">{$MOD.clicktodrag}</div>
