@@ -11,7 +11,8 @@ $sch_count = $adb->query("SELECT COUNT(vtiger_crmentityrel.crmid) AS count
 						  AND vtiger_crmentityrel.crmid != {$sch_id}
 						  AND module = 'Schedular'
 						  AND ce.deleted = 0
-						  AND sch.schedular_provisional != 1");
+						  AND sch.schedular_provisional != 1
+						  AND sch.schedular_eventstatus != 'Cancelled'");
 $sch_count = $adb->fetch_array($sch_count)['count'];
 $_REQUEST['remaining_schedular_count'] = $sch_count;
 
