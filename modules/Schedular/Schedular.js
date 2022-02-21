@@ -66,6 +66,7 @@ window.addEventListener("load", function(){
 					eventLimit: true, // allow "more" link when too many events
 					firstDay: 1,
 					columnFormat: "ddd D-M",
+					locale: 'nl',
 					customButtons: {
 						legend: {
 							text: document.getElementById("legend-label").value,
@@ -206,6 +207,7 @@ window.addEventListener("load", function(){
 					height: (screen.availHeight * .7),
 					weekends: showWeekends,
 					weekNumbers : true,
+					weekNumberCalculation: 'ISO',
 
 					//// uncomment this line to hide the all-day slot
 					allDaySlot: false,
