@@ -26,7 +26,7 @@ window.addEventListener("load", function(){
 		"modules/Schedular/lib/js/fullcalendar.min.js",
 		"modules/Schedular/lib/js/scheduler.min.js",
 		"modules/Schedular/lib/js/interact.min.js",
-		"modules/Schedular/lib/js/fullcalendar-locale/" + navigator.language + ".js"
+		"modules/Schedular/lib/js/fullcalendar-locale/nl.js"
 	];
 
 	function require(scripts, i) {
