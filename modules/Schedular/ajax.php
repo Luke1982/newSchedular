@@ -7,6 +7,9 @@
  * All Rights Reserved.
  ************************************************************************************/
 
+//ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+
 // https://gist.github.com/chaoszcat/5325115#file-gistfile1-php
 function shadeColor($color, $percent) {
 	$num = base_convert(substr($color, 1), 16, 10);
@@ -14,11 +17,17 @@ function shadeColor($color, $percent) {
 	$r = ($num >> 16) + $amt;
 	$b = ($num >> 8 & 0x00ff) + $amt;
 	$g = ($num & 0x0000ff) + $amt;
-	
-	return '#'.substr(base_convert(0x1000000 + ($r<255?$r<1?0:$r:255)*0x10000 + ($b<255?$b<1?0:$b:255)*0x100 + ($g<255?$g<1?0:$g:255), 10, 16), 1);
+
+	return '#' . substr(
+		base_convert(0x1000000 +
+			($r < 255 ? ($r < 1 ? 0 : $r) : 255) * 0x10000 +
+			($b < 255 ? ($b < 1 ? 0 : $b) : 255) * 0x100 +
+			($g < 255 ? ($g < 1 ? 0 : $g) : 255), 10, 16),
+		1
+	);
 }
 
-function getRelatedRecords($id) {
+function Schedular_getRelatedRecords($id) {
 	global $adb;
 	$records = array();
 
@@ -83,7 +92,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event['provisional'] = $event['schedular_provisional'] == 1 ? true : false;
 		$prepared_event['notify'] = $event['schedular_notify'] == 1 ? true : false;
 		$prepared_event['notifyads'] = $event['schedular_notifyads'];
-		$prepared_event['existingRelations'] = getRelatedRecords($event['crmid']);
+		$prepared_event['existingRelations'] = Schedular_getRelatedRecords($event['crmid']);
 
 		if (isPermitted('Schedular', 'DetailView', $event['crmid']) == 'yes')
 			$events[] = $prepared_event;
@@ -268,7 +277,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'updateEvent') {
 
 	$result = $adb->pquery("SELECT eventtype_bgcolor FROM vtiger_schedular_eventcolors INNER JOIN vtiger_schedular_eventtype ON vtiger_schedular_eventcolors.eventtype_id=vtiger_schedular_eventtype.schedular_eventtypeid WHERE vtiger_schedular_eventtype.schedular_eventtype = ?", array($rec->column_fields['schedular_eventtype']));
 	$rec->column_fields['bgcolor'] = $adb->query_result($result, 0, 'eventtype_bgcolor');
-	$rec->column_fields['existingRelations'] = getRelatedRecords($data['id']);
+	$rec->column_fields['existingRelations'] = Schedular_getRelatedRecords($data['id']);
 	echo json_encode($rec->column_fields);
 }
 
@@ -432,7 +441,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'createEvent') {
 			}
 		}
 	}
-	$new_event['event']['existingRelations'] = getRelatedRecords($s->column_fields['id']);
+	$new_event['event']['existingRelations'] = Schedular_getRelatedRecords($s->column_fields['id']);
 	echo json_encode($new_event);
 	// var_dump($data);
 }
