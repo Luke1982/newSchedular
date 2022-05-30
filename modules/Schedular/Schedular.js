@@ -772,17 +772,20 @@ Schedular.CurrentEvent.setColumnFields = function() {
 	}
 }
 Schedular.CurrentEvent.setRelations = function() {
-	var existingRelations = document.getElementsByClassName("existing-relation");
+	const existingRelations = [...document.getElementsByClassName("existing-relation")]
+	const soRelations = existingRelations.filter(r => r.getAttribute('relation-modulename') === 'SalesOrder')
+	const diffSoRelations = soRelations.filter(so => so.getAttribute('relation-relcrmid') !== soRelations[0].getAttribute('relation-relcrmid'))
 
-	if (existingRelations != undefined) {
-		for (var i = 0; i < existingRelations.length; i++) {
-			this.relations[i] = {
-				modulename 	: existingRelations[i].getAttribute("relation-modulename"),
-				relcrmid 	: existingRelations[i].getAttribute("relation-relcrmid")
-			};
-		}
+	if (diffSoRelations.length > 0) {
+		alert('Je hebt orders van verschillende klanten aan deze afspraak gekoppeld')
+		throw new Error('Trying to save SalesOrders from multiple accounts')
 	}
-	// console.log(this.relations);
+	existingRelations.forEach((r, i) => {
+		this.relations[i] = {
+			modulename: r.getAttribute('relation-modulename'),
+			relcrmid: r.getAttribute('relation-relcrmid')
+		}
+	}, this)
 }
 Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.description			= Schedular.UI.fields.description.value;
