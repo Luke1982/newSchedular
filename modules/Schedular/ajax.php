@@ -491,3 +491,11 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveUserPrefs') {
 	}
 	file_put_contents('modules/Schedular/schedular_userprefs.json', json_encode($user_prefs));
 }
+
+if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'areSosSameAccount') {
+	global $adb;
+	$soIdsCsv = implode(',', json_decode($_REQUEST['soIds'], true));
+	$q = "SELECT so.accountid FROM `vtiger_salesorder` AS so WHERE so.salesorderid IN ({$soIdsCsv}) GROUP BY so.accountid";
+	$r = $adb->query($q);
+	echo json_encode($adb->num_rows($r) === 1);
+}

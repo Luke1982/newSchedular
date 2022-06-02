@@ -771,12 +771,21 @@ Schedular.CurrentEvent.setColumnFields = function() {
 		"schedular_name"		: this.title
 	}
 }
-Schedular.CurrentEvent.setRelations = function() {
+Schedular.CurrentEvent.setRelations = async function() {
 	const existingRelations = [...document.getElementsByClassName("existing-relation")]
 	const soRelations = existingRelations.filter(r => r.getAttribute('relation-modulename') === 'SalesOrder')
-	const diffSoRelations = soRelations.filter(so => so.getAttribute('relation-relcrmid') !== soRelations[0].getAttribute('relation-relcrmid'))
-
-	if (diffSoRelations.length > 0) {
+	const relSoIds = soRelations.map(so => so.getAttribute('relation-relcrmid'))
+	const response = await fetch(
+		`index.php?module=Schedular&action=SchedularAjax&file=ajax&function=areSosSameAccount&soIds=${encodeURIComponent(JSON.stringify(relSoIds))}`
+	)
+	let sosAreSameAccount = false
+	try {
+		sosAreSameAccount = await response.json()
+	} catch (e) {
+		alert('Het lukte niet om te kijken of je geen orders van meerdere accounts hebt gekozen')
+		throw new Error('Could not do AJAX to check if SO\'s are from multiple accounts')
+	}
+	if (!sosAreSameAccount) {
 		alert('Je hebt orders van verschillende klanten aan deze afspraak gekoppeld')
 		throw new Error('Trying to save SalesOrders from multiple accounts')
 	}
