@@ -639,7 +639,23 @@ Schedular.UI.validate = function() {
 		if (inputs[i].getAttribute("data-required") == "true" && inputs[i].value == "") {
 			hasError.push(inputs[i]);
 		}
-		// Check relations that need at least one entity
+		// Check relations that need at least one entity,
+		// except when the eventtype is either 'zaak' or 'vrij'
+		// and the relationtype is 'SalesOrder' or 'Account'
+		if (
+			(
+				Schedular.CurrentEvent.columnFields.schedular_eventtype.toLowerCase() === 'zaak' ||
+				Schedular.CurrentEvent.columnFields.schedular_eventtype.toLowerCase() === 'vrij'
+			) &&
+			inputs[i].hasAttribute("data-is-mandatory-rel") &&
+			(
+				inputs[i].getAttribute("data-module") === 'SalesOrder' ||
+				inputs[i].getAttribute("data-module") === 'Accounts'
+			)
+		) {
+			continue
+		}
+
 		if (inputs[i].getAttribute("data-is-mandatory-rel") == "true") {
 			var relatedModule = inputs[i].getAttribute("data-module");
 			var relatedEntityCount = 0;
