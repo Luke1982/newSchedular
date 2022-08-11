@@ -68,6 +68,27 @@ window.addEventListener("load", function(){
 					columnFormat: "ddd D-M",
 					locale: 'nl',
 					customButtons: {
+						customPrev: {
+							text: '<',
+							click: () => {
+								$('#schedular').fullCalendar('prev')
+								doCustomUX();
+							}
+						},
+						customNext: {
+							text: '>',
+							click: () => {
+								$('#schedular').fullCalendar('next')
+								doCustomUX();
+							}
+						},
+						customToday: {
+							text: 'Vandaag',
+							click: () => {
+								$('#schedular').fullCalendar('today')
+								doCustomUX();
+							}
+						},
 						legend: {
 							text: document.getElementById("legend-label").value,
 							click: function() {
@@ -138,7 +159,7 @@ window.addEventListener("load", function(){
 						}
 					},
 					header: {
-						left: 'prev,next today legend onlyMine,everyOne',
+						left: 'customPrev,customNext customToday legend onlyMine,everyOne',
 						center: 'title',
 						right: 'tinySlots,mediumTinySlots,mediumSlots agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaFiveDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
 					},
@@ -248,6 +269,9 @@ window.addEventListener("load", function(){
  					weekNumberCalculiation: 'ISO',
 					//// uncomment this line to hide the all-day slot
 					allDaySlot: false,
+					viewClassNames: function(args) {
+						console.log(args)
+					},
 
 					resources: function(callback){
 						$.ajax({
@@ -428,26 +452,30 @@ window.addEventListener("load", function(){
 				});
 
 				window.setTimeout(function(){
-					const mondayCells = document.getElementsByClassName('fc-mon');
-					mondayCells[mondayCells.length - 1].classList.add('fc-mon-last');
-					const tueCells = document.getElementsByClassName('fc-tue');
-					tueCells[tueCells.length - 1].classList.add('fc-tue-last');
-					const wedCells = document.getElementsByClassName('fc-wed');
-					wedCells[wedCells.length - 1].classList.add('fc-wed-last');
-					const thuCells = document.getElementsByClassName('fc-thu');
-					thuCells[thuCells.length - 1].classList.add('fc-thu-last');
-					if ($('#schedular').fullCalendar('option', 'slotDuration') === '00:30:00') {
-						[...document.querySelectorAll('.fc-time-grid .fc-slats td')].forEach(row => {
-							row.style.height = '3em';
-						})
-						const currentHeight = $('#schedular').fullCalendar('option', 'height')
-						$('#schedular').fullCalendar('option', 'contentHeight', currentHeight)
-					}
+					doCustomUX();
 				},1000);
 
 				clearInterval(int); // Schedular is launched, stop the interval
 			}
 		}, 400);
+	}
+
+	const doCustomUX = () => {
+		const mondayCells = document.getElementsByClassName('fc-mon');
+		mondayCells[mondayCells.length - 1].classList.add('fc-mon-last');
+		const tueCells = document.getElementsByClassName('fc-tue');
+		tueCells[tueCells.length - 1].classList.add('fc-tue-last');
+		const wedCells = document.getElementsByClassName('fc-wed');
+		wedCells[wedCells.length - 1].classList.add('fc-wed-last');
+		const thuCells = document.getElementsByClassName('fc-thu');
+		thuCells[thuCells.length - 1].classList.add('fc-thu-last');
+		if ($('#schedular').fullCalendar('option', 'slotDuration') === '00:30:00') {
+			[...document.querySelectorAll('.fc-time-grid .fc-slats td')].forEach(row => {
+				row.style.height = '3em';
+			})
+			const currentHeight = $('#schedular').fullCalendar('option', 'height')
+			$('#schedular').fullCalendar('option', 'contentHeight', currentHeight)
+		}
 	}
 
 	function getEvents(dates) {
