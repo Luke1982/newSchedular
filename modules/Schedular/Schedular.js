@@ -66,7 +66,6 @@ window.addEventListener("load", function(){
 					eventLimit: true, // allow "more" link when too many events
 					firstDay: 1,
 					columnFormat: "ddd D-M",
-					locale: 'nl',
 					customButtons: {
 						legend: {
 							text: document.getElementById("legend-label").value,
@@ -207,8 +206,8 @@ window.addEventListener("load", function(){
 					height: (screen.availHeight * .7),
 					weekends: showWeekends,
 					weekNumbers : true,
-					weekNumberCalculation: 'ISO',
-
+ 					weekNumberCalculiation: 'ISO',
+					locale: 'nl',
 					//// uncomment this line to hide the all-day slot
 					allDaySlot: false,
 
@@ -801,7 +800,7 @@ Schedular.CurrentEvent.setRelations = async function() {
 		alert('Het lukte niet om te kijken of je geen orders van meerdere accounts hebt gekozen')
 		throw new Error('Could not do AJAX to check if SO\'s are from multiple accounts')
 	}
-	if (!sosAreSameAccount) {
+	if (!sosAreSameAccount && relSoIds.length > 0) {
 		alert('Je hebt orders van verschillende klanten aan deze afspraak gekoppeld')
 		throw new Error('Trying to save SalesOrders from multiple accounts')
 	}
