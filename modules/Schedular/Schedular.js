@@ -129,6 +129,8 @@ window.addEventListener("load", function(){
 								[...document.querySelectorAll('.fc-time-grid .fc-slats td')].forEach(row => {
 									row.style.height = '3em';
 								})
+								const currentHeight = $('#schedular').fullCalendar('option', 'height')
+								$('#schedular').fullCalendar('option', 'contentHeight', currentHeight)
 								saveUserPrefs({
 									'slotDuration' : 'mediumSlots'
 								});
@@ -438,6 +440,8 @@ window.addEventListener("load", function(){
 						[...document.querySelectorAll('.fc-time-grid .fc-slats td')].forEach(row => {
 							row.style.height = '3em';
 						})
+						const currentHeight = $('#schedular').fullCalendar('option', 'height')
+						$('#schedular').fullCalendar('option', 'contentHeight', currentHeight)
 					}
 				},1000);
 
