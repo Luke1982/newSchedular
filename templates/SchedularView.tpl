@@ -36,26 +36,20 @@
 						<td width="25%"></td>
 						<td width="25%"></td>
 						<td width="25%"></td>
-					</tr>										
+					</tr>
 				</tbody>
 			</table>
 		</fieldset>
 		<div class="slds-form-element">
-			<label class="slds-form-element__label" for="schedular_name">{$MOD.title}</label>
-			<div class="slds-form-element__control">
-				<input id="schedular_name" name="schedular_name" class="slds-input" data-required="true" placeholder="Placeholder Text" type="text">
-			</div>
-		</div>
-		<div class="slds-form-element">
 			<label class="slds-form-element__label" for="schedular_loc">{$MOD.schedular_location}</label>
 			<div class="slds-form-element__control">
-				<input id="schedular_loc" name="schedular_loc" class="slds-input" placeholder="Location" type="text">
+				<input id="schedular_loc" name="schedular_loc" class="slds-input" placeholder="Locatie" type="text">
 			</div>
 		</div>
 		<div class="slds-form-element">
 			<label class="slds-form-element__label" for="schedular_description">{$MOD.description}</label>
 			<div class="slds-form-element__control">
-				<textarea id="schedular_description" class="slds-textarea" placeholder="Description"></textarea>
+				<textarea id="schedular_description" class="slds-textarea" placeholder="Omschrijving"></textarea>
 			</div>
 		</div>
 		<div class="slds-form-element">
