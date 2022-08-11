@@ -102,6 +102,9 @@ window.addEventListener("load", function(){
 							text: 'Per 10 minuten',
 							click: () => {
 								$('#schedular').fullCalendar('option', 'slotDuration', '00:10:00');
+								[...document.querySelectorAll('.fc-time-grid .fc-slats td')].forEach(row => {
+									row.style.height = '1.5em';
+								})
 								saveUserPrefs({
 									'slotDuration' : 'tinySlots'
 								});
@@ -110,7 +113,10 @@ window.addEventListener("load", function(){
 						mediumTinySlots: {
 							text: 'Per 15 minuten',
 							click: () => {
-								$('#schedular').fullCalendar('option', 'slotDuration', '00:15:00'); 
+								$('#schedular').fullCalendar('option', 'slotDuration', '00:15:00');
+								[...document.querySelectorAll('.fc-time-grid .fc-slats td')].forEach(row => {
+									row.style.height = '1.5em';
+								})
 								saveUserPrefs({
 									'slotDuration' : 'mediumTinySlots'
 								});
@@ -120,6 +126,9 @@ window.addEventListener("load", function(){
 							text: 'Per 30 minuten',
 							click: () => {
 								$('#schedular').fullCalendar('option', 'slotDuration', '00:30:00');
+								[...document.querySelectorAll('.fc-time-grid .fc-slats td')].forEach(row => {
+									row.style.height = '3em';
+								})
 								saveUserPrefs({
 									'slotDuration' : 'mediumSlots'
 								});
@@ -425,6 +434,11 @@ window.addEventListener("load", function(){
 					wedCells[wedCells.length - 1].classList.add('fc-wed-last');
 					const thuCells = document.getElementsByClassName('fc-thu');
 					thuCells[thuCells.length - 1].classList.add('fc-thu-last');
+					if ($('#schedular').fullCalendar('option', 'slotDuration') === '00:30:00') {
+						[...document.querySelectorAll('.fc-time-grid .fc-slats td')].forEach(row => {
+							row.style.height = '3em';
+						})
+					}
 				},1000);
 
 				clearInterval(int); // Schedular is launched, stop the interval
