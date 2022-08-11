@@ -47,5 +47,6 @@ $smarty->assign('event_types', $event_types);
 $smarty->assign('general_settings', $general_settings);
 $smarty->assign('current_user_id', $current_user->id);
 $smarty->assign('preferred_view', $user_prefs['preferredView']);
+$smarty->assign('preferred_slotduration', $user_prefs['slotDuration']);
 $smarty->display('modules/Schedular/SchedularView.tpl');
 ?>

@@ -97,16 +97,43 @@ window.addEventListener("load", function(){
 									$('#schedular').fullCalendar('refetchResources');
 								}, 500);
 							}
+						},
+						tinySlots: {
+							text: 'Per 10 minuten',
+							click: () => {
+								$('#schedular').fullCalendar('option', 'slotDuration', '00:10:00');
+								saveUserPrefs({
+									'slotDuration' : 'tinySlots'
+								});
+							}
+						},
+						mediumTinySlots: {
+							text: 'Per 15 minuten',
+							click: () => {
+								$('#schedular').fullCalendar('option', 'slotDuration', '00:15:00'); 
+								saveUserPrefs({
+									'slotDuration' : 'mediumTinySlots'
+								});
+							}
+						},
+						mediumSlots: {
+							text: 'Per 30 minuten',
+							click: () => {
+								$('#schedular').fullCalendar('option', 'slotDuration', '00:30:00');
+								saveUserPrefs({
+									'slotDuration' : 'mediumSlots'
+								});
+							}
 						}
 					},
 					header: {
 						left: 'prev,next today legend onlyMine,everyOne',
 						center: 'title',
-						right: 'agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaFiveDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
+						right: 'tinySlots,mediumTinySlots,mediumSlots agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaFiveDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
 					},
 					minTime : document.getElementById("business-hours-start").value,
 					maxTime : document.getElementById("business-hours-end").value,
-					slotDuration : "00:15:00",
+					slotDuration : getPreferredSlotDuration(),
 					businessHours: {
 					    // days of week. an array of zero-based day of week integers (0=Sunday)
 					    dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
@@ -422,6 +449,7 @@ window.addEventListener("load", function(){
 		var data = {};
 		data.currentView = params.view == undefined ? "" : params.view.type;
 		data.show = params.show == undefined ? "" : params.show;
+		data.slotDuration = params.slotDuration == undefined ? "" : params.slotDuration;
 
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
@@ -439,6 +467,16 @@ window.addEventListener("load", function(){
 		} else {
 			return 'agendaDay';
 		}
+	}
+
+	const getPreferredSlotDuration = () => {
+		const pref_view = document.getElementById('preferred_slotduration').value
+		const viewToTimeMap = {
+			tinySlots: '00:10:00',
+			mediumTinySlots: '00:15:00',
+			mediumSlots: '00:30:00'
+		}
+		return viewToTimeMap[pref_view]
 	}
 
 });
