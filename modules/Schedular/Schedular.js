@@ -295,7 +295,7 @@ window.addEventListener("load", function(){
 						var contentDiv = element[0].firstChild;
 						var div = document.createElement("div");
 						div.className = "fc-content__custom";
-						div.innerText = event.description;
+						div.innerHTML = `<span style="font-style: italic; margin: 0.3rem 0; display: block;">${event.description}</span>`;
 						contentDiv.appendChild(div);
 
 						if (event.eventStatus == "Completed") {
@@ -371,7 +371,6 @@ window.addEventListener("load", function(){
 							start 				: start,
 							end 				: end,
 							resourceId 			: resource.id, // Force resource to be obtained from global object
-							title				: "",
 							description 		: "",
 							eventType 			: "",
 							newEvent 			: true,
@@ -566,7 +565,6 @@ Schedular.UI = {
 	state 		   : false
 };
 Schedular.UI.show = function(){
-	this.fields.name.focus();
 	this.el.classList.add("active");
 	this.state = true;
 }
@@ -609,7 +607,6 @@ Schedular.UI.clear = function(){
 	this.link.href = "";
 }
 Schedular.UI.fill = function(){
-	this.fields.name.value 			= Schedular.CurrentEvent.title;
 	this.fields.location.value 		= Schedular.CurrentEvent.location != undefined ? Schedular.CurrentEvent.location : "";
 	this.fields.description.value 	= Schedular.CurrentEvent.description;
 	this.fields.startDate.innerText	= Schedular.CurrentEvent.start.format(window.userDateFormat.toUpperCase());
@@ -701,7 +698,6 @@ Schedular.UI.createRelation = function(relation) {
 	return pill;
 }
 Schedular.UI.fields = {
-	name 		: document.getElementById("schedular_name"),
 	description	: document.getElementById("schedular_description"),
 	startDate	: document.getElementById("schedular-event-ui__startdate"),
 	startTime	: document.getElementById("schedular-event-ui__starttime"),
@@ -867,7 +863,7 @@ Schedular.CurrentEvent.setColumnFields = function() {
 		"assigned_user_id"		: this.resource.id,
 		"description"			: this.description,
 		"schedular_eventtype"	: this.eventType,
-		"schedular_name"		: this.title
+		"schedular_name"		: this.eventType + ' ' + this.endDate
 	}
 }
 Schedular.CurrentEvent.setRelations = async function() {
@@ -898,7 +894,6 @@ Schedular.CurrentEvent.setRelations = async function() {
 Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.description			= Schedular.UI.fields.description.value;
 	this.columnFields.schedular_eventtype	= Schedular.UI.getCurrentEventType();
-	this.columnFields.schedular_name		= Schedular.UI.fields.name.value;
 	this.columnFields.schedular_location	= Schedular.UI.fields.location.value;
 	this.columnFields.schedular_provisional	= Schedular.UI.fields.provisional.checked ? 1 : 0;
 	this.columnFields.schedular_notify		= Schedular.UI.fields.notify.checked ? 1 : 0;
@@ -967,7 +962,7 @@ Schedular.CurrentEvent.delete = function() {
 	}
 }
 Schedular.CurrentEvent.reRender = function(cbResult) {
-	Schedular.CurrentEvent.event.title 				= cbResult.schedular_name;
+	Schedular.CurrentEvent.event.title 				= cbResult.schedular_eventtype;
 	Schedular.CurrentEvent.event.description 		= cbResult.description;
 	Schedular.CurrentEvent.event.backgroundColor	= cbResult.bgcolor;
 	Schedular.CurrentEvent.event.borderColor		= shadeColor(cbResult.bgcolor, -40);
@@ -988,7 +983,6 @@ Schedular.CurrentEvent.render = function(cbResult) {
 		resourceId 			: cbResult.event.assigned_user_id,
 		start 				: cbResult.event.schedular_startdate + "T" + cbResult.event.schedular_starttime,
 		end 				: cbResult.event.schedular_enddate + "T" + cbResult.event.schedular_endtime,
-		title 				: cbResult.event.schedular_name,
 		description 		: cbResult.event.description,
 		backgroundColor		: cbResult.event.bgcolor,
 		textColor 			: "#000000",
