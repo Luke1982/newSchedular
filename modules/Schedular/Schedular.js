@@ -899,12 +899,12 @@ Schedular.CurrentEvent.getColumnFieldsFromUI = function() {
 	this.columnFields.schedular_notify		= Schedular.UI.fields.notify.checked ? 1 : 0;
 	this.columnFields.schedular_notifyads	= Schedular.UI.fields.notifyads.value;
 }
-Schedular.CurrentEvent.update = function() {
+Schedular.CurrentEvent.update = async function() {
 	if (this.id == undefined) {
 		throw new Error("No event set as current");
 	}
 	this.setColumnFields();
-	this.setRelations();
+	await this.setRelations();
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
 
 	if (Schedular.UI.state == true) {
