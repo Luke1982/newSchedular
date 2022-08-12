@@ -158,6 +158,7 @@ window.addEventListener("load", function(){
 							}
 						}
 					},
+					displayEventTime: false,
 					header: {
 						left: 'customPrev,customNext customToday legend onlyMine,everyOne',
 						center: 'title',
@@ -293,10 +294,34 @@ window.addEventListener("load", function(){
 					events: [],
 					eventAfterRender : function(event, element, view) {
 						var contentDiv = element[0].firstChild;
-						var div = document.createElement("div");
-						div.className = "fc-content__custom";
-						div.innerHTML = `<span style="font-style: italic; margin: 0.3rem 0; display: block;">${event.description}</span>`;
-						contentDiv.appendChild(div);
+						if (event.description !== '') {
+							var div = document.createElement("div");
+							div.className = "fc-content__custom";
+							div.innerHTML = `
+							<div
+								style="display: inline-block; position: relative; width: 100%; z-index: 2; padding: 0 0 0.3rem 0;"
+								onmouseover="this.children[1].style.height = 'auto';"
+								onmouseout="this.children[1].style.height = '0';"
+							>
+								<button
+									class="slds-button slds-button_icon slds-button slds-button_icon"
+									aria-describedby="help"
+									aria-disabled="true"
+									title="${event.description}"
+								>
+									<svg class="slds-button__icon" aria-hidden="true">
+										<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+									</svg>
+									<span class="slds-assistive-text">
+										Meer informatie
+									</span>
+								</button>
+								<span style="display: inline-block; font-style: italic; font-size: 0.8rem; width: 100%; height: 0; overflow: hidden; background-color: #fff;">
+									${event.description}
+								</span>
+							</div>`;
+							contentDiv.appendChild(div);
+						}
 
 						if (event.eventStatus == "Completed") {
 							var completedSign = document.createElement("span");
@@ -905,6 +930,7 @@ Schedular.CurrentEvent.update = async function() {
 	}
 	this.setColumnFields();
 	await this.setRelations();
+
 	if (Schedular.UI.state == true) Schedular.CurrentEvent.getColumnFieldsFromUI();
 
 	if (Schedular.UI.state == true) {

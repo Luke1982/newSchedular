@@ -81,7 +81,7 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'getevents') {
 		$prepared_event['resourceId'] = $event['smownerid'];
 		$prepared_event['start'] = $event['schedular_startdate'] . 'T' . $event['schedular_starttime'];
 		$prepared_event['end'] = $event['schedular_enddate'] . 'T' . $event['schedular_endtime'];
-		$prepared_event['title'] = $event['schedular_eventtype'];
+		$prepared_event['title'] = '';
 		$prepared_event['backgroundColor'] = $event['eventtype_bgcolor'];
 		$prepared_event['borderColor'] = shadeColor($event['eventtype_bgcolor'], -40);
 		$prepared_event['textColor'] = '#000000';
