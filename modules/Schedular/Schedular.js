@@ -1222,6 +1222,8 @@ Sch_AutocompleteRelation.prototype.select = function(params) {
 	if (params.location != "" && params.location != undefined) { document.getElementById("schedular_loc").value = params.location; }
 	if (params.notifyads != "" && params.notifyads != undefined) { document.getElementById("schedular_notifyads").value = params.notifyads; }
 
+	Schedular.CurrentEvent.setRelations()
+
 	// Housekeeping after selection
 	this.clearTargetUL();
 	this.targetUL.hide();
