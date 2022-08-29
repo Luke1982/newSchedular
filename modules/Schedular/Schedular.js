@@ -1017,7 +1017,8 @@ Schedular.CurrentEvent.render = function(cbResult) {
 		eventType 			: cbResult.event.schedular_eventtype,
 		provisional 		: cbResult.event.schedular_provisional,
 		notify				: cbResult.event.schedular_notify,
-		notifyads			: cbResult.event.schedular_notifyads
+		notifyads			: cbResult.event.schedular_notifyads,
+		location			: cbResult.event.schedular_location,
 	};
 	$('#schedular').fullCalendar('renderEvent', event);
 
