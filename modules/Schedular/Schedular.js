@@ -156,13 +156,33 @@ window.addEventListener("load", function(){
 									'slotDuration' : 'mediumSlots'
 								});
 							}
-						}
+						},
+						seeTime: {
+							text: 'Tijd laten zien',
+							click: () => {
+								$('#schedular').fullCalendar('option', 'displayEventTime', true)
+								saveUserPrefs({
+									'displayEventTime' : true
+								});
+								doCustomUX()
+							}
+						},
+						dontSeeTime: {
+							text: 'Tijd niet laten zien',
+							click: () => {
+								$('#schedular').fullCalendar('option', 'displayEventTime', false)
+								saveUserPrefs({
+									'displayEventTime' : false
+								});
+								doCustomUX()
+							}
+						},
 					},
-					displayEventTime: false,
+					displayEventTime: getPreferredTimeDisplay(),
 					header: {
 						left: 'customPrev,customNext customToday legend onlyMine,everyOne',
 						center: 'title',
-						right: 'tinySlots,mediumTinySlots,mediumSlots agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaFiveDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
+						right: 'seeTime,dontSeeTime mediumTinySlots,mediumSlots agendaDay,agendaTwoDay,agendaThreeDay,agendaFourDay,agendaFiveDay,agendaWeek,month timelineDay,timelineTwoDay,timelineThreeDay,timelineFourDay,timelineWeek'
 					},
 					minTime : document.getElementById("business-hours-start").value,
 					maxTime : document.getElementById("business-hours-end").value,
@@ -520,6 +540,7 @@ window.addEventListener("load", function(){
 		data.currentView = params.view == undefined ? "" : params.view.type;
 		data.show = params.show == undefined ? "" : params.show;
 		data.slotDuration = params.slotDuration == undefined ? "" : params.slotDuration;
+		data.displayEventTime = params.displayEventTime == undefined ? "" : params.displayEventTime;
 
 		var r = new XMLHttpRequest();
 		r.onreadystatechange = function() {
@@ -547,6 +568,12 @@ window.addEventListener("load", function(){
 			mediumSlots: '00:30:00'
 		}
 		return viewToTimeMap[pref_view]
+	}
+
+	const getPreferredTimeDisplay = () => {
+		const pref_eventtimedisplay = document.getElementById('preferred_eventtimedisplay').value
+		console.log(typeof pref_eventtimedisplay, pref_eventtimedisplay)
+		return pref_eventtimedisplay === '' ? false : (pref_eventtimedisplay === '1' ? true : false)
 	}
 
 });

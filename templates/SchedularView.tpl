@@ -146,6 +146,7 @@
 		<input type="hidden" name="current-user-id" id="current-user-id" value="{$current_user_id}" />
 		<input type="hidden" name="preferred-view" id="preferred-view" value="{$preferred_view}" />
 		<input type="hidden" name="preferred_slotduration" id="preferred_slotduration" value="{$preferred_slotduration}" />
+		<input type="hidden" name="preferred_eventtimedisplay" id="preferred_eventtimedisplay" value="{$preferred_eventtimedisplay}" />
 	</div>
 	<!-- Hidden DIV that hold some language strings -->
 	<div id="schedular-lang-strings">
@@ -191,4 +192,4 @@
 </div>
 <!-- // Eventtype color legend div -->
 <!-- // Add / Edit Event UI -->
-<script type="text/javascript" src="modules/Schedular/Schedular.js"></script>
+<script type="text/javascript" src="modules/Schedular/Schedular.js?v=2.2"></script>

@@ -492,6 +492,9 @@ if (isset($_REQUEST['function']) && $_REQUEST['function'] == 'saveUserPrefs') {
 	if ($data['slotDuration'] != '') {
 		$user_prefs[$current_user->id]['slotDuration'] = $data['slotDuration'];
 	}
+	if (isset($data['displayEventTime'])) {
+		$user_prefs[$current_user->id]['displayEventTime'] = (bool)$data['displayEventTime'];
+	}
 	file_put_contents('modules/Schedular/schedular_userprefs.json', json_encode($user_prefs));
 }
 
